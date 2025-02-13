@@ -1,5 +1,11 @@
-# Changelog
+# Change Log
 
-## Version 0.1 (development
+## Current Version
 
-- Initial version
+v1.0.x
+
+- Initial release
+
+## Past Versions
+
+Notes from previous versions will be placed here.
