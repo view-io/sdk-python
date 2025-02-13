@@ -13,7 +13,6 @@ version_scheme = "no-guess-dev"
 line-length = 88
 indent-width = 4
 
-# Assume Python 3.8
 target-version = "py311"
 
 [tool.ruff.lint]

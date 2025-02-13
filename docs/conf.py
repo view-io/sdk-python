@@ -34,7 +34,7 @@ except ImportError:
     from sphinx import apidoc
 
 output_dir = os.path.join(__location__, "api")
-module_dir = os.path.join(__location__, "../src/viewio_sdk")
+module_dir = os.path.join(__location__, "../src/view_sdk")
 try:
     shutil.rmtree(output_dir)
 except FileNotFoundError:
@@ -105,7 +105,7 @@ source_suffix = [".rst", ".md"]
 master_doc = "index"
 
 # General information about the project.
-project = "viewio_sdk"
+project = "view_sdk"
 copyright = "2024, Webline India"
 
 # The version info for the project you're documenting, acts as replacement for
@@ -117,7 +117,7 @@ copyright = "2024, Webline India"
 # If you don’t need the separation provided between version and release,
 # just set them both to the same value.
 try:
-    from viewio_sdk import __version__ as version
+    from view_sdk import __version__ as version
 except ImportError:
     version = ""
 
@@ -171,7 +171,7 @@ todo_emit_warnings = True
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = "alabaster"
+html_theme = "furo"
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -247,7 +247,7 @@ html_static_path = ["_static"]
 # html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = "viewio_sdk-doc"
+htmlhelp_basename = "view_sdk-doc"
 
 
 # -- Options for LaTeX output ------------------------------------------------
@@ -264,7 +264,7 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-    ("index", "user_guide.tex", "viewio_sdk Documentation", "Webline India", "manual")
+    ("index", "user_guide.tex", "view_sdk Documentation", "Webline India", "manual")
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
