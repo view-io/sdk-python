@@ -1,8 +1,8 @@
 from typing import Any, Dict, List, Type
 
-from litegraph_sdk import Edge as LiteEdge
-from litegraph_sdk import Graph as LiteGraph
-from litegraph_sdk import Node as LiteNode
+from litegraph import Edge as LiteEdge
+from litegraph import Graph as LiteGraph
+from litegraph import Node as LiteNode
 
 from ...models.graph_edge import GraphEdgeModel
 from .graph_base import GraphDriverBase

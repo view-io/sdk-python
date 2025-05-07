@@ -6,6 +6,7 @@ from ...mixins import (
     DeletableAPIResource,
     RetrievableAPIResource,
     UpdatableAPIResource,
+    EnumerableAPIResource,
 )
 from ...models.acl import ACLModel
 from ...models.bucket import BucketMetadataModel
@@ -19,6 +20,7 @@ class Bucket(
     AllRetrievableAPIResource,
     UpdatableAPIResource,
     DeletableAPIResource,
+    EnumerableAPIResource,
 ):
     RESOURCE_NAME: str = "buckets"
     MODEL = BucketMetadataModel
@@ -63,7 +65,7 @@ class Bucket(
 
 class BucketTags(
     CreateableAPIResource,
-    AllRetrievableAPIResource,
+    RetrievableAPIResource,
     DeletableAPIResource,
 ):
     PARENT_RESOURCE = "buckets"
@@ -97,3 +99,17 @@ class BucketACL(
     RESOURCE_NAME: str = ""
     MODEL = ACLModel
     QUERY_PARAMS = {"acl": None}
+
+    @classmethod
+    def create(cls, resource_guid: str, acl: ACLModel) -> ACLModel:
+        """
+        Create tags for a specific bucket.
+        Args:
+            resource_guid (str): The unique identifier of the bucket.
+            acl (ACLModel): A list of StorageTagModel objects to create.
+
+        Returns:
+            StorageTagModel: The tags for the bucket.
+        """
+        kwargs = {"resource_guid": resource_guid, "_data": acl}
+        return super().create(**kwargs)

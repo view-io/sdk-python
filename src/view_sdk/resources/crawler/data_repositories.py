@@ -3,6 +3,8 @@ from ...mixins import (
     CreateableAPIResource,
     DeletableAPIResource,
     RetrievableAPIResource,
+    UpdatableAPIResource,
+    EnumerableAPIResource,
 )
 from ...models.data_repository import DataRepositoryModel
 
@@ -12,6 +14,8 @@ class DataRepository(
     RetrievableAPIResource,
     AllRetrievableAPIResource,
     DeletableAPIResource,
+    UpdatableAPIResource,
+    EnumerableAPIResource,
 ):
     RESOURCE_NAME: str = "datarepositories"
     MODEL = DataRepositoryModel

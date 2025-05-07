@@ -115,3 +115,42 @@ class Authentication:
         url = _get_url_v1(cls, "token", "details")
         response = client.request("GET", url, headers=headers)
         return AuthenticationTokenModel.model_validate(response)
+    
+    @classmethod
+    def retrieve_administrator_token(cls, email: str, password: str):
+        """
+        Retrieves an administrator token for the given email and password.
+
+        Args:
+            email (str): The email address.
+            password (str): The password.
+
+        Returns:
+            AuthenticationTokenModel: The authentication token model.
+        """
+        client = get_client(cls.SERVICE)
+        headers = {"x-email": email, "x-password": password}
+        url = _get_url_v1(cls, "token")
+        response = client.request("GET", url, headers=headers)
+        return AuthenticationTokenModel.model_validate(response)
+    
+    @classmethod
+    def retrieve_administrator_token_sha_256(cls, email: str, password_sha256: str):
+        """
+        Retrieves an administrator token for the given email and SHA-256 hashed password.
+
+        Args:
+            email (str): The email address.
+            password_sha256 (str): The SHA-256 hashed password.
+
+        Returns:
+            AuthenticationTokenModel: The authentication token model.
+        """ 
+        client = get_client(cls.SERVICE)
+        headers = {"x-email": email, "x-password-sha256": password_sha256}
+        url = _get_url_v1(cls, "token")
+        response = client.request("GET", url, headers=headers)
+        return AuthenticationTokenModel.model_validate(response)
+    
+    
+    

@@ -5,6 +5,7 @@ from ...mixins import (
     ExistsAPIResource,
     RetrievableAPIResource,
     UpdatableAPIResource,
+    EnumerableAPIResource,
 )
 from ...models.encryption_key import EncryptionKeyModel
 
@@ -16,6 +17,7 @@ class EncryptionKey(
     AllRetrievableAPIResource,
     UpdatableAPIResource,
     DeletableAPIResource,
+    EnumerableAPIResource,
 ):
     RESOURCE_NAME: str = "encryptionkeys"
     MODEL = EncryptionKeyModel

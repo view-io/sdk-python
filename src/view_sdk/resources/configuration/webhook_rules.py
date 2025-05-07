@@ -5,6 +5,7 @@ from ...mixins import (
     ExistsAPIResource,
     RetrievableAPIResource,
     UpdatableAPIResource,
+    EnumerableAPIResource   
 )
 from ...models.webhook_rule import WebhookRuleModel
 
@@ -16,6 +17,7 @@ class WebhookRule(
     AllRetrievableAPIResource,
     UpdatableAPIResource,
     DeletableAPIResource,
+    EnumerableAPIResource
 ):
-    RESOURCE_NAME: str = "webhoookrules"
+    RESOURCE_NAME: str = "webhookrules"
     MODEL = WebhookRuleModel

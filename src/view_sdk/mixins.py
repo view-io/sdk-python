@@ -131,6 +131,7 @@ class ExistsAPIResource(BaseAPIResource):
         Raises:
             ValueError: If tenant GUID is required but not provided.
         """
+        headers = kwargs.pop("headers",{})
         client = get_client(cls.SERVICE)
 
         if cls.REQUIRES_TENANT and client.tenant_guid is None:
@@ -143,7 +144,7 @@ class ExistsAPIResource(BaseAPIResource):
             url = _get_url_v1(cls, *path_components, **url_params)
 
         try:
-            client.request("HEAD", url)
+            client.request("HEAD", url,headers=headers)
             return True
         except Exception:
             return False
@@ -258,6 +259,8 @@ class AllRetrievableAPIResource(BaseAPIResource):
 
         if cls.REQUIRES_TENANT and client.tenant_guid is None:
             raise ValueError("Tenant GUID is required for this resource.")
+        
+        headers = kwargs.pop("headers",{})
 
         # Validate parent_guid if provided
         if parent_guid := kwargs.get(cls.PARENT_ID_PARAM):
@@ -269,7 +272,7 @@ class AllRetrievableAPIResource(BaseAPIResource):
         else:
             url = _get_url_v1(cls, *path_components, **url_params)
 
-        instances = client.request("GET", url)
+        instances = client.request("GET", url,headers=headers)
         if not isinstance(instances, list):
             instances = []
         return (
@@ -388,6 +391,8 @@ class DeletableAPIResource(BaseAPIResource):
         Raises:
             ValueError: If tenant GUID is required but not provided.
         """
+
+        headers = kwargs.pop("headers",{})
         client = get_client(cls.SERVICE)
 
         if cls.REQUIRES_TENANT and client.tenant_guid is None:
@@ -404,7 +409,7 @@ class DeletableAPIResource(BaseAPIResource):
             url = _get_url_v1(cls, *path_components, **url_params)
 
         try:
-            client.request("DELETE", url)
+            client.request("DELETE", url,headers=headers)
             return True
         except Exception:
             return False
@@ -414,7 +419,7 @@ class EnumerableAPIResource(BaseAPIResource):
     """Mixin class for enumerating API resources."""
 
     @classmethod
-    def enumerate(cls) -> "EnumerationResultModel":
+    def enumerate(cls,**kwargs) -> "EnumerationResultModel":
         """
         Enumerates resources of a given type.
 
@@ -426,6 +431,7 @@ class EnumerableAPIResource(BaseAPIResource):
             ValueError: If tenant GUID is required but not provided.
         """
         client = get_client(cls.SERVICE)
+        headers = kwargs.pop("headers", {})
 
         if cls.REQUIRES_TENANT and client.tenant_guid is None:
             raise ValueError("Tenant GUID is required for this resource.")
@@ -438,7 +444,7 @@ class EnumerableAPIResource(BaseAPIResource):
         else:
             url = _get_url_v2(cls, *path_components, **url_params)
 
-        response = client.request("GET", url)
+        response = client.request("GET", url, headers=headers)
         return (
             EnumerationResultModel[cls.MODEL].model_validate(response)
             if cls.MODEL

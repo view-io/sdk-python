@@ -17,5 +17,5 @@ class GraphRepository(
     UpdatableAPIResource,
     DeletableAPIResource,
 ):
-    RESOURCE_NAME: str = "graprepositories"
+    RESOURCE_NAME: str = "graphrepositories"
     MODEL = GraphRepositoryModel

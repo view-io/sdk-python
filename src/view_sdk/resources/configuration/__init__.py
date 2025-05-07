@@ -1,7 +1,6 @@
 from .authentication import Authentication
 from .blobs import Blob
 from .credentials import Credential
-from .data_repositories import DataRepository
 from .embeddings_rules import EmbeddingsRule
 from .encryption_keys import EncryptionKey
 from .graph_repositories import GraphRepository
@@ -21,7 +20,6 @@ __all__ = [
     "Authentication",
     "Blob",
     "Credential",
-    "DataRepository",
     "EmbeddingsRule",
     "EncryptionKey",
     "GraphRepository",
