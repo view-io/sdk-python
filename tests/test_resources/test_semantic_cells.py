@@ -2,7 +2,7 @@ import pytest
 from unittest.mock import patch, Mock
 from base64 import b64encode
 import view_sdk
-from view_sdk.resources.semantic.semantic_cell import SemanticCell
+from view_sdk.resources.processor.semantic_cell import SemanticCell
 from view_sdk.models.semantic_cell_response import SemanticCellResponse
 from view_sdk.models.semantic_cell_request import SemanticCellRequest
 from view_sdk.enums.document_type_enum import DocumentTypeEnum

@@ -12,6 +12,8 @@ from .resources import (
     processor,
     storage,
     vector,
+    director,
+    health_check
 )
 from .sdk_configuration import close_all, configure, get_client
 
@@ -31,4 +33,6 @@ __all__ = [
     "processor",
     "semantic",
     "vector",
+    "director",
+    "health_check"
 ]

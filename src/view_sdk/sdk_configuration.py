@@ -22,6 +22,7 @@ class Service(Enum):
     ORCHESTRATOR = "orchestrator"
     CONFIG = "config"
     GRAPH_DATABASE = "graph_database"
+    DIRECTOR = "director"
 
 
 @dataclass
@@ -33,7 +34,7 @@ class ServicePorts:
     CRAWLER: int = 8101
     LEXI: int = 8201
     EMBEDDINGS: int = 8301
-    VECTOR: int = 8311
+    VECTOR: int = 8000
     PROCESSOR: int = 8501
     ASSISTANT: int = 8331
     SEMANTIC_CELLS: int = 8341
@@ -41,7 +42,7 @@ class ServicePorts:
     ORCHESTRATOR: int = 8501
     CONFIG: int = 8601
     GRAPH_DATABASE: int = 8701
-
+    DIRECTOR: int = 8501
 
 class SdkConfiguration:
     _instance = None

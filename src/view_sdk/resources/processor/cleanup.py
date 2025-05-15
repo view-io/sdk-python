@@ -26,24 +26,14 @@ class Cleanup(CreateableAPIResource):
     """
 
     CREATE_METHOD: str = "POST"
-    PARENT_RESOURCE: str = "processing"
-    RESOURCE_NAME: str = "cleanup"
+    RESOURCE_NAME: str = "processing/cleanup"
     REQUEST_MODEL = CleanupRequest
     MODEL = CleanupResponse
 
     @classmethod
-    def process_storage(
+    def cleanup_pipeline(
         cls,
-        guid: str,
-        tenant: Optional[TenantMetadataModel],
-        collection: Optional[CollectionModel],
-        pool: Optional[StoragePool],
-        bucket: Optional[BucketMetadataModel],
-        obj: ObjectMetadataModel,
-        metadata_rule: MetadataRuleModel,
-        embeddings_rule: Optional[EmbeddingsRuleModel],
-        vector_repo: Optional[VectorRepositoryModel],
-        graph_repo: Optional[GraphRepositoryModel],
+        **kwargs,
     ) -> CleanupResponse:
         """
         Process cleanup operations for storage server resources.
@@ -52,15 +42,7 @@ class Cleanup(CreateableAPIResource):
         buckets, and associated metadata and embeddings.
 
         Args:
-            tenant (Optional[TenantMetadataModel]): Tenant metadata information.
-            collection (Optional[CollectionModel]): Collection information.
-            pool (Optional[StoragePool]): Storage pool information.
-            bucket (Optional[BucketMetadataModel]): Bucket metadata information.
-            obj (ObjectMetadataModel): Object metadata information.
-            metadata_rule (MetadataRuleModel): Rules for metadata cleanup.
-            embeddings_rule (Optional[EmbeddingsRuleModel]): Rules for embeddings cleanup.
-            vector_repo (Optional[VectorRepositoryModel]): Vector repository information.
-            graph_repo (Optional[GraphRepositoryModel]): Graph repository information.
+            **kwargs: Additional keyword arguments.
 
         Returns:
             CleanupResponse: Response containing the results of the cleanup operation.
@@ -68,76 +50,9 @@ class Cleanup(CreateableAPIResource):
         Raises:
             Exception: If there's an error processing the cleanup request.
         """
-        request_data = {
-            "guid": guid,
-            "tenant": tenant,
-            "collection": collection,
-            "pool": pool,
-            "bucket": bucket,
-            "object": obj,
-            "metadata_rule": metadata_rule,
-            "embeddings_rule": embeddings_rule,
-            "vector_repository": vector_repo,
-            "graph_repository": graph_repo,
-        }
+        cls.MODEL = None
+        cls.REQUEST_MODEL = None
+        log_debug(f"Making cleanup request for storage: {kwargs}")
+        return super().create(**kwargs)
 
-        log_debug(f"Making cleanup request for storage: {request_data}")
-        try:
-            return super().create(**request_data)
-        except Exception as e:
-            log_error(f"Error processing cleanup request: {e}")
-            raise e
 
-    @classmethod
-    def process_crawler(
-        cls,
-        guid: str,
-        tenant: Optional[TenantMetadataModel],
-        collection: Optional[CollectionModel],
-        data_repository: Optional[DataRepositoryModel],
-        obj: ObjectMetadataModel,
-        metadata_rule: MetadataRuleModel,
-        embeddings_rule: Optional[EmbeddingsRuleModel],
-        vector_repo: Optional[VectorRepositoryModel],
-        graph_repo: Optional[GraphRepositoryModel],
-    ) -> CleanupResponse:
-        """
-        Process cleanup operations for data crawler resources.
-
-        This method handles the cleanup of crawler-related resources including data
-        repositories and their associated metadata and embeddings.
-
-        Args:
-            tenant (Optional[TenantMetadataModel]): Tenant metadata information.
-            collection (Optional[CollectionModel]): Collection information.
-            data_repository (Optional[DataRepositoryModel]): Data repository information.
-            obj (ObjectMetadataModel): Object metadata information.
-            metadata_rule (MetadataRuleModel): Rules for metadata cleanup.
-            embeddings_rule (Optional[EmbeddingsRuleModel]): Rules for embeddings cleanup.
-            vector_repo (Optional[VectorRepositoryModel]): Vector repository information.
-            graph_repo (Optional[GraphRepositoryModel]): Graph repository information.
-
-        Returns:
-            CleanupResponse: Response containing the results of the cleanup operation.
-
-        Raises:
-            Exception: If there's an error processing the cleanup request.
-        """
-        request_data = {
-            "guid": guid,
-            "tenant": tenant,
-            "collection": collection,
-            "data_repository": data_repository,
-            "object": obj,
-            "metadata_rule": metadata_rule,
-            "embeddings_rule": embeddings_rule,
-            "vector_repository": vector_repo,
-            "graph_repository": graph_repo,
-        }
-
-        log_debug(f"Making cleanup request for crawler: {request_data}")
-        try:
-            return super().create(**request_data)
-        except Exception as e:
-            log_error(f"Error processing cleanup request: {e}")
-            raise e

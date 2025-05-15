@@ -1,13 +1,147 @@
 import view_sdk
 from view_sdk import storage
 
-sdk = view_sdk.configure( access_key="default",base_url="ampere.view.io", secure=True, tenant_guid= "00000000-0000-0000-0000-000000000000")
+sdk = view_sdk.configure( access_key="default",base_url="view.homedns.org", tenant_guid= "00000000-0000-0000-0000-000000000000")
+
+def completeMultipartUpload():
+    object = storage.MultipartUploads.complete_upload("fa099b91-8f4d-4b32-8d2a-1761e4a3740a", "foo.txt")
+    print(object)
+
+completeMultipartUpload()
+
+def deleteMultipartUpload():
+    object = storage.MultipartUploads.delete("fa099b91-8f4d-4b32-8d2a-1761e4a3740a", "foo.txt")
+    print(object)
+
+# deleteMultipartUpload()   
+
+def deleteMultipartUploadPart():
+    object = storage.MultipartUploads.delete_part("fa099b91-8f4d-4b32-8d2a-1761e4a3740a", "foo.txt", 1)
+    print(object)
+
+# deleteMultipartUploadPart()
+
+def readMultipartUploadPart():
+    object = storage.MultipartUploads.retrieve_part("fa099b91-8f4d-4b32-8d2a-1761e4a3740a", "foo.txt", 1)
+    print(object)
+
+# readMultipartUploadPart()
+
+def uploadMultipartUpload():
+    object = storage.MultipartUploads.upload_part("fa099b91-8f4d-4b32-8d2a-1761e4a3740a", "foo.txt", 1, "test")
+    print(object)
+
+# uploadMultipartUpload()
+
+def readAllMultipartUploads():
+    object = storage.MultipartUploads.retrieve_all("fa099b91-8f4d-4b32-8d2a-1761e4a3740a")
+    print(object)
+
+# readAllMultipartUploads()
+
+def retrieveMultipartUpload():
+    object = storage.MultipartUploads.retrieve("fa099b91-8f4d-4b32-8d2a-1761e4a3740a", "foo.txt",)
+    print(object)
+
+# retrieveMultipartUpload()
+
+def createMultipartUpload():
+    object = storage.MultipartUploads.create(bucket_guid="fa099b91-8f4d-4b32-8d2a-1761e4a3740a",Key="foo.txt")
+    print(object)
+
+# createMultipartUpload()
+
+def deleteObject():
+    object = storage.Object.delete("fa099b91-8f4d-4b32-8d2a-1761e4a3740a", "test_sdk.new")
+    print(object)
+
+# deleteObject()
+
+def deleteObjectACL():
+    object = storage.ObjectACL.delete_acl("fa099b91-8f4d-4b32-8d2a-1761e4a3740a", "test_sdk.new")
+    print(object)
+
+# deleteObjectACL()
+
+def readObjectACL():
+    object = storage.ObjectACL.read_acl("fa099b91-8f4d-4b32-8d2a-1761e4a3740a", "test_sdk.new")
+    print(object)
+
+# readObjectACL()
+
+def createObjectACL():
+    object = storage.ObjectACL.create_acl("fa099b91-8f4d-4b32-8d2a-1761e4a3740a", "test_sdk.new", {
+        "Owner": {
+                "GUID": "00000000-0000-0000-0000-000000000000",
+                "TenantGUID": "00000000-0000-0000-0000-000000000000",
+                "FirstName": "Default",
+                "LastName": "User",
+                "FullName": "Default User",
+                "Notes": "Default password is password",
+                "Email": "default@user.com",
+                "Active": True,
+                "CreatedUtc": "2024-08-06T16:40:20.223290Z"
+            },
+            "Users": [],
+            "Entries": []
+        })
+    print(object)
+
+# createObjectACL()
+
+def deleteObjectTags():
+    object = storage.ObjectTags.delete_tags("fa099b91-8f4d-4b32-8d2a-1761e4a3740a", "test_sdk.new")
+    print(object)
+
+# deleteObjectTags()
+
+def readObjectTags():
+    object = storage.ObjectTags.read_tags("fa099b91-8f4d-4b32-8d2a-1761e4a3740a", "test_sdk.new")
+    print(object)
+
+# readObjectTags()
+
+def createObjectTags():
+    object = storage.ObjectTags.create_tags("fa099b91-8f4d-4b32-8d2a-1761e4a3740a", "test_sdk.new", [{"Key": "Name", "Value": "testbucket"}])
+    print(object)
+
+# createObjectTags()    
+
+def setObjectExpiration():
+    object = storage.Object.set_expiration("00000000-0000-0000-0000-000000000000", "test.new", "2025-08-06T16:30:09.495213Z")
+    print(object)
+
+# setObjectExpiration()
+
+def readObjectMetadata():
+    object = storage.Object.retrieve_metadata("00000000-0000-0000-0000-000000000000", "test.new")
+    print(object)
+
+# readObjectMetadata()
+
+def readObjectDataInRange():
+    object = storage.Object.retrieve_range("00000000-0000-0000-0000-000000000000", "test.new", 0, 1)
+    print(object)
+
+# readObjectDataInRange()
+
+def  readObjectData():
+    object = storage.Object.retrieve("00000000-0000-0000-0000-000000000000", "test.new")
+    print(object)
+
+# readObjectData()
+
+def writeObject():
+    object = storage.Object.write_chunked("fa099b91-8f4d-4b32-8d2a-1761e4a3740a", "test_sdk.new", "test")
+    print(object)
+
+# writeObject()
 
 def deleteBucketACL():
     bucket = storage.BucketACL.delete("00000000-0000-0000-0000-000000000000")
     print(bucket)
 
-deleteBucketACL()
+# deleteBucketACL()
 
 def readBucketACL():
     bucket = storage.BucketACL.retrieve("00000000-0000-0000-0000-000000000000")

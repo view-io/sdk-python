@@ -1,4 +1,6 @@
 from .assistant import Assistant
-from .healthcheck import HealthCheck
+from .config import Config
+from .chat_thread import ChatThread
+from .models import Models
 
-__all__ = ["Assistant", "HealthCheck"]
+__all__ = ["Assistant", "HealthCheck", "Config", "ChatThread", "Models"]

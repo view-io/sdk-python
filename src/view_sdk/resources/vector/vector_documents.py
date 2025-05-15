@@ -1,4 +1,4 @@
-from ...mixins import CreateableAPIResource, DeletableAPIResource, ExistsAPIResource
+from ...mixins import CreateableAPIResource, DeletableAPIResource, ExistsAPIResource, RetrievableAPIResource
 from ...models.embeddings_document import EmbeddingsDocumentModel
 from ...sdk_configuration import Service
 
@@ -7,6 +7,7 @@ class Documents(
     ExistsAPIResource,
     CreateableAPIResource,
     DeletableAPIResource,
+    RetrievableAPIResource,
 ):
     """
     API resource class for managing vector documents within repositories.
@@ -31,7 +32,7 @@ class Documents(
     PARENT_ID_PARAM: str = "repo_guid"
 
     @classmethod
-    def write(cls, **kwargs) -> EmbeddingsDocumentModel:
+    def create(cls, repo_guid: str, **kwargs) -> EmbeddingsDocumentModel:
         """
         Write a new vector document to a repository.
 
@@ -49,7 +50,50 @@ class Documents(
         Raises:
             ValueError: If required fields are missing or invalid.
         """
-        return cls.create(**kwargs)
+        cls.CREATE_METHOD = "POST"
+        return  super().create(repo_guid=repo_guid, **kwargs)
+    
+    @classmethod
+    def retrieve(cls, repo_guid: str, document_guid: str) -> EmbeddingsDocumentModel:
+        """
+        Retrieve a vector document from a repository.
+
+        Args:
+            repo_guid (str): The GUID of the vector repository.
+            document_guid (str): The GUID of the vector document.
+
+        Returns:
+            EmbeddingsDocumentModel: The retrieved vector document instance.
+        """
+        return super().retrieve(document_guid, repo_guid=repo_guid)
+
+    @classmethod
+    def exists(cls, repo_guid: str, document_guid: str) -> bool:
+        """
+        Check if a vector document exists in a repository.
+
+        Args:
+            repo_guid (str): The GUID of the vector repository.
+            document_guid (str): The GUID of the vector document.
+
+        Returns:
+            bool: True if the document exists, False otherwise.
+        """
+        return super().exists(document_guid, repo_guid=repo_guid)
+    
+    @classmethod
+    def delete(cls, repo_guid: str, document_guid: str) -> bool:
+        """
+        Delete a vector document from a repository.
+
+        Args:
+            repo_guid (str): The GUID of the vector repository.
+            document_guid (str): The GUID of the vector document.
+
+        Returns:
+            bool: True if the document was deleted, False otherwise.
+        """
+        return super().delete(document_guid, repo_guid=repo_guid)
 
     @classmethod
     def delete_by_filter(cls, repo_guid: str, **filter_params) -> bool:

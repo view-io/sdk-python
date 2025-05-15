@@ -41,11 +41,48 @@ class SemanticCells(
         return tuple(path_components), kwargs
 
     @classmethod
-    def read(cls, repo_guid: str, doc_guid: str, cell_guid: str):
-        """Read a specific semantic cell from a document."""
+    def retrieve(cls, repo_guid: str, doc_guid: str, cell_guid: str):
+        """Read a specific semantic cell from a document.
+        
+        Args:
+            repo_guid (str): The GUID of the vector repository.
+            doc_guid (str): The GUID of the vector document.
+            cell_guid (str): The GUID of the semantic cell.
+
+        Returns:
+            SemanticCellModel: The retrieved semantic cell instance.
+        """
         kwargs = {"repo_guid": repo_guid, "doc_guid": doc_guid}
         return super().retrieve(cell_guid, **kwargs)
+    
+    @classmethod
+    def exists(cls, repo_guid: str, doc_guid: str, cell_guid: str):
+        """Check if a specific semantic cell exists in a document.
+        
+        Args:
+            repo_guid (str): The GUID of the vector repository.
+            doc_guid (str): The GUID of the vector document.
+            cell_guid (str): The GUID of the semantic cell.
 
+        Returns:
+            bool: True if the semantic cell exists, False otherwise.
+        """
+        kwargs = {"repo_guid": repo_guid, "doc_guid": doc_guid}
+        return super().exists(cell_guid, **kwargs)
+
+    @classmethod
+    def retrieve_all(cls, repo_guid: str, doc_guid: str):
+        """Retrieve all semantic cells from a document.
+        
+        Args:
+            repo_guid (str): The GUID of the vector repository.
+            doc_guid (str): The GUID of the vector document.
+
+        Returns:
+            list[SemanticCellModel]: A list of semantic cell instances.
+        """
+        kwargs = {"repo_guid": repo_guid, "doc_guid": doc_guid}
+        return super().retrieve_all(**kwargs)
 
 class SemanticChunks(
     ExistsAPIResource, RetrievableAPIResource, AllRetrievableAPIResource
@@ -86,7 +123,50 @@ class SemanticChunks(
         return tuple(path_components), kwargs
 
     @classmethod
-    def read(cls, repo_guid: str, doc_guid: str, cell_guid: str):
-        """Read semantic chunks from a specific cell."""
+    def retrieve_all(cls, repo_guid: str, doc_guid: str, cell_guid: str):
+        """Read semantic chunks from a specific cell.
+
+        Args:
+            repo_guid (str): The GUID of the vector repository.
+            doc_guid (str): The GUID of the vector document.
+            cell_guid (str): The GUID of the semantic cell.
+
+        Returns:
+            list[SemanticChunkModel]: A list of semantic chunk instances.
+        """
         kwargs = {"repo_guid": repo_guid, "doc_guid": doc_guid, "cell_guid": cell_guid}
-        return super().retrieve(cell_guid, **kwargs)
+        return super().retrieve_all(**kwargs)
+
+    @classmethod
+    def retrieve(cls, repo_guid: str, doc_guid: str, cell_guid: str, chunk_guid: str):
+        """Read a specific semantic chunk from a cell.
+        
+        Args:
+            repo_guid (str): The GUID of the vector repository.
+            doc_guid (str): The GUID of the vector document.
+            cell_guid (str): The GUID of the semantic cell.
+            chunk_guid (str): The GUID of the semantic chunk.
+
+        Returns:
+            SemanticChunkModel: The retrieved semantic chunk instance.
+        """
+        kwargs = {"repo_guid": repo_guid, "doc_guid": doc_guid, "cell_guid": cell_guid}
+        return super().retrieve(chunk_guid, **kwargs)
+    
+    @classmethod
+    def exists(cls, repo_guid: str, doc_guid: str, cell_guid: str, chunk_guid: str):
+        """Check if a specific semantic chunk exists in a cell.
+        
+        Args:
+            repo_guid (str): The GUID of the vector repository.
+            doc_guid (str): The GUID of the vector document.
+            cell_guid (str): The GUID of the semantic cell.
+            chunk_guid (str): The GUID of the semantic chunk.
+
+        Returns:
+            bool: True if the semantic chunk exists, False otherwise.
+        """
+        kwargs = {"repo_guid": repo_guid, "doc_guid": doc_guid, "cell_guid": cell_guid}
+        return super().exists(chunk_guid, **kwargs)
+    
+    

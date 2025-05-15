@@ -68,7 +68,7 @@ class Object(
         cls.MODEL = ObjectMetadataModel
         cls.QUERY_PARAMS = {"expiration": None}
         return super().update(
-            resource_guid, bucket_guid=bucket_guid, expiration=expiration_date
+            resource_guid, bucket_guid=bucket_guid, expiration=expiration_date, data={"ExpirationUtc": expiration_date}
         )
 
     @classmethod
@@ -115,20 +115,28 @@ class Object(
         return super().update(
             resource_guid, bucket_guid=bucket_guid, data=data, headers=headers
         )
+    
+    @classmethod
+    def delete(cls, bucket_guid: str, resource_guid: str):
+        """
+        Delete an object.
+        """
+        return super().delete(resource_guid, bucket_guid=bucket_guid)
 
 
 class ObjectTags(
-    CreateableAPIResource,
-    AllRetrievableAPIResource,
+    RetrievableAPIResource,
+    UpdatableAPIResource,
     DeletableAPIResource,
 ):
-    PARENT_RESOURCE = "objects"
-    PARENT_ID_PARAM = "resource_guid"
-    RESOURCE_NAME: str = ""
+    PARENT_RESOURCE = "buckets"
+    PARENT_ID_PARAM = "bucket_guid"
+    RESOURCE_NAME: str = "objects"
     MODEL = StorageTagModel
+    QUERY_PARAMS = {"tags": None}
 
     @classmethod
-    def create(cls, resource_guid: str, tags: List[StorageTagModel]) -> StorageTagModel:
+    def create_tags(cls, bucket_guid: str, resource_guid: str, tags: List[StorageTagModel]) -> StorageTagModel:
         """
         Create tags for a specific object.
 
@@ -138,17 +146,76 @@ class ObjectTags(
         Returns:
             StorageTagModel: The tags for the object.
         """
-        kwargs = {"resource_guid": resource_guid, "_data": tags}
-        return super().create(**kwargs)
+        return super().update(resource_guid, bucket_guid= bucket_guid, data=tags)
+
+    @classmethod
+    def read_tags(cls, bucket_guid: str, resource_guid: str):
+        """
+        Args:
+            bucket_guid (str): The GUID of the bucket containing the object.
+            resource_guid (str): The GUID of the object to read tags for.
+        Returns:
+            The tags for the object.
+        """
+        cls.MODEL = None
+        return super().retrieve(resource_guid, bucket_guid=bucket_guid)
+    
+    @classmethod
+    def delete_tags(cls, bucket_guid: str, resource_guid: str):
+        """
+        Args:
+            bucket_guid (str): The GUID of the bucket containing the object.
+            resource_guid (str): The GUID of the object to delete tags for.
+        Returns:
+            True if the tags were deleted successfully, False otherwise.
+        """
+        return super().delete(resource_guid, bucket_guid=bucket_guid)   
 
 
 class ObjectACL(
-    CreateableAPIResource,
-    AllRetrievableAPIResource,
+    RetrievableAPIResource,
+    UpdatableAPIResource,
     DeletableAPIResource,
 ):
-    PARENT_RESOURCE = "objects"
-    PARENT_ID_PARAM = "resource_guid"
-    RESOURCE_NAME: str = ""
+    PARENT_RESOURCE = "buckets"
+    PARENT_ID_PARAM = "bucket_guid"
+    RESOURCE_NAME: str = "objects"
     MODEL = ACLModel
     QUERY_PARAMS = {"acl": None}
+
+    @classmethod
+    def create_acl(cls, bucket_guid: str, resource_guid: str, acl: ACLModel):
+        """
+        Args:
+            bucket_guid (str): The GUID of the bucket containing the object.
+            resource_guid (str): The GUID of the object to create an ACL for.
+            acl (ACLModel): The ACL to create.
+        Returns:
+            The ACL for the object.
+        """
+        cls.MODEL = None
+        return super().update(resource_guid, bucket_guid=bucket_guid, data=acl)
+
+    @classmethod
+    def read_acl(cls, bucket_guid: str, resource_guid: str):
+        """
+        Args:
+            bucket_guid (str): The GUID of the bucket containing the object.
+            resource_guid (str): The GUID of the object to read ACL for.
+        Returns:
+            The ACL for the object.
+        """
+        cls.MODEL = None
+        return super().retrieve(resource_guid, bucket_guid=bucket_guid)
+
+    @classmethod
+    def delete_acl(cls, bucket_guid: str, resource_guid: str):
+        """
+        Args:
+            bucket_guid (str): The GUID of the bucket containing the object.
+            resource_guid (str): The GUID of the object to delete ACL for.
+        Returns:
+            True if the ACL was deleted successfully, False otherwise.
+        """
+        return super().delete(resource_guid, bucket_guid=bucket_guid)
+

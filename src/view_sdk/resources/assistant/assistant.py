@@ -17,7 +17,7 @@ class Assistant(CreateableAPIResource):
     CREATE_METHOD = "POST"
 
     @classmethod
-    def process_rag(cls, **kwargs) -> Generator[str, None, None]:
+    def rag_LEGACY(cls, **kwargs) -> Generator[str, None, None]:
         """
         Process a RAG request.
 
@@ -42,38 +42,110 @@ class Assistant(CreateableAPIResource):
             token = event.get("token") if isinstance(event, dict) else event
             if token:
                 yield token
-
+                
     @classmethod
-    def process_chat(cls, **kwargs) -> Generator[str, None, None]:
+    def chat_rag_messages(cls, **kwargs) -> Generator[str, None, None]:
         """
-        Process a chat request.
+        Process a chat request with RAG messages
 
         Args:
             **kwargs: Keyword arguments that will be validated against AssistantChatRequest model
-
+  
         Returns:
             Generator yielding response tokens
 
         Raises:
             ValueError: If required parameters are missing
+        """  
+        stream = kwargs.get("Stream", False)
+        if not stream:
+            cls.RESOURCE_NAME = "assistant/rag/chat"
+            return super().create(**kwargs)
+        else:
+            try:
+                log_debug("Making chat request")
+                for event in get_client(cls.SERVICE).sse_request(
+                    cls.CREATE_METHOD,
+                    "v1.0/rag/chat/",
+                    json=kwargs,
+                ):
+                    token = event.get("token") if isinstance(event, dict) else event
+                    if token:
+                        yield token
+
+            except Exception as e:
+                log_warning(f"Error processing chat request: {str(e)}")
+                return
+            
+    @classmethod
+    def chat_config(cls, config_id: str, **kwargs) -> Generator[str, None, None]:
         """
-        # Validate request data using the model
-        chat_request = AssistantChatRequest.model_validate(kwargs)
+        Process a chat request with RAG messages
 
-        try:
-            log_debug("Making chat request")
-            for event in get_client(cls.SERVICE).sse_request(
-                cls.CREATE_METHOD,
-                "v1.0/chat/",
-                json=chat_request.model_dump(mode="json"),
-            ):
-                token = event.get("token") if isinstance(event, dict) else event
-                if token:
-                    yield token
+        Args:
+            config_id: The ID of the chat configuration
+            **kwargs: Keyword arguments that will be validated against AssistantChatRequest model
+  
+        Returns:
+            Generator yielding response tokens
 
-        except Exception as e:
-            log_warning(f"Error processing chat request: {str(e)}")
-            return
+        Raises:
+            ValueError: If required parameters are missing
+        """  
+        stream = kwargs.get("Stream", False)
+        if not stream:
+            cls.RESOURCE_NAME = "assistant/chat"
+            cls.UPDATE_METHOD = "POST"
+            return super().update(config_id, **kwargs)
+        else:
+            try:
+                log_debug("Making chat request")
+                for event in get_client(cls.SERVICE).sse_request(
+                    cls.CREATE_METHOD,
+                    "v1.0/assistant/chat/"+config_id,
+                    json=kwargs,
+                ):
+                    token = event.get("token") if isinstance(event, dict) else event
+                    if token:
+                        yield token
+
+            except Exception as e:
+                log_warning(f"Error processing chat request: {str(e)}")
+                return
+                
+    @classmethod
+    def chat_only(cls, **kwargs) -> Generator[str, None, None]:
+        """
+        Process a chat request with RAG messages
+
+        Args:
+            **kwargs: Keyword arguments that will be validated against AssistantChatRequest model
+  
+        Returns:
+            Generator yielding response tokens
+
+        Raises:
+            ValueError: If required parameters are missing
+        """  
+        stream = kwargs.get("Stream", False)
+        if not stream:
+            cls.RESOURCE_NAME = "assistant/chat/completions"
+            return super().create(**kwargs)
+        else:
+            try:
+                log_debug("Making chat request")
+                for event in get_client(cls.SERVICE).sse_request(
+                    cls.CREATE_METHOD,
+                    "v1.0/assistant/chat/completions",
+                    json=kwargs,
+                ):
+                    token = event.get("token") if isinstance(event, dict) else event
+                    if token:
+                        yield token
+
+            except Exception as e:
+                log_warning(f"Error processing chat request: {str(e)}")
+                return
 
     @staticmethod
     def _extract_token(json_data: str) -> Optional[str]:

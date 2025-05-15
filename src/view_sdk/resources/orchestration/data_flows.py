@@ -40,36 +40,51 @@ class DataFlow(
         return super().retrieve(**kwargs)
 
     @classmethod
-    def retrieve_request_performance_data(cls, request_guid: str):
+    def retrieve_request_performance_data(cls, dataflow_guid: str, request_guid: str):
         """Retrieve request performance data for a data flow.
 
         Args:
+            dataflow_guid (str): The GUID of the data flow to retrieve performance data for.
             request_guid (str): The GUID of the request to retrieve performance data for.
 
         Returns:
             The performance data for the specified request.
         """
-        cls.PARENT_RESOURCE: str = "dataflows"
-        cls.PARENT_ID_PARAM: str = None
-        cls.RESOURCE_NAME: str = "processor/performance"
+        cls.QUERY_PARAMS = {
+            "request": request_guid,
+        }
+        return super().retrieve(dataflow_guid + "/performance")
 
-        if not request_guid:
-            raise ValueError("request_guid is required")
+    @classmethod
+    def retrieve_request_log_metadata(cls, dataflow_guid: str, request_guid: str):
+        """Retrieve request log metadata for a data flow.
 
-        client = get_client(cls.SERVICE)
-        if cls.REQUIRES_TENANT and client.tenant_guid is None:
-            raise ValueError("Tenant GUID is required for this resource.")
+        Args:
+            dataflow_guid (str): The GUID of the data flow to retrieve performance data for.
+            request_guid (str): The GUID of the request to retrieve performance data for.
 
-        try:
-            url = _get_url_v1(
-                cls,
-                client.tenant_guid,
-                cls.PARENT_RESOURCE,
-                cls.RESOURCE_NAME,
-                request=request_guid,
-            )
-            response = client.request("GET", url)
-            return cls.MODEL.model_validate(response)
-        except Exception as e:
-            logger.warning(f"Failed to retrieve request performance data: {e}")
-            return None
+        Returns:
+            The log metadata for the specified request.
+        """
+        cls.QUERY_PARAMS = {
+            "request": request_guid,
+        }
+        cls.MODEL = None
+        return super().retrieve(dataflow_guid + "/logs")
+
+    @classmethod
+    def retrieve_request_log_file(cls, dataflow_guid: str, request_guid: str):
+        """Retrieve request log file for a data flow.
+
+        Args:
+            dataflow_guid (str): The GUID of the data flow to retrieve performance data for.
+            request_guid (str): The GUID of the request to retrieve performance data for.
+
+        Returns:
+            The log file for the specified request.
+        """
+        cls.QUERY_PARAMS = {
+            "request": request_guid,
+        }
+        cls.MODEL = None
+        return super().retrieve(dataflow_guid + "/logfile")

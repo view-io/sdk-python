@@ -197,7 +197,7 @@ class CreateableAPIResource(BaseAPIResource):
             url = _get_url_v1(cls, client.tenant_guid, *path_components, **url_params)
         else:
             url = _get_url_v1(cls, *path_components, **url_params)
-
+        
         instance = client.request(cls.CREATE_METHOD, url, json=data, headers=headers)
         return cls.MODEL.model_validate(instance) if cls.MODEL else instance
 
@@ -238,6 +238,7 @@ class RetrievableAPIResource(BaseAPIResource):
 
 
 class AllRetrievableAPIResource(BaseAPIResource):
+    RETURNS_LIST: bool = True
     """Mixin class for retrieving all API resources of a given type."""
 
     @classmethod
@@ -273,7 +274,7 @@ class AllRetrievableAPIResource(BaseAPIResource):
             url = _get_url_v1(cls, *path_components, **url_params)
 
         instances = client.request("GET", url,headers=headers)
-        if not isinstance(instances, list):
+        if not isinstance(instances, list) and cls.RETURNS_LIST:
             instances = []
         return (
             [cls.MODEL.model_validate(instance) for instance in instances]
@@ -323,6 +324,7 @@ class UpdatableAPIResource(BaseAPIResource):
     """Mixin class for updating API resources."""
 
     REQUEST_MODEL: Type[BaseModel] = None
+    UPDATE_METHOD : str = "PUT"
 
     @classmethod
     def update(cls, resource_guid: str, **kwargs) -> "BaseModel":
@@ -368,7 +370,7 @@ class UpdatableAPIResource(BaseAPIResource):
         else:
             url = _get_url_v1(cls, *path_components, **url_params)
 
-        instance = client.request("PUT", url, json=data, headers=headers)
+        instance = client.request(cls.UPDATE_METHOD, url, json=data, headers=headers)
         return cls.MODEL.model_validate(instance) if cls.MODEL else instance
 
 
