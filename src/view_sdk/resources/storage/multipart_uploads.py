@@ -9,16 +9,49 @@ from ...models.multipart_upload import MultipartUploadPartModel
 
 
 class MultipartUploads(
-    CreateableAPIResource,
+    UpdatableAPIResource,
     RetrievableAPIResource,
     AllRetrievableAPIResource,
-    UpdatableAPIResource,
     DeletableAPIResource,
 ):
     PARENT_RESOURCE = "buckets"
     PARENT_ID_PARAM = "bucket_guid"
     RESOURCE_NAME: str = "uploads"
     MODEL = MultipartUploadPartModel
+
+    @classmethod
+    def create(cls, bucket_guid: str, **kwargs: MultipartUploadPartModel):
+        """
+        Args:
+            bucket_guid (str): The GUID of the bucket containing the multipart upload.
+            **kwargs: Additional keyword arguments for the request.
+        Returns:
+            The MultipartUploadPartModel object for the specified part.
+        """
+        cls.MODEL = None
+        return super().create(bucket_guid=bucket_guid, _data=kwargs)
+    
+    @classmethod
+    def retrieve(cls, bucket_guid: str, resource_guid: str):
+        """
+        Args:
+            bucket_guid (str): The GUID of the bucket containing the multipart upload.
+            resource_guid (str): The GUID of the multipart upload to retrieve.
+        Returns:
+            The MultipartUploadPartModel object for the specified part.
+        """
+        return super().retrieve(resource_guid, bucket_guid=bucket_guid)
+
+    @classmethod
+    def retrieve_all(cls, bucket_guid: str):
+        """
+        Args:
+            bucket_guid (str): The GUID of the bucket containing the multipart uploads.
+        Returns:
+            A list of MultipartUploadPartModel objects for all multipart uploads in the specified bucket.
+        """
+        return super().retrieve_all(bucket_guid=bucket_guid)
+
 
     @classmethod
     def retrieve_part(cls, bucket_guid: str, resource_guid: str, part_number: int):
@@ -62,10 +95,11 @@ class MultipartUploads(
             part_number (int): The number of the part to upload.
             data (str): The data to upload.
         """
-        cls.QUERY_PARAMS = {"parts": None, "part_number": part_number}
+        cls.QUERY_PARAMS = {"part_number": part_number}
         headers = {"Content-Type": "text/plain"}
-        return super().create(
-            resource_guid, bucket_guid=bucket_guid, data=data, headers=headers
+        cls.MODEL = None  
+        return super().update(
+            resource_guid+"/parts/", bucket_guid=bucket_guid, data=data, headers=headers
         )
 
     @classmethod
@@ -77,6 +111,20 @@ class MultipartUploads(
             bucket_guid (str): The GUID of the bucket containing the multipart upload.
             resource_guid (str): The GUID of the multipart upload to complete.
         """
-        cls.CREATE_METHOD = "POST"
+        cls.UPDATE_METHOD = "POST"
         cls.MODEL = None  # As there's no request body for this endpoint
-        return super().create(resource_guid, bucket_guid=bucket_guid)
+        return super().update(resource_guid, bucket_guid=bucket_guid)
+
+    @classmethod
+    def delete(cls, bucket_guid: str, resource_guid: str):
+        """
+        Args:
+            bucket_guid (str): The GUID of the bucket containing the multipart upload.
+            resource_guid (str): The GUID of the multipart upload to delete.
+        Returns:
+            True if the multipart upload was deleted successfully, False otherwise.
+        """
+        return super().delete(resource_guid, bucket_guid=bucket_guid)
+
+
+

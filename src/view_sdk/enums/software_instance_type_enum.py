@@ -13,3 +13,4 @@ class SoftwareInstanceTypeEnum(str, Enum):
     storage_server = "StorageServer"
     semantic_cell_extractor_server = "SemanticCellExtractorServer"
     director_server = "DirectorServer"
+    embeddings_server = "EmbeddingsServer"

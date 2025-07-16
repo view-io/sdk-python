@@ -1,21 +1,19 @@
 from ...mixins import (
     AllRetrievableAPIResource,
-    CreateableAPIResource,
     DeletableAPIResource,
     ExistsAPIResource,
     RetrievableAPIResource,
-    UpdatableAPIResource,
+    EnumerableAPIResource
 )
 from ...models.object_lock import ObjectLockModel
 
 
 class ObjectLock(
     ExistsAPIResource,
-    CreateableAPIResource,
     RetrievableAPIResource,
     AllRetrievableAPIResource,
-    UpdatableAPIResource,
     DeletableAPIResource,
+    EnumerableAPIResource
 ):
     RESOURCE_NAME: str = "objectlocks"
     MODEL = ObjectLockModel

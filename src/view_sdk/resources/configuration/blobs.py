@@ -5,6 +5,7 @@ from ...mixins import (
     EnumerableAPIResource,
     ExistsAPIResource,
     RetrievableAPIResource,
+    UpdatableAPIResource,
 )
 from ...models.blob import BlobModel
 from ...sdk_configuration import Service
@@ -16,6 +17,7 @@ class Blob(
     RetrievableAPIResource,
     AllRetrievableAPIResource,
     DeletableAPIResource,
+    UpdatableAPIResource,
     EnumerableAPIResource,
 ):
     RESOURCE_NAME: str = "blobs"

@@ -5,6 +5,7 @@ from ...mixins import (
     ExistsAPIResource,
     RetrievableAPIResource,
     UpdatableAPIResource,
+    EnumerableAPIResource,
 )
 from ...models.vector_repository import VectorRepositoryModel
 
@@ -16,6 +17,7 @@ class VectorRepository(
     AllRetrievableAPIResource,
     UpdatableAPIResource,
     DeletableAPIResource,
+    EnumerableAPIResource,
 ):
     RESOURCE_NAME: str = "vectorrepositories"
     MODEL = VectorRepositoryModel

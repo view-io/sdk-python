@@ -59,6 +59,24 @@ class SourceDocument(
     ENUMERABLE_REQUEST_MODEL: Type[BaseModel] = EnumerationQueryModel
 
     @classmethod
+    def retrieve_top_terms(cls, collection_guid: str, resource_guid: str, max_keys: int = 10) -> list[str]:
+        """
+        Retrieves the top terms from a collection.
+
+        Args:
+            collection_guid (str): The GUID of the collection to retrieve top terms from.
+            document_guid (str): The GUID of the document to retrieve top terms from.
+
+
+        Returns:
+            list[str]: A list of top terms.
+        """
+        cls.QUERY_PARAMS = {"max-keys": max_keys}
+        return super().retrieve(resource_guid+"/topterms", collection_guid=collection_guid)
+
+
+
+    @classmethod
     def retrieve(
         cls, resource_guid: str, collection_guid: str, include_data: bool = False
     ) -> "BaseModel":
@@ -93,6 +111,7 @@ class SourceDocument(
         Raises:
             ValueError: If required fields are missing or invalid.
         """
+        cls.MODEL = None
         return super().create(collection_guid=collection_guid, **data)
 
     @classmethod

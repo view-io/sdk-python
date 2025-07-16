@@ -1,8 +1,9 @@
 from ...mixins import CreateableAPIResource
 from ...models.embeddings_request import EmbeddingsRequest
-
+from ...sdk_configuration import Service
 
 class GenerateEmbeddings(CreateableAPIResource):
+    SERVICE = Service.DIRECTOR
     RESOURCE_NAME = "embeddings"
     REQUIRES_TENANT = True
-    MODEL = EmbeddingsRequest
+    CREATE_METHOD = "POST"
