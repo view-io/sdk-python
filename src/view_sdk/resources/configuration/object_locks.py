@@ -1,9 +1,9 @@
 from ...mixins import (
     AllRetrievableAPIResource,
     DeletableAPIResource,
+    EnumerableAPIResource,
     ExistsAPIResource,
     RetrievableAPIResource,
-    EnumerableAPIResource
 )
 from ...models.object_lock import ObjectLockModel
 
@@ -13,7 +13,7 @@ class ObjectLock(
     RetrievableAPIResource,
     AllRetrievableAPIResource,
     DeletableAPIResource,
-    EnumerableAPIResource
+    EnumerableAPIResource,
 ):
     RESOURCE_NAME: str = "objectlocks"
     MODEL = ObjectLockModel

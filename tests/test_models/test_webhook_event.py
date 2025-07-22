@@ -3,6 +3,7 @@ from datetime import datetime, timezone
 from view_sdk.models.webhook_event import WebhookEventModel
 from view_sdk.enums.webhook_event_type_enum import WebhookEventTypeEnum
 
+
 def test_create_webhook_event_with_minimal_required_fields():
     """Test creating a WebhookEvent with only required fields."""
     event = WebhookEventModel(url="http://example.com/webhook")
@@ -24,6 +25,7 @@ def test_create_webhook_event_with_minimal_required_fields():
     assert event.last_failure_utc is None
     assert event.success_utc is None
     assert event.failed_utc is None
+
 
 def test_create_webhook_event_with_all_fields():
     """Test creating a WebhookEvent with all fields."""
@@ -50,7 +52,7 @@ def test_create_webhook_event_with_all_fields():
         "next_attempt_utc": current_time,
         "last_failure_utc": current_time,
         "success_utc": None,
-        "failed_utc": None
+        "failed_utc": None,
     }
 
     event = WebhookEventModel(**data)
@@ -77,14 +79,13 @@ def test_create_webhook_event_with_all_fields():
     assert event.success_utc == data["success_utc"]
     assert event.failed_utc == data["failed_utc"]
 
+
 @pytest.mark.parametrize("event_type", list(WebhookEventTypeEnum))
 def test_valid_event_types(event_type):
     """Test that all enum values for event_type are accepted."""
-    event = WebhookEventModel(
-        url="http://example.com/webhook",
-        event_type=event_type
-    )
+    event = WebhookEventModel(url="http://example.com/webhook", event_type=event_type)
     assert event.event_type == event_type
+
 
 def test_model_json_serialization():
     """Test that the model can be properly serialized to JSON with aliases."""
@@ -100,6 +101,7 @@ def test_model_json_serialization():
     assert json_data["ContentLength"] == 1024
     assert json_data["ContentType"] == "application/json"
 
+
 def test_model_json_deserialization():
     """Test that the model can be properly deserialized from JSON with aliases."""
     json_data = {
@@ -111,7 +113,7 @@ def test_model_json_deserialization():
         "ContentType": "application/json",
         "ContentLength": 1024,
         "TimeoutMs": 30000,
-        "Url": "http://example.com/webhook"
+        "Url": "http://example.com/webhook",
     }
 
     event = WebhookEventModel.model_validate(json_data)
@@ -125,4 +127,3 @@ def test_model_json_deserialization():
     assert event.content_length == json_data["ContentLength"]
     assert event.timeout_ms == json_data["TimeoutMs"]
     assert event.url.unicode_string() == json_data["Url"]
-

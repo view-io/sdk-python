@@ -6,14 +6,13 @@ from .resources import (
     assistant,
     configuration,
     crawler,
-    graphs,
+    director,
+    health_check,
     lexi,
     orchestration,
     processor,
     storage,
     vector,
-    director,
-    health_check
 )
 from .sdk_configuration import close_all, configure, get_client
 
@@ -26,7 +25,6 @@ __all__ = [
     "close_all",
     "assistant",
     "configuration",
-    "graphs",
     "lexi",
     "storage",
     "orchestration",
@@ -34,5 +32,5 @@ __all__ = [
     "semantic",
     "vector",
     "director",
-    "health_check"
+    "health_check",
 ]

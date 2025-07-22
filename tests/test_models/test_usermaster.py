@@ -3,6 +3,7 @@ from datetime import datetime, timezone
 from pydantic import ValidationError
 from view_sdk.models.user_master import UserMasterModel
 
+
 def test_create_minimal_user_master():
     """Test creating a user master with minimal required fields."""
     user = UserMasterModel()
@@ -17,6 +18,7 @@ def test_create_minimal_user_master():
     assert user.active is True
     assert isinstance(user.created_utc, datetime)
 
+
 def test_create_complete_user_master():
     """Test creating a user master with all fields populated."""
     data = {
@@ -28,7 +30,7 @@ def test_create_complete_user_master():
         "email": "john.doe@example.com",
         "password_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
         "active": True,
-        "created_utc": "2024-01-01T00:00:00Z"
+        "created_utc": "2024-01-01T00:00:00Z",
     }
 
     user = UserMasterModel(**data)
@@ -47,10 +49,7 @@ def test_guid_validation():
     """Test validation of guid fields."""
     # Test valid UUID format
     valid_uuid = "123e4567-e89b-12d3-a456-426614174000"
-    user = UserMasterModel(
-        guid=valid_uuid,
-        tenant_guid=valid_uuid
-    )
+    user = UserMasterModel(guid=valid_uuid, tenant_guid=valid_uuid)
     assert user.guid == valid_uuid
     assert user.tenant_guid == valid_uuid
 
@@ -60,6 +59,7 @@ def test_guid_validation():
     assert isinstance(user.tenant_guid, str)
     assert len(user.guid) > 0
     assert len(user.tenant_guid) > 0
+
 
 def test_active_validation():
     """Test validation of active field."""
@@ -74,6 +74,7 @@ def test_active_validation():
     # Test default value
     user = UserMasterModel()
     assert user.active is True
+
 
 def test_created_utc_validation():
     """Test validation of created_utc field."""
@@ -91,13 +92,14 @@ def test_created_utc_validation():
         UserMasterModel(created_utc="invalid-date")
     assert "type=datetime" in str(exc_info.value)
 
+
 def test_model_export():
     """Test that the model correctly exports data with aliases."""
     data = {
         "first_name": "John",
         "last_name": "Doe",
         "email": "john.doe@example.com",
-        "notes": "Test notes"
+        "notes": "Test notes",
     }
 
     user = UserMasterModel(**data)
@@ -109,6 +111,7 @@ def test_model_export():
     assert exported["Notes"] == data["notes"]
     assert "PasswordSha256" not in exported  # Should be excluded
     assert "FullName" in exported  # Should be included and computed
+
 
 def test_password_sha256_exclusion():
     """Test that password_sha256 is properly excluded from export."""
@@ -122,6 +125,7 @@ def test_password_sha256_exclusion():
     exported_aliased = user.model_dump(by_alias=True)
     assert "PasswordSha256" not in exported_aliased
 
+
 def test_field_aliases():
     """Test that field aliases are working correctly."""
     data = {
@@ -132,7 +136,7 @@ def test_field_aliases():
         "Notes": "Test notes",
         "Email": "john.doe@example.com",
         "Active": True,
-        "CreatedUtc": "2024-01-01T00:00:00Z"
+        "CreatedUtc": "2024-01-01T00:00:00Z",
     }
 
     user = UserMasterModel(**data)

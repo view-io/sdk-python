@@ -3,6 +3,7 @@ from datetime import datetime, timezone
 from view_sdk.models.metadata_rule import MetadataRuleModel
 from view_sdk.enums.data_catalog_type_enum import DataCatalogTypeEnum
 
+
 def test_metadata_rule_create_valid():
     data = {
         "GUID": "123e4567-e89b-12d3-a456-426614174000",
@@ -31,7 +32,7 @@ def test_metadata_rule_create_valid():
         "GraphRepositoryGUID": "jkl012-e89b-12d3-a456-426614174000",
         "MaxContentLength": 16777216,
         "RetentionMinutes": 60,
-        "CreatedUtc": datetime(2023, 4, 1, 12, 0, 0, tzinfo=timezone.utc)
+        "CreatedUtc": datetime(2023, 4, 1, 12, 0, 0, tzinfo=timezone.utc),
     }
 
     rule = MetadataRuleModel(**data)
@@ -43,9 +44,15 @@ def test_metadata_rule_create_valid():
     assert rule.content_type == "text/plain"
     assert rule.prefix == "test-prefix"
     assert rule.suffix == "test-suffix"
-    assert str(rule.processing_endpoint) == "http://localhost:8000/v1.0/tenants/default/processing"
+    assert (
+        str(rule.processing_endpoint)
+        == "http://localhost:8000/v1.0/tenants/default/processing"
+    )
     assert rule.processing_access_key == "default"
-    assert str(rule.cleanup_endpoint) == "http://localhost:8000/v1.0/tenants/default/processing/cleanup"
+    assert (
+        str(rule.cleanup_endpoint)
+        == "http://localhost:8000/v1.0/tenants/default/processing/cleanup"
+    )
     assert rule.cleanup_access_key == "default"
     assert rule.min_chunk_content_length == 2
     assert rule.max_chunk_content_length == 512
@@ -63,6 +70,7 @@ def test_metadata_rule_create_valid():
     assert rule.retention_minutes == 60
     assert rule.created_utc == datetime(2023, 4, 1, 12, 0, 0, tzinfo=timezone.utc)
 
+
 def test_metadata_rule_invalid_data():
     with pytest.raises(ValueError):
         MetadataRuleModel(
@@ -77,5 +85,5 @@ def test_metadata_rule_invalid_data():
             shift_size=0,
             top_terms=0,
             max_content_length=0,
-            retention_minutes=0
+            retention_minutes=0,
         )

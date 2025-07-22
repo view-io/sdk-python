@@ -44,6 +44,7 @@ class ServicePorts:
     GRAPH_DATABASE: int = 8701
     DIRECTOR: int = 8501
 
+
 class SdkConfiguration:
     _instance = None
 

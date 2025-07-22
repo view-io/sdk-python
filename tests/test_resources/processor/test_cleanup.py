@@ -2,7 +2,6 @@ import pytest
 from datetime import datetime, timezone
 from unittest.mock import Mock, patch
 
-from view_sdk import models
 from view_sdk.models.api_error_response import ApiErrorResponseModel
 from view_sdk.models.bucket import BucketMetadataModel
 from view_sdk.models.cleanup_request import CleanupRequest
@@ -18,7 +17,6 @@ from view_sdk.models.pool import StoragePool
 from view_sdk.models.tenant_metadata import TenantMetadataModel
 from view_sdk.models.vector_repository import VectorRepositoryModel
 from view_sdk.resources.processor.cleanup import Cleanup
-from view_sdk.resources.processor.healthcheck import HealthCheck
 from view_sdk.sdk_configuration import SdkConfiguration
 
 
@@ -34,7 +32,7 @@ def configure_sdk():
 
 @pytest.fixture(scope="function")
 def mock_http_client():
-    with patch('httpx.Client') as mock:
+    with patch("httpx.Client") as mock:
         client_instance = Mock()
         mock.return_value = client_instance
         yield client_instance
@@ -56,7 +54,7 @@ def sample_cleanup_response():
         timestamp=TimestampModel(
             created_at=datetime(2023, 1, 1, tzinfo=timezone.utc),
             updated_at=datetime(2023, 1, 1, tzinfo=timezone.utc),
-        )
+        ),
     ).model_dump(mode="json", by_alias=True)
 
 
@@ -89,8 +87,10 @@ def sample_crawler_request():
     )
 
 
-@patch('view_sdk.mixins.get_client')
-def test_process_storage_success(mock_get_client, mock_http_client, sample_cleanup_response, sample_storage_request):
+@patch("view_sdk.mixins.get_client")
+def test_process_storage_success(
+    mock_get_client, mock_http_client, sample_cleanup_response, sample_storage_request
+):
     # Configure the mock to return the mock_http_client
     mock_get_client.return_value = mock_http_client
 
@@ -100,7 +100,7 @@ def test_process_storage_success(mock_get_client, mock_http_client, sample_clean
     mock_http_client.request.return_value = sample_cleanup_response
 
     # Call the method
-    response = Cleanup.process_storage(
+    response = Cleanup.cleanup_pipeline(
         guid="test-guid",
         tenant=sample_storage_request.tenant,
         collection=sample_storage_request.collection,
@@ -125,8 +125,10 @@ def test_process_storage_success(mock_get_client, mock_http_client, sample_clean
     assert "/cleanup" in call_args[0][1]
 
 
-@patch('view_sdk.mixins.get_client')
-def test_process_crawler_success(mock_get_client, mock_http_client, sample_cleanup_response, sample_crawler_request):
+@patch("view_sdk.mixins.get_client")
+def test_process_crawler_success(
+    mock_get_client, mock_http_client, sample_cleanup_response, sample_crawler_request
+):
     # Configure the mock to return the mock_http_client
     mock_get_client.return_value = mock_http_client
 
@@ -135,8 +137,8 @@ def test_process_crawler_success(mock_get_client, mock_http_client, sample_clean
     # mock_response.json.return_value = sample_cleanup_response
     mock_http_client.request.return_value = sample_cleanup_response
 
-    # Call the method
-    response = Cleanup.process_crawler(
+    # Call the method - using cleanup_pipeline since process_crawler doesn't exist
+    response = Cleanup.cleanup_pipeline(
         guid="test-guid",
         tenant=sample_crawler_request.tenant,
         collection=sample_crawler_request.collection,
@@ -160,8 +162,10 @@ def test_process_crawler_success(mock_get_client, mock_http_client, sample_clean
     assert "/cleanup" in call_args[0][1]
 
 
-@patch('view_sdk.mixins.get_client')
-def test_process_storage_with_all_fields(mock_get_client, mock_http_client, sample_cleanup_response):
+@patch("view_sdk.mixins.get_client")
+def test_process_storage_with_all_fields(
+    mock_get_client, mock_http_client, sample_cleanup_response
+):
     # Configure the mock to return the mock_http_client
     mock_get_client.return_value = mock_http_client
 
@@ -179,8 +183,8 @@ def test_process_storage_with_all_fields(mock_get_client, mock_http_client, samp
     vector_repo = VectorRepositoryModel(guid="test-vector-repo")
     graph_repo = GraphRepositoryModel(guid="test-graph-repo")
 
-    # Call the method
-    response = Cleanup.process_storage(
+    # Call the method - using cleanup_pipeline since process_storage doesn't exist
+    response = Cleanup.cleanup_pipeline(
         guid="test-guid",
         tenant=tenant,
         collection=collection,
@@ -205,7 +209,7 @@ def test_process_storage_with_all_fields(mock_get_client, mock_http_client, samp
     assert "/cleanup" in call_args[0][1]
 
 
-@patch('view_sdk.mixins.get_client')
+@patch("view_sdk.mixins.get_client")
 def test_error_handling(mock_get_client, mock_http_client, sample_storage_request):
     # Configure the mock to return the mock_http_client
     mock_get_client.return_value = mock_http_client
@@ -217,13 +221,13 @@ def test_error_handling(mock_get_client, mock_http_client, sample_storage_reques
         "Error": {
             "Error": "BadRequest",
             "Context": "Invalid request parameters",
-            "Description": "Missing required field"
-        }
+            "Description": "Missing required field",
+        },
     }
     mock_http_client.request.return_value = error_response
 
     # Call the method and verify error handling
-    response = Cleanup.process_storage(
+    response = Cleanup.cleanup_pipeline(
         guid="test-guid",
         tenant=sample_storage_request.tenant,
         collection=sample_storage_request.collection,

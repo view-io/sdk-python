@@ -4,4 +4,10 @@ from .crawl_plans import CrawlPlan
 from .crawl_schedules import CrawlSchedule
 from .data_repositories import DataRepository
 
-__all__ = ["CrawlFilter", "CrawlOperation", "CrawlPlan", "CrawlSchedule", "DataRepository"]
+__all__ = [
+    "CrawlFilter",
+    "CrawlOperation",
+    "CrawlPlan",
+    "CrawlSchedule",
+    "DataRepository",
+]
