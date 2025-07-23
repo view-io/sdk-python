@@ -4,9 +4,9 @@ from ...mixins import (
     AllRetrievableAPIResource,
     CreateableAPIResource,
     DeletableAPIResource,
+    EnumerableAPIResource,
     RetrievableAPIResource,
     UpdatableAPIResource,
-    EnumerableAPIResource,
 )
 from ...models.acl import ACLModel
 from ...models.bucket import BucketMetadataModel

@@ -1,7 +1,7 @@
 import uuid
 from typing import Any, Dict, Optional
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field
 
 from ..enums.document_type_enum import DocumentTypeEnum
 from .metadata_rule import MetadataRuleModel
@@ -22,20 +22,6 @@ class UdrDocumentRequest(BaseModel):
 
     content_type: Optional[str] = Field(
         default=None, alias="ContentType", description="Content-type"
-    )
-
-    semantic_cell_split_character: str = Field(
-        default="\r\n",
-        alias="SemanticCellSplitCharacter",
-        description="Character on which to split semantic cells",
-    )
-
-    max_chunk_content_length: int = Field(
-        default=512,
-        alias="MaxChunkContentLength",
-        description="Maximum chunk content length. Minimum is 128 and maximum is 2048",
-        ge=128,
-        le=2048,
     )
 
     include_flattened: bool = Field(
@@ -76,8 +62,3 @@ class UdrDocumentRequest(BaseModel):
         populate_by_name=True, use_enum_values=True, validate_assignment=True
     )
 
-    @field_validator("semantic_cell_split_character")
-    def validate_split_character(cls, v: str) -> str:
-        if not v:
-            raise ValueError("SemanticCellSplitCharacter cannot be empty")
-        return v

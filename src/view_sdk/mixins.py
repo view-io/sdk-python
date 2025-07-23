@@ -131,7 +131,7 @@ class ExistsAPIResource(BaseAPIResource):
         Raises:
             ValueError: If tenant GUID is required but not provided.
         """
-        headers = kwargs.pop("headers",{})
+        headers = kwargs.pop("headers", {})
         client = get_client(cls.SERVICE)
 
         if cls.REQUIRES_TENANT and client.tenant_guid is None:
@@ -144,7 +144,7 @@ class ExistsAPIResource(BaseAPIResource):
             url = _get_url_v1(cls, *path_components, **url_params)
 
         try:
-            client.request("HEAD", url,headers=headers)
+            client.request("HEAD", url, headers=headers)
             return True
         except Exception:
             return False
@@ -197,7 +197,7 @@ class CreateableAPIResource(BaseAPIResource):
             url = _get_url_v1(cls, client.tenant_guid, *path_components, **url_params)
         else:
             url = _get_url_v1(cls, *path_components, **url_params)
-        
+
         instance = client.request(cls.CREATE_METHOD, url, json=data, headers=headers)
         return cls.MODEL.model_validate(instance) if cls.MODEL else instance
 
@@ -260,8 +260,8 @@ class AllRetrievableAPIResource(BaseAPIResource):
 
         if cls.REQUIRES_TENANT and client.tenant_guid is None:
             raise ValueError("Tenant GUID is required for this resource.")
-        
-        headers = kwargs.pop("headers",{})
+
+        headers = kwargs.pop("headers", {})
 
         # Validate parent_guid if provided
         if parent_guid := kwargs.get(cls.PARENT_ID_PARAM):
@@ -273,7 +273,7 @@ class AllRetrievableAPIResource(BaseAPIResource):
         else:
             url = _get_url_v1(cls, *path_components, **url_params)
 
-        instances = client.request("GET", url,headers=headers)
+        instances = client.request("GET", url, headers=headers)
         if not isinstance(instances, list) and cls.RETURNS_LIST:
             instances = []
         return (
@@ -324,7 +324,7 @@ class UpdatableAPIResource(BaseAPIResource):
     """Mixin class for updating API resources."""
 
     REQUEST_MODEL: Type[BaseModel] = None
-    UPDATE_METHOD : str = "PUT"
+    UPDATE_METHOD: str = "PUT"
 
     @classmethod
     def update(cls, resource_guid: str, **kwargs) -> "BaseModel":
@@ -394,7 +394,7 @@ class DeletableAPIResource(BaseAPIResource):
             ValueError: If tenant GUID is required but not provided.
         """
 
-        headers = kwargs.pop("headers",{})
+        headers = kwargs.pop("headers", {})
         client = get_client(cls.SERVICE)
 
         if cls.REQUIRES_TENANT and client.tenant_guid is None:
@@ -411,7 +411,7 @@ class DeletableAPIResource(BaseAPIResource):
             url = _get_url_v1(cls, *path_components, **url_params)
 
         try:
-            client.request("DELETE", url,headers=headers)
+            client.request("DELETE", url, headers=headers)
             return True
         except Exception:
             return False
@@ -421,7 +421,7 @@ class EnumerableAPIResource(BaseAPIResource):
     """Mixin class for enumerating API resources."""
 
     @classmethod
-    def enumerate(cls,**kwargs) -> "EnumerationResultModel":
+    def enumerate(cls, **kwargs) -> "EnumerationResultModel":
         """
         Enumerates resources of a given type.
 

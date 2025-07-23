@@ -1,6 +1,5 @@
 from ...mixins import (
     AllRetrievableAPIResource,
-    CreateableAPIResource,
     DeletableAPIResource,
     RetrievableAPIResource,
     UpdatableAPIResource,
@@ -30,7 +29,7 @@ class MultipartUploads(
         """
         cls.MODEL = None
         return super().create(bucket_guid=bucket_guid, _data=kwargs)
-    
+
     @classmethod
     def retrieve(cls, bucket_guid: str, resource_guid: str):
         """
@@ -51,7 +50,6 @@ class MultipartUploads(
             A list of MultipartUploadPartModel objects for all multipart uploads in the specified bucket.
         """
         return super().retrieve_all(bucket_guid=bucket_guid)
-
 
     @classmethod
     def retrieve_part(cls, bucket_guid: str, resource_guid: str, part_number: int):
@@ -97,9 +95,12 @@ class MultipartUploads(
         """
         cls.QUERY_PARAMS = {"part_number": part_number}
         headers = {"Content-Type": "text/plain"}
-        cls.MODEL = None  
+        cls.MODEL = None
         return super().update(
-            resource_guid+"/parts/", bucket_guid=bucket_guid, data=data, headers=headers
+            resource_guid + "/parts/",
+            bucket_guid=bucket_guid,
+            data=data,
+            headers=headers,
         )
 
     @classmethod
@@ -125,6 +126,3 @@ class MultipartUploads(
             True if the multipart upload was deleted successfully, False otherwise.
         """
         return super().delete(resource_guid, bucket_guid=bucket_guid)
-
-
-

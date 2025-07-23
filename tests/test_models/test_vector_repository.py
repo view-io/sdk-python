@@ -24,9 +24,9 @@ def test_create_complete_vector_repository():
         "database_password": "secret",
         "prompt_prefix": "Custom prefix:",
         "prompt_suffix": "Custom suffix:",
-        "created_utc": "2024-01-01T00:00:00Z"
+        "created_utc": "2024-01-01T00:00:00Z",
     }
-    
+
     repo = VectorRepositoryModel(**data)
     assert repo.guid == data["guid"]
     assert repo.tenant_guid == data["tenant_guid"]
@@ -45,6 +45,7 @@ def test_create_complete_vector_repository():
     assert repo.prompt_prefix == data["prompt_prefix"]
     assert repo.prompt_suffix == data["prompt_suffix"]
 
+
 def test_repository_type_validation():
     """Test validation of repository type enum."""
     # Test all valid repository types
@@ -56,6 +57,7 @@ def test_repository_type_validation():
     with pytest.raises(ValidationError) as exc_info:
         VectorRepositoryModel(repository_type="InvalidType")
     assert "type=enum" in str(exc_info.value)
+
 
 def test_dimensionality_validation():
     """Test validation of dimensionality field."""
@@ -71,6 +73,7 @@ def test_dimensionality_validation():
     # Test invalid type
     with pytest.raises(ValidationError):
         VectorRepositoryModel(dimensionality="invalid")
+
 
 def test_database_port_validation():
     """Test validation of database port field."""
@@ -90,17 +93,19 @@ def test_database_port_validation():
         VectorRepositoryModel(database_port=-1)
     assert "greater than or equal to 0" in str(exc_info.value)
 
+
 def test_endpoint_url_validation():
     """Test validation of endpoint URL field."""
     # Test valid URLs
     valid_urls = [
         "https://vector.example.com",
         "http://localhost:8080",
-        None  # None should be valid as it's optional
+        None,  # None should be valid as it's optional
     ]
     for url in valid_urls:
         repo = VectorRepositoryModel(endpoint_url=url)
         assert repo.endpoint_url == url
+
 
 def test_created_utc_validation():
     """Test validation of created_utc field."""
@@ -118,22 +123,24 @@ def test_created_utc_validation():
         VectorRepositoryModel(created_utc="invalid-date")
     assert "type=datetime" in str(exc_info.value)
 
+
 def test_model_export():
     """Test that the model correctly exports data with aliases."""
     data = {
         "name": "Test Repo",
         "repository_type": "Pgvector",
         "model": "custom-model",
-        "dimensionality": 512
+        "dimensionality": 512,
     }
-    
+
     repo = VectorRepositoryModel(**data)
     exported = repo.model_dump(by_alias=True)
-    
+
     assert exported["Name"] == data["name"]
     assert exported["RepositoryType"] == data["repository_type"]
     assert exported["Model"] == data["model"]
     assert exported["Dimensionality"] == data["dimensionality"]
+
 
 def test_field_aliases():
     """Test that field aliases are working correctly."""
@@ -145,9 +152,9 @@ def test_field_aliases():
         "EndpointUrl": "https://vector.example.com",
         "DatabaseHostname": "db.example.com",
         "DatabasePort": 3306,
-        "CreatedUtc": "2024-01-01T00:00:00Z"
+        "CreatedUtc": "2024-01-01T00:00:00Z",
     }
-    
+
     repo = VectorRepositoryModel(**data)
     assert repo.guid == data["GUID"]
     assert repo.tenant_guid == data["TenantGUID"]
@@ -156,6 +163,7 @@ def test_field_aliases():
     assert repo.endpoint_url == data["EndpointUrl"]
     assert repo.database_hostname == data["DatabaseHostname"]
     assert repo.database_port == data["DatabasePort"]
+
 
 def test_optional_fields():
     """Test that optional fields can be None."""
@@ -167,9 +175,9 @@ def test_optional_fields():
         database_table=None,
         database_user=None,
         database_password=None,
-        prompt_suffix=None
+        prompt_suffix=None,
     )
-    
+
     assert repo.endpoint_url is None
     assert repo.api_key is None
     assert repo.database_hostname is None
@@ -178,6 +186,7 @@ def test_optional_fields():
     assert repo.database_user is None
     assert repo.database_password is None
     assert repo.prompt_suffix is None
+
 
 def test_prompt_prefix_default():
     """Test the default prompt prefix value and customization."""
@@ -190,6 +199,7 @@ def test_prompt_prefix_default():
     custom_prefix = "Custom prompt prefix"
     repo = VectorRepositoryModel(prompt_prefix=custom_prefix)
     assert repo.prompt_prefix == custom_prefix
+
 
 def test_name_validation():
     """Test name field validation and default value."""

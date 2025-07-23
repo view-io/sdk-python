@@ -3,6 +3,7 @@ from datetime import datetime, timezone
 from pydantic import ValidationError
 from view_sdk.models.tenant_metadata import TenantMetadataModel
 
+
 def test_create_minimal_tenant_metadata():
     """Test creating a tenant metadata with minimal required fields."""
     tenant = TenantMetadataModel(guid="default")
@@ -14,6 +15,7 @@ def test_create_minimal_tenant_metadata():
     assert tenant.s3_base_domain == ""
     assert tenant.rest_base_domain == ""
     assert tenant.default_pool_guid == ""
+
 
 def test_create_complete_tenant_metadata():
     """Test creating a tenant metadata with all fields populated."""
@@ -29,7 +31,7 @@ def test_create_complete_tenant_metadata():
         "default_pool_guid": "abcd1234-e89b-12d3-a456-426614174000",
         "active": True,
         "is_protected": True,
-        "created_utc": "2024-01-01T00:00:00Z"
+        "created_utc": "2024-01-01T00:00:00Z",
     }
 
     tenant = TenantMetadataModel(**data)
@@ -45,10 +47,11 @@ def test_create_complete_tenant_metadata():
     assert tenant.is_protected == data["is_protected"]
     assert isinstance(tenant.created_utc, datetime)
 
+
 def test_id_validation():
     """Test validation of id field."""
     # Valid id
-    tenant = TenantMetadataModel(guid="default",id=1)
+    tenant = TenantMetadataModel(guid="default", id=1)
     assert tenant.id == 1
 
     # Invalid id (less than 1)
@@ -60,18 +63,18 @@ def test_id_validation():
     with pytest.raises(ValidationError):
         TenantMetadataModel(id="invalid")
 
+
 def test_guid_validation():
     """Test validation of guid fields."""
     # Test valid UUID format
     valid_uuid = "123e4567-e89b-12d3-a456-426614174000"
     tenant = TenantMetadataModel(
-        guid=valid_uuid,
-        parent_guid=valid_uuid,
-        default_pool_guid=valid_uuid
+        guid=valid_uuid, parent_guid=valid_uuid, default_pool_guid=valid_uuid
     )
     assert tenant.guid == valid_uuid
     assert tenant.parent_guid == valid_uuid
     assert tenant.default_pool_guid == valid_uuid
+
 
 def test_name_validation():
     """Test validation of name field."""
@@ -83,6 +86,7 @@ def test_name_validation():
     tenant = TenantMetadataModel(guid="default", name="")
     assert tenant.name == ""
 
+
 def test_region_validation():
     """Test validation of region field."""
     # Test with valid region
@@ -92,6 +96,7 @@ def test_region_validation():
     # Default region
     tenant = TenantMetadataModel(guid="default")
     assert tenant.region == "us-west-1"
+
 
 def test_active_validation():
     """Test validation of active field."""
@@ -106,6 +111,7 @@ def test_active_validation():
     # Test default value
     tenant = TenantMetadataModel(guid="default")
     assert tenant.active is True
+
 
 def test_created_utc_validation():
     """Test validation of created_utc field."""
@@ -123,6 +129,7 @@ def test_created_utc_validation():
         TenantMetadataModel(guid="default", created_utc="invalid-date")
     assert "type=datetime" in str(exc_info.value)
 
+
 def test_model_export():
     """Test that the model correctly exports data with aliases."""
     data = {
@@ -139,6 +146,7 @@ def test_model_export():
     assert exported["Region"] == data["region"]
     assert "Id" not in exported  # Should be excluded
 
+
 def test_optional_fields():
     """Test that optional fields can be None."""
     tenant = TenantMetadataModel(
@@ -148,7 +156,7 @@ def test_optional_fields():
         name="",
         s3_base_domain="",
         rest_base_domain="",
-        default_pool_guid=""
+        default_pool_guid="",
     )
 
     assert tenant.parent_guid is None
@@ -158,6 +166,7 @@ def test_optional_fields():
     assert tenant.rest_base_domain == ""
     assert tenant.default_pool_guid == ""
     assert tenant.is_protected is False  # Check default value
+
 
 def test_field_aliases():
     """Test that field aliases are working correctly."""
@@ -172,7 +181,7 @@ def test_field_aliases():
         "DefaultPoolGUID": "abcd1234-e89b-12d3-a456-426614174000",
         "Active": True,
         "IsProtected": True,
-        "CreatedUtc": "2024-01-01T00:00:00Z"
+        "CreatedUtc": "2024-01-01T00:00:00Z",
     }
 
     tenant = TenantMetadataModel(**data)

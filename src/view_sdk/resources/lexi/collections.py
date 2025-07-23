@@ -44,7 +44,7 @@ class Collection(
         }
 
         return super().retrieve(**kwargs)
-    
+
     @classmethod
     def enumerate_documents(cls, resource_guid, data: EnumerationQueryModel):
         """Enumerate the documents in a collection.
@@ -61,9 +61,16 @@ class Collection(
         cls.CREATE_METHOD = "POST"
         cls.MODEL = None
         return super().create(collection_guid=resource_guid, _data=data)
-    
+
     @classmethod
-    def search(cls, resource_guid, include_data=False, include_top_terms=False, emit_results=False, **kwargs):
+    def search(
+        cls,
+        resource_guid,
+        include_data=False,
+        include_top_terms=False,
+        emit_results=False,
+        **kwargs,
+    ):
         """Search a collection.
 
         Args:

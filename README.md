@@ -9,7 +9,7 @@ View AI enables organizations to rapidly deploy conversational AI experiences an
 
 ## License
 
-View software is licensed under the [Fair Core License (FCL)](https://fcl.dev/) with graduation after two years to an Apache 2.0 license. Use of the software requires acceptance of the license terms found in the file `LICENSE.md`.
+View software is licensed under the [MIT License](https://mit-license.org/) with graduation after two years to an Apache 2.0 license. Use of the software requires acceptance of the license terms found in the file `LICENSE.md`.
 
 ## Requirements
 
@@ -30,19 +30,12 @@ Install the SDK using pip:
 pip install view-sdk
 ```
 
-Install the SDK along with LiteGraph SDK:
-
-```bash
-pip install view-sdk[litegraph_sdk]
-```
-
 ## Getting Started
 
 ### Basic Configuration
 
 ```python
 import view_sdk
-import litegraph_sdk
 from view_sdk import sdk_logging
 
 # Optional: Enable debug logging
@@ -58,14 +51,6 @@ view_sdk.configure(
     verbose=False  # Enable verbose logging
 )
 
-# Configure the LiteGraph SDK
-litegraph_sdk.configure(
-    access_key="your_litegraph_key",
-    endpoint="http://your-litegraph-endpoint",
-    tenant_guid="your_tenant_id"
-)
-```
-
 ## Available Services
 
 The SDK provides access to the following services:
@@ -80,7 +65,6 @@ The SDK provides access to the following services:
   - Create and manage graphs
   - Add and connect nodes with edges
   - Support for graph data and metadata
-  - Integration with LiteGraph for advanced graph operations
 - **Lexi**: Natural language processing capabilities
 - **Orchestration**: Workflow and process orchestration
 - **Processor**: Data processing and transformation
@@ -147,44 +131,6 @@ except SdkException as e:
 
 # Clean up resources
 view_sdk.close_all()  # Close all active client connections
-```
-
-### Example Usage with Graphs
-
-```python
-# Working with Graphs
-try:
-    # Create a new graph
-    graph = view_sdk.graphs.Graph.create(name="My Graph")
-    print(f"Created graph: {graph}")
-
-    # Add nodes to the graph
-    node1 = view_sdk.graphs.Node.create(
-        graph_guid=graph.guid,
-        name="Node 1"
-    )
-    node2 = view_sdk.graphs.Node.create(
-        graph_guid=graph.guid,
-        name="Node 2"
-    )
-
-    # Connect nodes with an edge
-    edge = view_sdk.graphs.Edge.create(
-        graph_guid=graph.guid,
-        from_node=node1.guid,
-        to_node=node2.guid,
-        name="Connection",
-        cost=1
-    )
-
-    # Export graph in GEXF format
-    gexf_data = view_sdk.graphs.Graph.export_gexf(
-        resource_guid=graph.guid
-    )
-    print(f"GEXF export: {gexf_data}")
-
-except view_sdk.exceptions.SdkException as e:
-    print(f"Error working with graphs: {e}")
 ```
 
 ## Error Handling
@@ -302,25 +248,9 @@ tox -e clean
 For development, you can install the package with all test dependencies:
 
 ```bash
-pip install -e ".[testing]"
-```
-
-#### Building and Installing LiteGraph SDK
-
-For development and testing purposes, you'll need to build and install the litegraph SDK:
-
-```bash
-# Navigate to litegraph SDK directory
-cd ../litegraph_sdk
 
 # Build the wheel using tox
 tox -e build
-
-# Note the path to the generated .whl file in dist/
-# Update the absolute path in setup.cfg's [options.extras_require] section:
-# testing =
-#     ...
-#     litegraph_sdk @ file://localhost//absolute/path/to/litegraph_sdk-x.y.z-py3-none-any.whl
 
 # Return to view SDK directory
 cd ../python_sdk_viewio

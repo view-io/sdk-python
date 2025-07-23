@@ -59,7 +59,9 @@ class SourceDocument(
     ENUMERABLE_REQUEST_MODEL: Type[BaseModel] = EnumerationQueryModel
 
     @classmethod
-    def retrieve_top_terms(cls, collection_guid: str, resource_guid: str, max_keys: int = 10) -> list[str]:
+    def retrieve_top_terms(
+        cls, collection_guid: str, resource_guid: str, max_keys: int = 10
+    ) -> list[str]:
         """
         Retrieves the top terms from a collection.
 
@@ -72,9 +74,9 @@ class SourceDocument(
             list[str]: A list of top terms.
         """
         cls.QUERY_PARAMS = {"max-keys": max_keys}
-        return super().retrieve(resource_guid+"/topterms", collection_guid=collection_guid)
-
-
+        return super().retrieve(
+            resource_guid + "/topterms", collection_guid=collection_guid
+        )
 
     @classmethod
     def retrieve(
