@@ -1,23 +1,23 @@
 from ...mixins import (
-    AllRetrievableAPIResource,
-    CreateableAPIResource,
-    DeletableAPIResource,
     EnumerableAPIResource,
-    ExistsAPIResource,
     RetrievableAPIResource,
+    AllRetrievableAPIResource,
     UpdatableAPIResource,
+    CreateableAPIResource,
+    ExistsAPIResource,
+    DeletableAPIResource
 )
 from ...models.tenant_metadata import TenantMetadataModel
 
 
 class Tenant(
     RetrievableAPIResource,
-    UpdatableAPIResource,
+    UpdatableAPIResource,   
     EnumerableAPIResource,
     CreateableAPIResource,
     AllRetrievableAPIResource,
     ExistsAPIResource,
-    DeletableAPIResource,
+    DeletableAPIResource
 ):
     RESOURCE_NAME: str = "tenants"
     MODEL = TenantMetadataModel

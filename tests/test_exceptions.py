@@ -14,16 +14,13 @@ from view_sdk.exceptions import (
 from view_sdk.enums.api_error_enum import ApiErrorEnum, ERROR_DESCRIPTIONS
 
 
-@pytest.mark.parametrize(
-    "error_code,expected_exception",
-    [
-        (ApiErrorEnum.authentication_failed, AuthenticationError),
-        (ApiErrorEnum.authorization_failed, AuthorizationError),
-        (ApiErrorEnum.bad_request, BadRequestError),
-        (ApiErrorEnum.not_found, ResourceNotFoundError),
-        (ApiErrorEnum.internal_error, ServerError),
-    ],
-)
+@pytest.mark.parametrize("error_code,expected_exception", [
+    (ApiErrorEnum.authentication_failed, AuthenticationError),
+    (ApiErrorEnum.authorization_failed, AuthorizationError),
+    (ApiErrorEnum.bad_request, BadRequestError),
+    (ApiErrorEnum.not_found, ResourceNotFoundError),
+    (ApiErrorEnum.internal_error, ServerError),
+])
 def test_get_exception_for_error_code_basic_mapping(error_code, expected_exception):
     """Test basic error code to exception mapping without verbosity or original exception."""
     with pytest.raises(expected_exception) as exc_info:
@@ -40,7 +37,7 @@ def test_get_exception_for_error_code_with_original_exception(verbose):
         get_exception_for_error_code(
             ApiErrorEnum.authentication_failed,
             verbose=verbose,
-            original_exception=original_error,
+            original_exception=original_error
         )
 
     if verbose:
@@ -49,15 +46,12 @@ def test_get_exception_for_error_code_with_original_exception(verbose):
         assert exc_info.value.__cause__ is None
 
 
-@pytest.mark.parametrize(
-    "invalid_code,expected_message",
-    [
-        (None, "Invalid error code type"),
-        ("InvalidError", "Invalid error code type - InvalidError"),
-        (404, "Invalid error code type - 404"),
-        ("", "Invalid error code type"),
-    ],
-)
+@pytest.mark.parametrize("invalid_code,expected_message", [
+    (None, "Invalid error code type"),
+    ("InvalidError", "Invalid error code type - InvalidError"),
+    (404, "Invalid error code type - 404"),
+    ("", "Invalid error code type"),
+])
 def test_invalid_error_codes(invalid_code, expected_message):
     """Test handling of invalid error codes."""
     with pytest.raises(SdkException) as exc_info:
@@ -81,14 +75,16 @@ def test_exception_with_httpx_error():
 
     # Create an HTTPStatusError
     http_error = httpx.HTTPStatusError(
-        "401 Unauthorized", request=Mock(spec=httpx.Request), response=mock_response
+        "401 Unauthorized",
+        request=Mock(spec=httpx.Request),
+        response=mock_response
     )
 
     with pytest.raises(AuthenticationError) as exc_info:
         get_exception_for_error_code(
             ApiErrorEnum.authentication_failed,
             verbose=True,
-            original_exception=http_error,
+            original_exception=http_error
         )
     assert exc_info.value.__cause__ is http_error
     assert ERROR_DESCRIPTIONS[ApiErrorEnum.authentication_failed] in str(exc_info.value)

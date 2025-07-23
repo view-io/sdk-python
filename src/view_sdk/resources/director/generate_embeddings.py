@@ -1,6 +1,6 @@
 from ...mixins import CreateableAPIResource
+from ...models.embeddings_request import EmbeddingsRequest
 from ...sdk_configuration import Service
-
 
 class GenerateEmbeddings(CreateableAPIResource):
     SERVICE = Service.DIRECTOR

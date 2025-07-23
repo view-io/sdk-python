@@ -5,7 +5,6 @@ from view_sdk.models.pool import StoragePool
 from view_sdk.enums.compression_type_enum import CompressionTypeEnum
 from view_sdk.enums.object_write_mode_enum import ObjectWriteModeEnum
 
-
 def test_create_complete_storage_pool():
     """Test creating a storage pool with all fields populated."""
     data = {
@@ -26,9 +25,9 @@ def test_create_complete_storage_pool():
         "azure_container": "testcontainer",
         "compress": "Gzip",
         "enable_read_caching": True,
-        "date_time": "2024-01-01T00:00:00Z",
+        "date_time": "2024-01-01T00:00:00Z"
     }
-
+    
     pool = StoragePool(**data)
     assert pool.guid == data["guid"]
     assert pool.tenant_guid == data["tenant_guid"]
@@ -44,7 +43,6 @@ def test_create_complete_storage_pool():
     assert pool.enable_read_caching is True
     assert pool.date_time == datetime(2024, 1, 1, 0, 0, 0, tzinfo=timezone.utc)
 
-
 def test_compression_type_validation():
     """Test validation of compression type enum."""
     # Valid compression types
@@ -56,7 +54,6 @@ def test_compression_type_validation():
     with pytest.raises(ValidationError) as exc_info:
         StoragePool(compress="InvalidCompression")
     assert "type=enum" in str(exc_info.value)
-
 
 def test_write_mode_validation():
     """Test validation of write mode enum."""
@@ -70,16 +67,14 @@ def test_write_mode_validation():
         StoragePool(write_mode="InvalidMode")
     assert "type=enum" in str(exc_info.value)
 
-
 def test_endpoint_url_validation():
     """Test validation of endpoint URL."""
     # Valid endpoint URL
-
+   
     # Invalid endpoint URL
     with pytest.raises(ValidationError) as exc_info:
         StoragePool(endpoint="not-a-url")
     assert "URL" in str(exc_info.value)
-
 
 def test_date_time_validation():
     """Test validation of date_time field."""
@@ -97,20 +92,21 @@ def test_date_time_validation():
         StoragePool(date_time="not-a-date")
     assert "type=datetime" in str(exc_info.value)
 
-
 def test_model_export():
     """Test that the model correctly exports data."""
     pool = StoragePool(
-        name="Test Pool", provider="S3", write_mode="KEY", compress="Gzip"
+        name="Test Pool",
+        provider="S3",
+        write_mode="KEY",
+        compress="Gzip"
     )
-
+    
     data = pool.model_dump(by_alias=True)
     assert data["Name"] == "Test Pool"
     assert data["Provider"] == "S3"
     assert data["WriteMode"] == "KEY"
     assert data["Compress"] == "Gzip"
     assert "Id" not in data  # Should be excluded
-
 
 def test_optional_fields():
     """Test that optional fields can be None."""
@@ -127,9 +123,9 @@ def test_optional_fields():
         aws_base_url=None,
         disk_directory=None,
         azure_account=None,
-        azure_container=None,
+        azure_container=None
     )
-
+    
     assert pool.tenant_guid is None
     assert pool.encryption_key_guid is None
     assert pool.name is None

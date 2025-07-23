@@ -1,9 +1,9 @@
 import pytest
+from datetime import datetime, timezone
 from pydantic import ValidationError
 from view_sdk.models.semantic_cell import SemanticCellModel
 from view_sdk.models.semantic_chunk import SemanticChunkModel
 from view_sdk.enums.semantic_cell_type_enum import SemanticCellTypeEnum
-
 
 @pytest.fixture
 def valid_semantic_chunk_data():
@@ -13,9 +13,8 @@ def valid_semantic_chunk_data():
         "Start": 0,
         "End": 10,
         "Content": "Test content",
-        "Embeddings": [0.1, 0.2, 0.3],
+        "Embeddings": [0.1, 0.2, 0.3]
     }
-
 
 @pytest.fixture
 def valid_semantic_cell_data(valid_semantic_chunk_data):
@@ -24,9 +23,8 @@ def valid_semantic_cell_data(valid_semantic_chunk_data):
         "CellType": "Text",
         "Position": 0,
         "Chunks": [valid_semantic_chunk_data],
-        "Children": [],
+        "Children": []
     }
-
 
 def test_create_minimal_semantic_cell():
     """Test creating a semantic cell with minimal required fields."""
@@ -41,7 +39,6 @@ def test_create_minimal_semantic_cell():
     assert cell.sha1_hash is None
     assert cell.sha256_hash is None
 
-
 def test_create_complete_semantic_cell(valid_semantic_cell_data):
     """Test creating a semantic cell with all fields populated."""
     cell = SemanticCellModel(**valid_semantic_cell_data)
@@ -52,7 +49,6 @@ def test_create_complete_semantic_cell(valid_semantic_cell_data):
     assert len(cell.chunks) == 1
     assert isinstance(cell.chunks[0], SemanticChunkModel)
     assert len(cell.children) == 0
-
 
 def test_cell_type_validation():
     """Test validation of cell type enum."""
@@ -66,7 +62,6 @@ def test_cell_type_validation():
         SemanticCellModel(CellType="InvalidType")
     assert "type=enum" in str(exc_info.value)
 
-
 def test_position_validation():
     """Test validation of position field."""
     # Test valid position
@@ -78,21 +73,20 @@ def test_position_validation():
         SemanticCellModel(Position=-1)
     assert "greater than or equal to 0" in str(exc_info.value)
 
-
 def test_nested_children():
     """Test nested children structure."""
     child_data = {
         "GUID": "child-guid",
         "CellType": "Text",
         "Position": 1,
-        "Children": [],
+        "Children": []
     }
 
     parent_data = {
         "GUID": "parent-guid",
         "CellType": "Text",
         "Position": 0,
-        "Children": [child_data],
+        "Children": [child_data]
     }
 
     cell = SemanticCellModel(**parent_data)
@@ -100,15 +94,17 @@ def test_nested_children():
     assert isinstance(cell.children[0], SemanticCellModel)
     assert cell.children[0].guid == "child-guid"
 
-
 def test_model_aliases():
     """Test that field aliases are working correctly."""
-    data = {"guid": "test-guid", "cell_type": "Text", "position": 1}
+    data = {
+        "guid": "test-guid",
+        "cell_type": "Text",
+        "position": 1
+    }
     cell = SemanticCellModel(**data)
     assert cell.guid == "test-guid"
     assert cell.cell_type == SemanticCellTypeEnum.Text
     assert cell.position == 1
-
 
 def test_validate_lists():
     """Test list validation behavior."""

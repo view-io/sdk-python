@@ -1,7 +1,19 @@
+from typing import Optional
+
 from ...mixins import CreateableAPIResource
+from ...models.bucket import BucketMetadataModel
 from ...models.cleanup_request import CleanupRequest
 from ...models.cleanup_response import CleanupResponse
-from ...sdk_logging import log_debug
+from ...models.collection import CollectionModel
+from ...models.data_repository import DataRepositoryModel
+from ...models.embeddings_rule import EmbeddingsRuleModel
+from ...models.graph_repository import GraphRepositoryModel
+from ...models.metadata_rule import MetadataRuleModel
+from ...models.object_metadata import ObjectMetadataModel
+from ...models.pool import StoragePool
+from ...models.tenant_metadata import TenantMetadataModel
+from ...models.vector_repository import VectorRepositoryModel
+from ...sdk_logging import log_debug, log_error
 
 
 class Cleanup(CreateableAPIResource):
@@ -38,5 +50,9 @@ class Cleanup(CreateableAPIResource):
         Raises:
             Exception: If there's an error processing the cleanup request.
         """
+        cls.MODEL = None
+        cls.REQUEST_MODEL = None
         log_debug(f"Making cleanup request for storage: {kwargs}")
         return super().create(**kwargs)
+
+
