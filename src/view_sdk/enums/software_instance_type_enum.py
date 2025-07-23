@@ -8,7 +8,6 @@ class SoftwareInstanceTypeEnum(str, Enum):
     document_processor_server = "DocumentProcessorServer"
     processor_server = "ProcessorServer"
     lexi_server = "LexiServer"
-    orchestrator_server = "OrchestratorServer"
     vector_server = "VectorServer"
     storage_server = "StorageServer"
     semantic_cell_extractor_server = "SemanticCellExtractorServer"
