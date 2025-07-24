@@ -2,6 +2,7 @@ from datetime import datetime
 from typing import List
 
 from ...mixins import (
+    AllRetrievableAPIResource,
     CreateableAPIResource,
     DeletableAPIResource,
     RetrievableAPIResource,
@@ -67,10 +68,7 @@ class Object(
         cls.MODEL = ObjectMetadataModel
         cls.QUERY_PARAMS = {"expiration": None}
         return super().update(
-            resource_guid,
-            bucket_guid=bucket_guid,
-            expiration=expiration_date,
-            data={"ExpirationUtc": expiration_date},
+            resource_guid, bucket_guid=bucket_guid, expiration=expiration_date, data={"ExpirationUtc": expiration_date}
         )
 
     @classmethod
@@ -117,7 +115,7 @@ class Object(
         return super().update(
             resource_guid, bucket_guid=bucket_guid, data=data, headers=headers
         )
-
+    
     @classmethod
     def delete(cls, bucket_guid: str, resource_guid: str):
         """
@@ -138,9 +136,7 @@ class ObjectTags(
     QUERY_PARAMS = {"tags": None}
 
     @classmethod
-    def create_tags(
-        cls, bucket_guid: str, resource_guid: str, tags: List[StorageTagModel]
-    ) -> StorageTagModel:
+    def create_tags(cls, bucket_guid: str, resource_guid: str, tags: List[StorageTagModel]) -> StorageTagModel:
         """
         Create tags for a specific object.
 
@@ -150,7 +146,7 @@ class ObjectTags(
         Returns:
             StorageTagModel: The tags for the object.
         """
-        return super().update(resource_guid, bucket_guid=bucket_guid, data=tags)
+        return super().update(resource_guid, bucket_guid= bucket_guid, data=tags)
 
     @classmethod
     def read_tags(cls, bucket_guid: str, resource_guid: str):
@@ -163,7 +159,7 @@ class ObjectTags(
         """
         cls.MODEL = None
         return super().retrieve(resource_guid, bucket_guid=bucket_guid)
-
+    
     @classmethod
     def delete_tags(cls, bucket_guid: str, resource_guid: str):
         """
@@ -173,7 +169,7 @@ class ObjectTags(
         Returns:
             True if the tags were deleted successfully, False otherwise.
         """
-        return super().delete(resource_guid, bucket_guid=bucket_guid)
+        return super().delete(resource_guid, bucket_guid=bucket_guid)   
 
 
 class ObjectACL(
@@ -222,3 +218,4 @@ class ObjectACL(
             True if the ACL was deleted successfully, False otherwise.
         """
         return super().delete(resource_guid, bucket_guid=bucket_guid)
+

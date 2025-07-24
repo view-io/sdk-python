@@ -1,9 +1,4 @@
-from ...mixins import (
-    CreateableAPIResource,
-    DeletableAPIResource,
-    ExistsAPIResource,
-    RetrievableAPIResource,
-)
+from ...mixins import CreateableAPIResource, DeletableAPIResource, ExistsAPIResource, RetrievableAPIResource
 from ...models.embeddings_document import EmbeddingsDocumentModel
 from ...sdk_configuration import Service
 
@@ -56,8 +51,8 @@ class Documents(
             ValueError: If required fields are missing or invalid.
         """
         cls.CREATE_METHOD = "POST"
-        return super().create(repo_guid=repo_guid, **kwargs)
-
+        return  super().create(repo_guid=repo_guid, **kwargs)
+    
     @classmethod
     def retrieve(cls, repo_guid: str, document_guid: str) -> EmbeddingsDocumentModel:
         """
@@ -85,7 +80,7 @@ class Documents(
             bool: True if the document exists, False otherwise.
         """
         return super().exists(document_guid, repo_guid=repo_guid)
-
+    
     @classmethod
     def delete(cls, repo_guid: str, document_guid: str) -> bool:
         """
@@ -120,4 +115,4 @@ class Documents(
             ValueError: If repo_guid is invalid or missing, or if filter parameters
                 are invalid.
         """
-        return super().delete(None, repo_guid=repo_guid, **filter_params)
+        return cls.delete(None, repo_guid=repo_guid, **filter_params)

@@ -15,9 +15,7 @@ class TestDataNodeModel:
 
     def test_init_with_values(self):
         """Test initialization with provided values."""
-        node = DataNodeModel(
-            key="test_key", data="test_data", type_=DataTypeEnum.String
-        )
+        node = DataNodeModel(key="test_key", data="test_data", type_=DataTypeEnum.String)
         assert node.key == "test_key"
         assert node.data == "test_data"
         assert node.type_ == DataTypeEnum.String
@@ -66,7 +64,7 @@ class TestDataNodeModel:
             (None, DataTypeEnum.Null),
             (2147483648, DataTypeEnum.Long),
         ]
-
+        
         for value, expected_type in test_cases:
             node = DataNodeModel(key="test", data=value)
             assert node.type_ == expected_type, f"Failed for value: {value}"

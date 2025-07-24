@@ -1,12 +1,10 @@
 from ...mixins import AllRetrievableAPIResource
 from ...sdk_configuration import Service
 
-
 class Connections(AllRetrievableAPIResource):
     """
     Connections resource for Director operations.
     """
-
     RESOURCE_NAME = "connections"
     REQUIRES_TENANT = False
     MODEL = None

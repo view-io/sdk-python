@@ -3,17 +3,15 @@ from datetime import datetime, timezone
 from pydantic import ValidationError
 from view_sdk.models.data_repository import DataRepositoryModel
 
-
 def test_data_repository_minimal_creation():
     """Test creating a DataRepository with minimal required fields."""
     repo = DataRepositoryModel(
         tenant_guid="12345678-1234-5678-1234-567812345678",
-        owner_guid="98765432-1234-5678-1234-567812345678",
+        owner_guid="98765432-1234-5678-1234-567812345678"
     )
     assert repo.repository_type == "File"
     assert repo.name == "My file repository"
     assert isinstance(repo.created_utc, datetime)
-
 
 def test_data_repository_full_creation():
     """Test creating a DataRepository with all fields."""
@@ -46,7 +44,7 @@ def test_data_repository_full_creation():
         "nfs_group_id": 1000,
         "nfs_share_name": "test-nfs-share",
         "nfs_version": "4.1",
-        "created_utc": datetime.now(timezone.utc),
+        "created_utc": datetime.now(timezone.utc)
     }
     repo = DataRepositoryModel(**data)
     assert repo.name == "My file repository"
@@ -56,7 +54,6 @@ def test_data_repository_full_creation():
     assert repo.disk_directory == "/test/directory/"
     assert repo.s3_bucket_name == "test-bucket"
     assert repo.nfs_user_id == 1000
-
 
 def test_directory_path_normalization():
     """Test that directory paths are normalized correctly."""
@@ -71,14 +68,13 @@ def test_directory_path_normalization():
     assert repo.s3_endpoint_url == "http://localhost:9000/test/"
     assert repo.s3_base_url == "http://localhost:9000/bucket/"
 
-
 def test_invalid_nfs_ids():
     """Test validation of NFS user and group IDs."""
     with pytest.raises(ValidationError) as exc_info:
         DataRepositoryModel(
             tenant_guid="12345678-1234-5678-1234-567812345678",
             owner_guid="98765432-1234-5678-1234-567812345678",
-            nfs_user_id=-1,
+            nfs_user_id=-1
         )
     assert "nfs_user_id" in str(exc_info.value)
 
@@ -86,16 +82,15 @@ def test_invalid_nfs_ids():
         DataRepositoryModel(
             tenant_guid="12345678-1234-5678-1234-567812345678",
             owner_guid="98765432-1234-5678-1234-567812345678",
-            nfs_group_id=-1,
+            nfs_group_id=-1
         )
     assert "nfs_group_id" in str(exc_info.value)
-
 
 def test_optional_fields():
     """Test that optional fields can be None."""
     repo = DataRepositoryModel(
         tenant_guid="12345678-1234-5678-1234-567812345678",
-        owner_guid="98765432-1234-5678-1234-567812345678",
+        owner_guid="98765432-1234-5678-1234-567812345678"
     )
     assert repo.disk_directory is None
     assert repo.s3_endpoint_url is None
@@ -125,7 +120,7 @@ def test_alias_mapping():
         "Name": "Test Repository",
         "RepositoryType": "S3",
         "UseSsl": False,
-        "IncludeSubdirectories": False,
+        "IncludeSubdirectories": False
     }
     repo = DataRepositoryModel(**data)
     assert repo.tenant_guid == "12345678-1234-5678-1234-567812345678"

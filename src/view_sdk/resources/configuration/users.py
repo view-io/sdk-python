@@ -2,10 +2,10 @@ from ...mixins import (
     AllRetrievableAPIResource,
     CreateableAPIResource,
     DeletableAPIResource,
-    EnumerableAPIResource,
     ExistsAPIResource,
     RetrievableAPIResource,
     UpdatableAPIResource,
+    EnumerableAPIResource
 )
 from ...models.user_master import UserMasterModel
 
@@ -17,7 +17,7 @@ class User(
     AllRetrievableAPIResource,
     UpdatableAPIResource,
     DeletableAPIResource,
-    EnumerableAPIResource,
+    EnumerableAPIResource
 ):
     RESOURCE_NAME: str = "users"
     MODEL = UserMasterModel

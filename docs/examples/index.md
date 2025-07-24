@@ -8,6 +8,7 @@ Explore these examples to learn how to use the View AI SDK effectively.
 basic_examples
 configuration_examples
 assistant_examples
+graph_examples
 vector_examples
 advanced_examples
 ```

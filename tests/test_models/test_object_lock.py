@@ -2,7 +2,6 @@ import pytest
 from datetime import datetime, timezone
 from view_sdk.models.object_lock import ObjectLockModel
 
-
 def test_object_lock_create_valid():
     data = {
         "guid": "123e4567-e89b-12d3-a456-426614174000",
@@ -15,7 +14,7 @@ def test_object_lock_create_valid():
         "version": "test-version",
         "is_read_lock": True,
         "is_write_lock": False,
-        "created_utc": datetime(2023, 4, 1, 12, 0, 0, tzinfo=timezone.utc),
+        "created_utc": datetime(2023, 4, 1, 12, 0, 0, tzinfo=timezone.utc)
     }
 
     lock = ObjectLockModel(**data)
@@ -31,7 +30,10 @@ def test_object_lock_create_valid():
     assert not lock.is_write_lock
     assert lock.created_utc == datetime(2023, 4, 1, 12, 0, 0, tzinfo=timezone.utc)
 
-
 def test_object_lock_invalid_data():
     with pytest.raises(ValueError):
-        ObjectLockModel(guid="invalid-guid", key=None, version=None)
+        ObjectLockModel(
+            guid="invalid-guid",
+            key=None,
+            version=None
+        )
