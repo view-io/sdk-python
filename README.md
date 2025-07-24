@@ -66,7 +66,6 @@ The SDK provides access to the following services:
   - Add and connect nodes with edges
   - Support for graph data and metadata
 - **Lexi**: Natural language processing capabilities
-- **Orchestration**: Workflow and process orchestration
 - **Processor**: Data processing and transformation
 - **Semantic**: Semantic analysis and processing
 - **Storage**: Data storage operations
@@ -107,13 +106,6 @@ try:
         repo_guid="example-vector-repository"
     )
     print(f"Repository statistics: {repo_stats}")
-
-    # Working with Triggers
-    # List all triggers
-    all_triggers = view_sdk.orchestration.Trigger.retrieve_all()
-    print(f"Found {len(all_triggers)} triggers")
-    if all_triggers:
-        print(f"First trigger GUID: {all_triggers[0].guid}")
 
     # Alternative way to enumerate documents using filters dictionary
     filters = {
@@ -255,7 +247,7 @@ tox -e build
 # Return to view SDK directory
 cd ../python_sdk_viewio
 
-# Install with testing dependencies (including litegraph SDK)
+# Install with testing dependencies
 pip install -e ".[testing]"
 ```
 

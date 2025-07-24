@@ -5,7 +5,6 @@
 - [ ] Complete Configuration service documentation
 - [ ] Complete Graphs service documentation
 - [ ] Complete Lexi service documentation
-- [ ] Complete Orchestration service documentation
 - [ ] Complete Processor service documentation
 - [ ] Complete Semantic service documentation
 - [ ] Complete Storage service documentation

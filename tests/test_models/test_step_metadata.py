@@ -2,12 +2,14 @@ from datetime import datetime, timezone
 from view_sdk.models.step_metadata import StepMetadataModel
 from view_sdk.enums.step_runtime_enum import StepRuntimeEnum
 
+
 def make_required_fields():
     return dict(
         step_archive_filename="archive.zip",
         step_entrypoint_filename="main.py",
         step_entrypoint_type="python",
     )
+
 
 def test_step_metadata_defaults():
     fields = make_required_fields()
@@ -19,6 +21,7 @@ def test_step_metadata_defaults():
     assert model.step_entrypoint_type == "python"
     assert model.debug_assembly_load is False
     assert isinstance(model.created_utc, datetime)
+
 
 def test_step_metadata_with_values():
     fields = make_required_fields()
@@ -43,6 +46,7 @@ def test_step_metadata_with_values():
     assert model.dependencies_file == "reqs.txt"
     assert model.package == b"abc"
 
+
 def test_step_metadata_aliases():
     fields = {
         "StepArchiveFilename": "archive.zip",
@@ -53,6 +57,7 @@ def test_step_metadata_aliases():
     assert model.step_archive_filename == "archive.zip"
     assert model.step_entrypoint_filename == "main.py"
     assert model.step_entrypoint_type == "python"
+
 
 def test_step_metadata_serialization():
     fields = make_required_fields()

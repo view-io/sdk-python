@@ -9,7 +9,6 @@ assistant
 configuration
 graphs
 lexi
-orchestration
 processor
 semantic
 storage
@@ -26,7 +25,6 @@ vector
   - Vector Repositories, Webhooks
 - **Graphs**: Graph database operations
 - **Lexi**: Natural language processing capabilities
-- **Orchestration**: Workflow and process orchestration
 - **Processor**: Data processing and transformation
 - **Semantic**: Semantic analysis and processing
 - **Storage**: Data storage operations

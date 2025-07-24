@@ -49,7 +49,10 @@ def sample_udr_response():
 def sample_document_data():
     return b64encode(b"Sample document content").decode("utf-8")
 
-def test_process_document_success(mock_http_client, sample_udr_response, sample_document_data):
+
+def test_process_document_success(
+    mock_http_client, sample_udr_response, sample_document_data
+):
     # Setup mock response
     mock_response = Mock()
     mock_response.status_code = 200
@@ -66,9 +69,7 @@ def test_process_document_success(mock_http_client, sample_udr_response, sample_
     assert result.success == sample_udr_response["Success"]
 
     # Test with direct data
-    result = UdrGenerator.generate(
-        data=b"Direct content", type_=DocumentTypeEnum.Text
-    )
+    result = UdrGenerator.generate(data=b"Direct content", type_=DocumentTypeEnum.Text)
 
     assert isinstance(result, UdrDocumentModel)
     assert result.guid == sample_udr_response["GUID"]

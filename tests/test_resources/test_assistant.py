@@ -14,7 +14,9 @@ def mock_client():
 
 @pytest.fixture
 def mock_super():
-    with patch("view_sdk.resources.assistant.assistant.CreateableAPIResource.create") as mock:
+    with patch(
+        "view_sdk.resources.assistant.assistant.CreateableAPIResource.create"
+    ) as mock:
         yield mock
 
 
@@ -51,7 +53,10 @@ class TestAssistant:
         mock_client.sse_request.return_value = mock_events
 
         # Execute
-        chat_request = {"messages": [{"role": "user", "content": "Hello"}], "Stream": True}
+        chat_request = {
+            "messages": [{"role": "user", "content": "Hello"}],
+            "Stream": True,
+        }
         result = list(Assistant.chat_rag_messages(**chat_request))
 
         # Assert
@@ -65,20 +70,23 @@ class TestAssistant:
         """Test chat_rag_messages method with streaming disabled."""
         # Setup
         mock_super.return_value = {"response": "test"}
-        
+
         # Execute
-        chat_request = {"messages": [{"role": "user", "content": "Hello"}], "Stream": False}
+        chat_request = {
+            "messages": [{"role": "user", "content": "Hello"}],
+            "Stream": False,
+        }
         generator = Assistant.chat_rag_messages(**chat_request)
 
         # Assert - method returns a generator that raises StopIteration with the result
-        assert hasattr(generator, '__iter__')  # It's a generator
+        assert hasattr(generator, "__iter__")  # It's a generator
         try:
             next(generator)
             assert False, "Expected StopIteration"
         except StopIteration as e:
             result = e.value
             assert result == {"response": "test"}
-        
+
         mock_super.assert_called_once_with(**chat_request)
         assert Assistant.RESOURCE_NAME == "assistant/rag/chat"
 
@@ -93,7 +101,10 @@ class TestAssistant:
 
         # Execute
         config_id = "test-config-123"
-        chat_request = {"messages": [{"role": "user", "content": "Hello"}], "Stream": True}
+        chat_request = {
+            "messages": [{"role": "user", "content": "Hello"}],
+            "Stream": True,
+        }
         result = list(Assistant.chat_config(config_id, **chat_request))
 
         # Assert
@@ -113,7 +124,10 @@ class TestAssistant:
         mock_client.sse_request.return_value = mock_events
 
         # Execute
-        chat_request = {"messages": [{"role": "user", "content": "Hello"}], "Stream": True}
+        chat_request = {
+            "messages": [{"role": "user", "content": "Hello"}],
+            "Stream": True,
+        }
         result = list(Assistant.chat_only(**chat_request))
 
         # Assert
@@ -127,20 +141,23 @@ class TestAssistant:
         """Test chat_only method with streaming disabled."""
         # Setup
         mock_super.return_value = {"response": "only test"}
-        
+
         # Execute
-        chat_request = {"messages": [{"role": "user", "content": "Hello"}], "Stream": False}
+        chat_request = {
+            "messages": [{"role": "user", "content": "Hello"}],
+            "Stream": False,
+        }
         generator = Assistant.chat_only(**chat_request)
 
         # Assert - method returns a generator that raises StopIteration with the result
-        assert hasattr(generator, '__iter__')  # It's a generator
+        assert hasattr(generator, "__iter__")  # It's a generator
         try:
             next(generator)
             assert False, "Expected StopIteration"
         except StopIteration as e:
             result = e.value
             assert result == {"response": "only test"}
-        
+
         mock_super.assert_called_once_with(**chat_request)
         assert Assistant.RESOURCE_NAME == "assistant/chat/completions"
 
@@ -150,7 +167,10 @@ class TestAssistant:
         mock_client.sse_request.side_effect = Exception("Test error")
 
         # Execute
-        chat_request = {"messages": [{"role": "user", "content": "Hello"}], "Stream": True}
+        chat_request = {
+            "messages": [{"role": "user", "content": "Hello"}],
+            "Stream": True,
+        }
         result = list(Assistant.chat_rag_messages(**chat_request))
 
         # Assert
@@ -163,7 +183,10 @@ class TestAssistant:
 
         # Execute
         config_id = "test-config"
-        chat_request = {"messages": [{"role": "user", "content": "Hello"}], "Stream": True}
+        chat_request = {
+            "messages": [{"role": "user", "content": "Hello"}],
+            "Stream": True,
+        }
         result = list(Assistant.chat_config(config_id, **chat_request))
 
         # Assert
@@ -175,7 +198,10 @@ class TestAssistant:
         mock_client.sse_request.side_effect = Exception("Test error")
 
         # Execute
-        chat_request = {"messages": [{"role": "user", "content": "Hello"}], "Stream": True}
+        chat_request = {
+            "messages": [{"role": "user", "content": "Hello"}],
+            "Stream": True,
+        }
         result = list(Assistant.chat_only(**chat_request))
 
         # Assert
@@ -215,7 +241,10 @@ class TestAssistant:
         mock_client.sse_request.return_value = mock_events
 
         # Execute
-        chat_request = {"messages": [{"role": "user", "content": "Hello"}], "Stream": True}
+        chat_request = {
+            "messages": [{"role": "user", "content": "Hello"}],
+            "Stream": True,
+        }
         result = list(Assistant.chat_rag_messages(**chat_request))
 
         # Assert - string events should be yielded as-is
