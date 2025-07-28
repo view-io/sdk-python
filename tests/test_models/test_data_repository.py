@@ -12,6 +12,7 @@ def test_data_repository_minimal_creation():
     )
     assert repo.repository_type == "File"
     assert repo.name == "My file repository"
+    assert repo.id == 0  # Default id should be 0
     assert isinstance(repo.created_utc, datetime)
 
 
@@ -123,7 +124,7 @@ def test_alias_mapping():
         "TenantGUID": "12345678-1234-5678-1234-567812345678",
         "OwnerGUID": "98765432-1234-5678-1234-567812345678",
         "Name": "Test Repository",
-        "RepositoryType": "S3",
+        "RepositoryType": "AmazonS3",
         "UseSsl": False,
         "IncludeSubdirectories": False,
     }
@@ -131,4 +132,4 @@ def test_alias_mapping():
     assert repo.tenant_guid == "12345678-1234-5678-1234-567812345678"
     assert repo.owner_guid == "98765432-1234-5678-1234-567812345678"
     assert repo.name == "Test Repository"
-    assert repo.repository_type == "S3"
+    assert repo.repository_type == "AmazonS3"

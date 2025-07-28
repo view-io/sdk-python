@@ -30,12 +30,8 @@ class SemanticCell(CreateableAPIResource):
         if request is not None:
             if not getattr(request, "data_", None):
                 raise ValueError("No data supplied for semantic cell extraction.")
-            if not getattr(request, "metadata_rule", None):
-                raise ValueError("Metadata rule is required.")
         else:
             # Handle direct kwargs (not wrapped in a request object)
             if not kwargs.get("data"):
                 raise ValueError("No data supplied for semantic cell extraction.")
-            if not kwargs.get("metadata_rule"):
-                raise ValueError("Metadata rule is required.")
         return super().create(**kwargs)

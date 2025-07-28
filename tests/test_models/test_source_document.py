@@ -57,7 +57,6 @@ class TestSourceDocumentModel:
 
         # Check default values
         assert doc.bucket_guid is None
-        assert doc.data_flow_request_guid is None
         assert doc.graph_repository_guid is None
         assert doc.graph_node_identifier is None
         assert doc.data_repository_guid is None
@@ -129,7 +128,5 @@ class TestSourceDocumentModel:
     def test_data_repository_fields(self, basic_source_document):
         doc = basic_source_document.model_copy()
         doc.data_repository_guid = str(uuid.uuid4())
-        doc.data_flow_request_guid = str(uuid.uuid4())
 
         assert isinstance(doc.data_repository_guid, str)
-        assert isinstance(doc.data_flow_request_guid, str)

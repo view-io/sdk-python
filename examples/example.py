@@ -17,13 +17,6 @@ view_sdk.configure(
     verbose=False,
 )
 
-
-# export graph as gexf
-view_sdk_graph = view_sdk.graphs.Graph.export_gexf(
-    resource_guid="00000000-0000-0000-0000-000000000000"
-)
-print(view_sdk_graph)
-
 # enumerate blobs
 blobs = view_sdk.configuration.Blob.enumerate()
 print(f"Result: {blobs}")

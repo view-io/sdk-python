@@ -63,8 +63,10 @@ class StoragePool(BaseModel):
         alias="EnableReadCaching",
         description="Enable or disable read caching",
     )
-    date_time: datetime = Field(
-        default_factory=lambda: datetime.now(timezone.utc), alias="DateTime"
+    created_utc: datetime = Field(
+        default_factory=lambda: datetime.now(timezone.utc),
+        alias="CreatedUtc",
+        description="Created UTC",
     )
 
     model_config = ConfigDict(use_enum_values=True, populate_by_name=True)

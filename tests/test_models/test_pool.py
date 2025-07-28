@@ -26,7 +26,7 @@ def test_create_complete_storage_pool():
         "azure_container": "testcontainer",
         "compress": "Gzip",
         "enable_read_caching": True,
-        "date_time": "2024-01-01T00:00:00Z",
+        "created_utc": "2024-01-01T00:00:00Z",
     }
 
     pool = StoragePool(**data)
@@ -42,7 +42,7 @@ def test_create_complete_storage_pool():
     assert pool.aws_bucket == data["aws_bucket"]
     assert pool.compress == CompressionTypeEnum.Gzip
     assert pool.enable_read_caching is True
-    assert pool.date_time == datetime(2024, 1, 1, 0, 0, 0, tzinfo=timezone.utc)
+    assert pool.created_utc == datetime(2024, 1, 1, 0, 0, 0, tzinfo=timezone.utc)
 
 
 def test_compression_type_validation():
@@ -82,19 +82,19 @@ def test_endpoint_url_validation():
 
 
 def test_date_time_validation():
-    """Test validation of date_time field."""
+    """Test validation of created date field."""
     # Valid datetime string
-    pool = StoragePool(date_time="2024-01-01T00:00:00Z")
-    assert isinstance(pool.date_time, datetime)
+    pool = StoragePool(created_utc="2024-01-01T00:00:00Z")
+    assert isinstance(pool.created_utc, datetime)
 
     # Valid datetime object
     now = datetime.now(timezone.utc)
-    pool = StoragePool(date_time=now)
-    assert pool.date_time == now
+    pool = StoragePool(created_utc=now)
+    assert pool.created_utc == now
 
     # Invalid datetime
     with pytest.raises(ValidationError) as exc_info:
-        StoragePool(date_time="not-a-date")
+        StoragePool(created_utc="not-a-date")
     assert "type=datetime" in str(exc_info.value)
 
 

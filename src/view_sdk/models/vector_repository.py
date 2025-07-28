@@ -26,17 +26,6 @@ class VectorRepositoryModel(BaseModel):
     database_port: int = Field(default=0, ge=0, le=65535, alias="DatabasePort")
     database_user: Optional[str] = Field(None, alias="DatabaseUser")
     database_password: Optional[str] = Field(None, alias="DatabasePassword")
-    prompt_prefix: str = Field(
-        default=(
-            "Use the following pieces of context to answer the question at the end. "
-            "Documents are sorted by similarity to the question. "
-            "If the context is not enough for you to answer the question, "
-            "politely explain that you don't have relevant context. "
-            "Do not try to make up an answer."
-        ),
-        alias="PromptPrefix",
-    )
-    prompt_suffix: Optional[str] = Field(None, alias="PromptSuffix")
     created_utc: datetime = Field(
         default_factory=lambda: datetime.now(timezone.utc), alias="CreatedUtc"
     )

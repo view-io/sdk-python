@@ -18,6 +18,7 @@ class EmbeddingsDocumentModel(BaseModel):
         description="Indicates if the parser was successful",
     )
 
+    id: int = Field(default=0, exclude=True, alias="Id")
     guid: str = Field(
         default_factory=lambda: str(uuid.uuid4()), alias="GUID", description="GUID"
     )
@@ -40,10 +41,15 @@ class EmbeddingsDocumentModel(BaseModel):
         default=None, alias="SourceDocumentGUID", description="Source document GUID"
     )
 
+    crawl_plan_guid: Optional[str] = Field(
+        default=None, alias="CrawlPlanGUID", description="Crawl plan GUID"
+    )
     data_repository_guid: Optional[str] = Field(
         default=None, alias="DataRepositoryGUID", description="Data repository GUID"
     )
-
+    crawl_operation_guid: Optional[str] = Field(
+        default=None, alias="CrawlOperationGUID", description="Crawl operation GUID"
+    )
     bucket_guid: Optional[str] = Field(
         default=None, alias="BucketGUID", description="Bucket GUID"
     )

@@ -272,11 +272,6 @@ def createCrawlSchedule():
 # createCrawlSchedule()
 
 
-def existsCrawlSchedule():
-    crawlSchedule = crawler.CrawlSchedule.exists("00000000-0000-0000-0000-000000000000")
-    print(crawlSchedule)
-
-
 # existsDataRepository()
 
 

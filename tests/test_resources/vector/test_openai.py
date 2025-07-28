@@ -68,7 +68,7 @@ class TestOpenAI:
         ):
             with patch(
                 "view_sdk.resources.vector.openai.EmbeddingsGeneratorMixin.create"
-            ) as mock_create:
+            ):
                 # Execute
                 OpenAI.generate_embeddings(embed_request)
 
@@ -103,6 +103,6 @@ class TestOpenAI:
                 result = OpenAI.generate_embeddings(embed_request)
 
                 # Assert
-                assert result.success is False
-                assert result.status_code == 500
-                assert result.model == embed_request.model
+                assert isinstance(result, OpenAiEmbeddingsResult)
+                assert result.object is None
+                assert result.data == []

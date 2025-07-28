@@ -22,8 +22,6 @@ def test_create_complete_vector_repository():
         "database_port": 5432,
         "database_user": "admin",
         "database_password": "secret",
-        "prompt_prefix": "Custom prefix:",
-        "prompt_suffix": "Custom suffix:",
         "created_utc": "2024-01-01T00:00:00Z",
     }
 
@@ -42,8 +40,6 @@ def test_create_complete_vector_repository():
     assert repo.database_port == data["database_port"]
     assert repo.database_user == data["database_user"]
     assert repo.database_password == data["database_password"]
-    assert repo.prompt_prefix == data["prompt_prefix"]
-    assert repo.prompt_suffix == data["prompt_suffix"]
 
 
 def test_repository_type_validation():
@@ -175,7 +171,6 @@ def test_optional_fields():
         database_table=None,
         database_user=None,
         database_password=None,
-        prompt_suffix=None,
     )
 
     assert repo.endpoint_url is None
@@ -185,20 +180,6 @@ def test_optional_fields():
     assert repo.database_table is None
     assert repo.database_user is None
     assert repo.database_password is None
-    assert repo.prompt_suffix is None
-
-
-def test_prompt_prefix_default():
-    """Test the default prompt prefix value and customization."""
-    # Test default value
-    repo = VectorRepositoryModel()
-    assert "Use the following pieces of context" in repo.prompt_prefix
-    assert "politely explain that you don't have relevant context" in repo.prompt_prefix
-
-    # Test custom value
-    custom_prefix = "Custom prompt prefix"
-    repo = VectorRepositoryModel(prompt_prefix=custom_prefix)
-    assert repo.prompt_prefix == custom_prefix
 
 
 def test_name_validation():

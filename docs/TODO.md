@@ -3,7 +3,6 @@
 ## Service Documentation
 - [ ] Complete Assistant service documentation
 - [ ] Complete Configuration service documentation
-- [ ] Complete Graphs service documentation
 - [ ] Complete Lexi service documentation
 - [ ] Complete Processor service documentation
 - [ ] Complete Semantic service documentation
@@ -31,9 +30,6 @@
 - [ ] Add Assistant Examples
   - [ ] Basic usage
   - [ ] Advanced features
-- [ ] Add Graph Examples
-  - [ ] Basic operations
-  - [ ] Complex queries
 - [ ] Add Vector Examples
   - [ ] Vector operations
   - [ ] Similarity search

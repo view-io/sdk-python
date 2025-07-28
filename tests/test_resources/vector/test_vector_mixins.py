@@ -63,7 +63,7 @@ def test_generate_embeddings_success(mock_client, mock_request):
 
     result = TestEmbeddingsGenerator.generate_embeddings(mock_request)
 
-    assert result.success == True
+    assert result.success
     mock_client.request.assert_called_once_with(
         "POST", "v1.0/embeddings", json=mock_request.model_dump(), timeout=30
     )
@@ -92,7 +92,7 @@ def test_generate_embeddings_error_handling(mock_client, mock_request):
     result = TestEmbeddingsGenerator.generate_embeddings(mock_request)
 
     # Verify the result
-    assert result.success == False
+    assert not result.success
     assert result.status_code == 500
     assert result.model == TestEmbeddingsGenerator.DEFAULT_MODEL
 
@@ -108,7 +108,7 @@ def test_load_model_success(mock_client):
 
     result = TestModelLoader.load_model("test-model")
 
-    assert result == True
+    assert result
     mock_client.request.assert_called_once()
 
 
@@ -122,7 +122,7 @@ def test_load_model_error_handling(mock_client):
 
     result = TestModelLoader.load_model("test-model")
 
-    assert result == False
+    assert not result
 
 
 # MultiModelLoaderMixin Tests
@@ -131,7 +131,7 @@ def test_load_models_success(mock_client):
 
     result = TestMultiModelLoader.load_models(["model1", "model2"])
 
-    assert result == True
+    assert result
     assert mock_client.request.call_count == 2
 
 
@@ -145,7 +145,7 @@ def test_load_models_partial_failure(mock_client):
 
     result = TestMultiModelLoader.load_models(["model1", "model2"])
 
-    assert result == False
+    assert not result
 
 
 # ModelDeletionMixin Tests
@@ -154,7 +154,7 @@ def test_delete_model_success(mock_client):
 
     result = TestModelDeletion.delete_model("test-model")
 
-    assert result == True
+    assert result
     mock_client.request.assert_called_once()
 
 
@@ -168,7 +168,7 @@ def test_delete_model_error_handling(mock_client):
 
     result = TestModelDeletion.delete_model("test-model")
 
-    assert result == False
+    assert not result
 
 
 # ConnectivityMixin Tests
@@ -182,7 +182,7 @@ def test_validate_connectivity_success(mock_client):
 
     result = TestConnectivity.validate_connectivity()
 
-    assert result == False  # Expecting True for successful connectivity
+    assert not result  # Expecting True for successful connectivity
 
 
 def test_validate_connectivity_error(mock_client):
@@ -190,4 +190,4 @@ def test_validate_connectivity_error(mock_client):
 
     result = TestConnectivity.validate_connectivity()
 
-    assert result == False
+    assert not result

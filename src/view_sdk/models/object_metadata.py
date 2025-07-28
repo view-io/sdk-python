@@ -32,16 +32,16 @@ class ObjectMetadataModel(BaseModel):
     data_repository_guid: Optional[str] = Field(
         default=None, alias="DataRepositoryGUID"
     )
+    crawl_operation_guid: Optional[str] = Field(
+        default=None, alias="CrawlOperationGUID"
+    )
     graph_repository_guid: Optional[str] = Field(
         default=None, alias="GraphRepositoryGUID"
     )
     graph_node_identifier: Optional[str] = Field(
         default=None, alias="GraphNodeIdentifier"
     )
-    data_flow_request_guid: Optional[str] = Field(
-        default=None, alias="DataFlowRequestGUID"
-    )
-    data_flow_success: Optional[bool] = Field(default=None, alias="DataFlowSuccess")
+    processing_success: Optional[bool] = Field(default=None, alias="ProcessingSuccess")
     key: str = Field(default="", alias="Key")
     version: str = Field(default="", alias="Version")
     is_latest: bool = Field(default=True, alias="IsLatest")

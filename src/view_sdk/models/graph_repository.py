@@ -22,6 +22,7 @@ class GraphRepositoryModel(BaseModel):
     password: Optional[str] = Field(None, alias="Password")
     hostname: Optional[str] = Field(None, alias="Hostname")
     port: int = Field(default=0, ge=0, le=65535, alias="Port")
+    ssl: bool = Field(default=False, alias="Ssl")
     graph_identifier: Optional[str] = Field(None, alias="GraphIdentifier")
     created_utc: datetime = Field(
         default_factory=lambda: datetime.now(timezone.utc), alias="CreatedUtc"

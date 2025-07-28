@@ -21,6 +21,7 @@ class BlobModel(BaseModel):
     length: int = Field(0, ge=0, alias="Length")
     ref_obj_type: Optional[str] = Field(None, alias="RefObjType")
     ref_obj_guid: Optional[str] = Field(None, alias="RefObjGUID")
+    is_public: bool = Field(default=False, alias="IsPublic")
     md5_hash: str = Field(default="", alias="MD5Hash")
     sha1_hash: Optional[str] = Field(None, alias="SHA1Hash")
     sha256_hash: Optional[str] = Field(None, alias="SHA256Hash")

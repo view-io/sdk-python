@@ -29,6 +29,13 @@ class EnumerationResultModel(BaseModel, Generic[T]):
         ge=1,
     )
 
+    skip: int = Field(
+        default=0,
+        alias="Skip",
+        description="Number of results to skip",
+        ge=0,
+    )
+
     iterations_required: int = Field(
         default=0, alias="IterationsRequired", description="Iterations required", ge=0
     )

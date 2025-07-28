@@ -30,14 +30,7 @@ class MetadataRuleModel(BaseModel):
         alias="CleanupEndpoint",
     )
     cleanup_access_key: str = Field(default="default", alias="CleanupAccessKey")
-    min_chunk_content_length: int = Field(
-        default=2, ge=1, alias="MinChunkContentLength"
-    )
-    max_chunk_content_length: int = Field(
-        default=512, ge=256, le=16384, alias="MaxChunkContentLength"
-    )
-    max_tokens_per_chunk: int = Field(default=256, ge=1, alias="MaxTokensPerChunk")
-    shift_size: int = Field(default=512, ge=1, le=16384, alias="ShiftSize")
+    image_text_extraction: bool = Field(default=True, alias="ImageTextExtraction")
     top_terms: int = Field(default=25, ge=1, alias="TopTerms")
     case_insensitive: bool = Field(default=True, alias="CaseInsensitive")
     include_flattened: bool = Field(default=True, alias="IncludeFlattened")

@@ -2,12 +2,18 @@ from typing import List, Optional
 
 from pydantic import BaseModel, ConfigDict, Field
 
+from .generate_embeddings_result import GenerateEmbeddingsResultModel
+from .generate_embeddings_request import GenerateEmbeddingsRequestModel
+from .content_embedding import ContentEmbeddingModel
+from .api_error_response import ApiErrorResponseModel
+
 
 class OpenAiEmbeddings(BaseModel):
     """OpenAI embeddings data."""
 
     index: int
     embeddings: List[float]
+    object: Optional[str]
 
 
 class OpenAiEmbeddingsResult(BaseModel):
@@ -15,31 +21,51 @@ class OpenAiEmbeddingsResult(BaseModel):
 
     object: Optional[str] = Field(default=None, alias="Object")
     data: List[OpenAiEmbeddings] = Field(default_factory=list, alias="Data")
-    success: bool = Field(default=True, alias="Success")
-    status_code: int = Field(default=200, alias="StatusCode")
-    model: Optional[str] = Field(default=None, alias="Model")
 
     model_config = ConfigDict(populate_by_name=True)
 
-    # def to_embeddings_result(self, req: "OpenAiEmbeddingsRequest") -> "EmbeddingsResult":
-    #     """Convert to embeddings result."""
-    #     if not req:
-    #         raise ValueError("Request cannot be None")
+    def to_embeddings_result(
+        self,
+        req: "GenerateEmbeddingsRequestModel",
+        success: bool = True,
+        status_code: int = 200,
+        error: "ApiErrorResponseModel" = None,
+    ) -> "GenerateEmbeddingsResultModel":
+        if req is None:
+            raise ValueError("Request cannot be None")
 
-    #     if req.contents and self.data:
-    #         if len(req.contents) != len(self.data):
-    #             raise ValueError("The number of content elements does not match the number of embeddings elements.")
+        result = GenerateEmbeddingsResultModel(
+            success=success,
+            status_code=status_code,
+            error=error,
+            semantic_cells=getattr(req, "semantic_cells", []),
+            content_embeddings=[],
+        )
 
-    #     result = []
-    #     for embed in self.data:
-    #         result.append({
-    #             "content": req.contents[embed.index],
-    #             "embeddings": embed.embeddings
-    #         })
+        # Map contents to ContentEmbeddingModel
+        if req.contents:
+            for content in req.contents:
+                result.content_embeddings.append(
+                    ContentEmbeddingModel(content=content, embeddings=[])
+                )
 
-    #     return EmbeddingsResult(
-    #         success=self.success,
-    #         status_code=self.status_code,
-    #         model=req.model,
-    #         result=result
-    #     )
+        # Map OpenAI embeddings to content embeddings by index
+        if self.data:
+            for embed in self.data:
+                if embed.index < len(result.content_embeddings):
+                    result.content_embeddings[embed.index].embeddings = embed.embeddings
+
+        # Update semantic chunk embeddings if semantic_cells and content_embeddings are present
+        if result.semantic_cells and result.content_embeddings:
+            # Flatten all chunks from all semantic cells
+            all_chunks = [
+                chunk
+                for cell in result.semantic_cells
+                for chunk in getattr(cell, "chunks", [])
+            ]
+            for chunk in all_chunks:
+                for c_embed in result.content_embeddings:
+                    if chunk.content == c_embed.content:
+                        chunk.embeddings = c_embed.embeddings
+
+        return result

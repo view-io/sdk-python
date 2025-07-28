@@ -149,11 +149,6 @@ def readCollectionStatistics():
 # readCollectionStatistics()
 
 
-def readTopTerms():
-    terms = lexi.Collection.retrieve_top_terms("79bedb07-6408-4841-987c-3bb4b0e6ffd8")
-    print(terms)
-
-
 # readTopTerms()
 
 

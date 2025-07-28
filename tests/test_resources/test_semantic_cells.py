@@ -26,13 +26,11 @@ def valid_metadata_rule():
 
 
 @pytest.fixture
-def valid_semantic_request(valid_metadata_rule):
+def valid_semantic_request():
     return SemanticCellRequest(
         document_type=DocumentTypeEnum.Pdf,
-        metadata_rule=valid_metadata_rule,
         data_=b"test binary data",
         max_chunk_content_length=512,
-        shift_size=512,
     )
 
 
@@ -60,7 +58,6 @@ def test_semantic_cell_process_valid_request(mock_get_client, valid_semantic_req
 def test_semantic_cell_process_missing_data(mock_get_client, valid_metadata_rule):
     invalid_request = SemanticCellRequest(
         document_type=DocumentTypeEnum.Pdf,
-        metadata_rule=valid_metadata_rule,
         data_=None,
         max_chunk_content_length=512,
         shift_size=512,
@@ -69,20 +66,6 @@ def test_semantic_cell_process_missing_data(mock_get_client, valid_metadata_rule
     with pytest.raises(ValueError) as exc_info:
         SemanticCell.extraction(request=invalid_request)
     assert str(exc_info.value) == "No data supplied for semantic cell extraction."
-
-
-def test_semantic_cell_process_missing_metadata_rule():
-    invalid_request = SemanticCellRequest(
-        document_type=DocumentTypeEnum.Pdf,
-        metadata_rule=None,
-        data_=b"test binary data",
-        max_chunk_content_length=512,
-        shift_size=512,
-    )
-
-    with pytest.raises(ValueError) as exc_info:
-        SemanticCell.extraction(request=invalid_request)
-    assert str(exc_info.value) == "Metadata rule is required."
 
 
 @patch("view_sdk.mixins.get_client")
@@ -139,11 +122,3 @@ def test_semantic_cell_process_document_missing_data(
             doc_type=DocumentTypeEnum.Pdf, metadata_rule=valid_metadata_rule, data=None
         )
     assert str(exc_info.value) == "No data supplied for semantic cell extraction."
-
-
-def test_semantic_cell_process_document_invalid_metadata_rule():
-    with pytest.raises(ValueError) as exc_info:
-        SemanticCell.extraction(
-            doc_type=DocumentTypeEnum.Pdf, metadata_rule=None, data=b"test binary data"
-        )
-    assert str(exc_info.value) == "Metadata rule is required."

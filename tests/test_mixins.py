@@ -495,7 +495,7 @@ def test_enumerate_with_query_success(mock_get_client):
     result = TestEnumerableAPIResourceWithData.enumerate_with_query(
         test_parent_guid="parent123"
     )
-    assert result.success == True
+    assert result.success
     assert result.max_results == 1000
 
 

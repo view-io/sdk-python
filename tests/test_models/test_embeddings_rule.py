@@ -24,10 +24,10 @@ def test_embeddings_rule_minimal_creation():
     assert rule.processing_access_key == "default"
     assert rule.vector_store_url == "http://localhost:8000/"
     assert rule.vector_store_access_key == "default"
-    assert rule.batch_size == 16
-    assert rule.max_generator_tasks == 16
-    assert rule.max_retries == 3
-    assert rule.max_failures == 3
+    assert rule.embeddings_batch_size == 16
+    assert rule.max_embeddings_tasks == 16
+    assert rule.max_embeddings_retries == 3
+    assert rule.max_embeddings_failures == 3
     assert rule.max_content_length == 16 * 1024 * 1024
     assert isinstance(rule.created_utc, datetime)
 
@@ -50,10 +50,10 @@ def test_embeddings_rule_full_creation():
         "EmbeddingsGenerator": "OpenAI",
         "EmbeddingsGeneratorUrl": "http://custom:8000/embeddings",
         "EmbeddingsGeneratorApiKey": "emb-key-123",
-        "BatchSize": 32,
-        "MaxGeneratorTasks": 24,
-        "MaxRetries": 5,
-        "MaxFailures": 4,
+        "EmbeddingsBatchSize": 32,
+        "MaxEmbeddingsTasks": 24,
+        "MaxEmbeddingsRetries": 5,
+        "MaxEmbeddingsFailures": 4,
         "VectorStoreUrl": "http://custom:8000/vectors",
         "VectorStoreAccessKey": "vec-key-123",
         "MaxContentLength": 32 * 1024 * 1024,
@@ -73,17 +73,17 @@ def test_embeddings_rule_full_creation():
     assert rule.embeddings_generator_api_key == "emb-key-123"
     assert rule.vector_store_url == "http://custom:8000/vectors"
     assert rule.vector_store_access_key == "vec-key-123"
-    assert rule.batch_size == 32
-    assert rule.max_generator_tasks == 24
+    assert rule.embeddings_batch_size == 32
+    assert rule.max_embeddings_tasks == 24
 
 
 def test_invalid_batch_size():
     """Test validation of batch size."""
     with pytest.raises(ValidationError) as exc_info:
         EmbeddingsRuleModel(
-            owner_guid="12345678-1234-5678-1234-567812345678", batch_size=0
+            owner_guid="12345678-1234-5678-1234-567812345678", embeddings_batch_size=0
         )
-    assert "batch_size" in str(exc_info.value)
+    assert "embeddings_batch_size" in str(exc_info.value)
     assert "greater than or equal to 1" in str(exc_info.value)
 
 
@@ -91,9 +91,9 @@ def test_invalid_max_generator_tasks():
     """Test validation of max generator tasks."""
     with pytest.raises(ValidationError) as exc_info:
         EmbeddingsRuleModel(
-            owner_guid="12345678-1234-5678-1234-567812345678", max_generator_tasks=0
+            owner_guid="12345678-1234-5678-1234-567812345678", max_embeddings_tasks=0
         )
-    assert "max_generator_tasks" in str(exc_info.value)
+    assert "max_embeddings_tasks" in str(exc_info.value)
     assert "greater than or equal to 1" in str(exc_info.value)
 
 
@@ -101,9 +101,9 @@ def test_invalid_max_retries():
     """Test validation of max retries."""
     with pytest.raises(ValidationError) as exc_info:
         EmbeddingsRuleModel(
-            owner_guid="12345678-1234-5678-1234-567812345678", max_retries=0
+            owner_guid="12345678-1234-5678-1234-567812345678", max_embeddings_retries=0
         )
-    assert "max_retries" in str(exc_info.value)
+    assert "max_embeddings_retries" in str(exc_info.value)
     assert "greater than or equal to 1" in str(exc_info.value)
 
 
@@ -111,9 +111,9 @@ def test_invalid_max_failures():
     """Test validation of max failures."""
     with pytest.raises(ValidationError) as exc_info:
         EmbeddingsRuleModel(
-            owner_guid="12345678-1234-5678-1234-567812345678", max_failures=0
+            owner_guid="12345678-1234-5678-1234-567812345678", max_embeddings_failures=0
         )
-    assert "max_failures" in str(exc_info.value)
+    assert "max_embeddings_failures" in str(exc_info.value)
     assert "greater than or equal to 1" in str(exc_info.value)
 
 

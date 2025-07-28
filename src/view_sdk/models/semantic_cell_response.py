@@ -10,10 +10,6 @@ from .semantic_cell import SemanticCellModel
 class SemanticCellResponse(BaseModel):
     """Semantic cell response model."""
 
-    data_flow_request_guid: Optional[str] = Field(
-        default=None, alias="DataFlowRequestGUID", description="Data flow request GUID"
-    )
-
     success: bool = Field(
         default=True, alias="Success", description="Boolean indicating success"
     )

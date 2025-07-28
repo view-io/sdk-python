@@ -117,11 +117,6 @@ def createWebhookRule():
 # createWebhookRule()
 
 
-def readAllWebhookRules():
-    webhookRules = configuration.WebhookRule.retrieve_all()
-    print(webhookRules)
-
-
 # readAllWebhookRules()
 
 
@@ -290,11 +285,6 @@ def readBlob():
 # readBlob()
 
 
-def readBlob():
-    blob = configuration.Blob.retrieve("b1a953d8-2a51-496a-a272-52ebe326fd2d")
-    print(blob)
-
-
 # readBlob()
 
 
@@ -394,16 +384,6 @@ def createEncryptionKey():
 # createEncryptionKey()
 
 
-def deleteEncryptionKey():
-    graphRepository = configuration.EncryptionKey.delete(
-        "626c44ef-cdc5-450f-8760-e6b863624cd8"
-    )
-    print(graphRepository)
-
-
-# deleteGraphRepository()
-
-
 def existsGraphRepository():
     graphRepository = configuration.GraphRepository.exists(
         "626c44ef-cdc5-450f-8760-e6b863624cd8"
@@ -427,13 +407,6 @@ def updateGraphRepository():
 
 
 # updateGraphRepository()
-
-
-def existsGraphRepository():
-    graphRepository = configuration.GraphRepository.exists(
-        "626c44ef-cdc5-450f-8760-e6b863624cd8"
-    )
-    print(graphRepository)
 
 
 # existsGraphRepository()

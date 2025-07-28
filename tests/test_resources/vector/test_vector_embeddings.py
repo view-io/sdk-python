@@ -149,7 +149,7 @@ def test_process_semantic_cells_batch_handling(mock_get_client, mock_http_client
     )
 
     # Process cells
-    result = Embeddings.process_semantic_cells(cells, "test-model")
+    Embeddings.process_semantic_cells(cells, "test-model")
 
     # Verify batching (20 chunks / 8 batch size = 3 calls)
     assert mock_http_client.request.call_count == 3

@@ -22,6 +22,14 @@ class SemanticCellModel(BaseModel):
     sha1_hash: Optional[str] = Field(None, alias="SHA1Hash", description="SHA1")
     sha256_hash: Optional[str] = Field(None, alias="SHA256Hash", description="SHA256")
     position: int = Field(default=0, ge=0, alias="Position", description="Position")
+    binary: Optional[bytes] = Field(None, alias="Binary", description="Binary data")
+    content: Optional[str] = Field(None, alias="Content", description="Content")
+    unordered_list: List[str] = Field(
+        default_factory=list, alias="UnorderedList", description="Unordered list"
+    )
+    ordered_list: List[str] = Field(
+        default_factory=list, alias="OrderedList", description="Ordered list"
+    )
     chunks: List[SemanticChunkModel] = Field(
         default_factory=list, alias="Chunks", description="Chunks"
     )

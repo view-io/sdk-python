@@ -3,8 +3,6 @@ from datetime import datetime, timezone
 from pydantic import ValidationError
 from view_sdk.models.graph_repository import GraphRepositoryModel
 from view_sdk.enums.graph_repository_type_enum import GraphRepositoryTypeEnum
-from view_sdk.models.graph_search_request import GraphSearchRequest
-from view_sdk.enums.enumeration_order_enum import EnumerationOrderEnum
 
 
 def test_graph_repository_minimal_creation():
@@ -155,39 +153,3 @@ def test_populate_by_name():
         TenantGUID="12345678-1234-5678-1234-567812345678", Name="Test Repo 2"
     )
     assert repo2.name == "Test Repo 2"
-
-
-def test_graph_search_request_defaults():
-    req = GraphSearchRequest()
-    assert req.graph_guid == "00000000-0000-0000-0000-000000000000"
-    assert req.ordering == EnumerationOrderEnum.CreatedDescending
-    assert req.expression is None
-
-
-def test_graph_search_request_with_values():
-    req = GraphSearchRequest(
-        graph_guid="1234",
-        ordering=EnumerationOrderEnum.LastAccessAscending,
-        expression={"field": "value"},
-    )
-    assert req.graph_guid == "1234"
-    assert req.ordering == EnumerationOrderEnum.LastAccessAscending
-    assert req.expression == {"field": "value"}
-
-
-def test_graph_search_request_aliases():
-    data = {
-        "GraphGUID": "abcd",
-        "Ordering": "CreatedAscending",
-        "Expr": {"foo": "bar"},
-    }
-    req = GraphSearchRequest.model_validate(data)
-    assert req.graph_guid == "abcd"
-    assert req.ordering == EnumerationOrderEnum.CreatedAscending
-    assert req.expression == {"foo": "bar"}
-
-
-def test_graph_search_request_enum_serialization():
-    req = GraphSearchRequest(ordering=EnumerationOrderEnum.LastAccessDescending)
-    model_dict = req.model_dump(by_alias=True)
-    assert model_dict["Ordering"] == "LastAccessDescending"

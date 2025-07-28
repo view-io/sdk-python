@@ -1,3 +1,4 @@
+from pydantic import BaseModel
 from ...mixins import AllRetrievableAPIResource
 from ...sdk_configuration import Service
 

@@ -22,8 +22,14 @@ class SearchResultModel(BaseModel):
         description="Timestamp",
     )
 
-    data_flow_request_guid: Optional[str] = Field(
-        default=None, alias="DataFlowRequestGUID", description="Data flow request GUID"
+    max_results: int = Field(
+        alias="MaxResults", description="Maximum number of results to retrieve"
+    )
+
+    processing_request_guid: Optional[str] = Field(
+        default=None,
+        alias="ProcessingRequestGUID",
+        description="Processing request GUID",
     )
 
     end_of_results: bool = Field(

@@ -166,7 +166,6 @@ def test_sse_request_success(base_client, test_input, expected):
     mock_response.headers = {"Content-Type": "text/event-stream"}
 
     with (
-        patch.object(httpx.Client, "build_request") as mock_build_request,
         patch.object(httpx.Client, "send", return_value=mock_response),
     ):
         events = list(base_client.sse_request("GET", "/test"))

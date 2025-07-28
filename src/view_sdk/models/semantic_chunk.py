@@ -17,6 +17,7 @@ class SemanticChunkModel(BaseModel):
     start: int = Field(default=0, ge=0, alias="Start", description="Start position")
     end: int = Field(default=0, ge=0, alias="End", description="End position")
     length: int = Field(default=0, ge=0, alias="Length", description="Length")
+    binary: Optional[bytes] = Field(None, alias="Binary", description="Binary data")
     content: Optional[str] = Field(None, alias="Content", description="Content")
     embeddings: List[float] = Field(
         default_factory=list, alias="Embeddings", description="Embeddings"

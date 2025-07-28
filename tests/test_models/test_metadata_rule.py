@@ -18,10 +18,7 @@ def test_metadata_rule_create_valid():
         "ProcessingAccessKey": "default",
         "CleanupEndpoint": "http://localhost:8000/v1.0/tenants/default/processing/cleanup",
         "CleanupAccessKey": "default",
-        "MinChunkContentLength": 2,
-        "MaxChunkContentLength": 512,
-        "MaxTokensPerChunk": 256,
-        "ShiftSize": 512,
+        "ImageTextExtraction": True,
         "TopTerms": 25,
         "CaseInsensitive": True,
         "IncludeFlattened": True,
@@ -54,10 +51,6 @@ def test_metadata_rule_create_valid():
         == "http://localhost:8000/v1.0/tenants/default/processing/cleanup"
     )
     assert rule.cleanup_access_key == "default"
-    assert rule.min_chunk_content_length == 2
-    assert rule.max_chunk_content_length == 512
-    assert rule.max_tokens_per_chunk == 256
-    assert rule.shift_size == 512
     assert rule.top_terms == 25
     assert rule.case_insensitive is True
     assert rule.include_flattened is True
@@ -77,12 +70,7 @@ def test_metadata_rule_invalid_data():
             guid="invalid-guid",
             processing_endpoint="invalid-url",
             cleanup_endpoint="invalid-url",
-            type_detector_endpoint="invalid-url",
-            semantic_cell_endpoint="invalid-url",
-            udr_endpoint="invalid-url",
             data_catalog_endpoint="invalid-url",
-            max_chunk_content_length=0,
-            shift_size=0,
             top_terms=0,
             max_content_length=0,
             retention_minutes=0,
