@@ -40,13 +40,10 @@ class SourceDocumentModel(BaseModel):
     data_repository_guid: Optional[str] = Field(
         None, alias="DataRepositoryGUID", description="Data repository GUID"
     )
-    data_flow_request_guid: Optional[str] = Field(
-        None, alias="DataFlowRequestGUID", description="Data flow request GUID"
-    )
-    data_flow_success: Optional[bool] = Field(
+    processing_success: Optional[bool] = Field(
         None,
-        alias="DataFlowSuccess",
-        description="Boolean indicating if the data flow was successful",
+        alias="ProcessingSuccess",
+        description="Boolean indicating if the processing was successful",
     )
     object_key: Optional[str] = Field(None, alias="ObjectKey", description="Key")
     object_version: str = Field(

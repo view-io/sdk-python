@@ -7,6 +7,7 @@ from ..models.timestamp import TimestampModel
 
 
 class FindEmbeddingsResultModel(BaseModel):
+    success: bool = Field(default=True, alias="Success")
     timestamp: TimestampModel = Field(default_factory=TimestampModel, alias="Timestamp")
     existing: List[FindEmbeddingsObjectModel] = Field(
         default_factory=list, alias="Existing"

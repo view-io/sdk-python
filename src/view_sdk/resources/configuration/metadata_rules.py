@@ -5,7 +5,7 @@ from ...mixins import (
     ExistsAPIResource,
     RetrievableAPIResource,
     UpdatableAPIResource,
-    EnumerableAPIResource
+    EnumerableAPIResource,
 )
 from ...models.metadata_rule import MetadataRuleModel
 
@@ -17,7 +17,7 @@ class MetadataRule(
     AllRetrievableAPIResource,
     UpdatableAPIResource,
     DeletableAPIResource,
-    EnumerableAPIResource
+    EnumerableAPIResource,
 ):
     RESOURCE_NAME: str = "metadatarules"
     MODEL = MetadataRuleModel

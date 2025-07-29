@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import List, Optional
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -13,7 +13,15 @@ class VectorRepositoryStatisticsModel(BaseModel):
     total_bytes: int = Field(ge=0, alias="TotalBytes")
     cell_count: int = Field(ge=0, alias="CellCount")
     chunk_count: int = Field(ge=0, alias="ChunkCount")
-
+    collection_guids: List[str] = Field(default_factory=list, alias="CollectionGuids")
+    data_repository_guids: List[str] = Field(
+        default_factory=list, alias="DataRepositoryGuids"
+    )
+    graph_repository_guids: List[str] = Field(
+        default_factory=list, alias="GraphRepositoryGuids"
+    )
+    bucket_guids: List[str] = Field(default_factory=list, alias="BucketGuids")
+    models: List[str] = Field(default_factory=list, alias="Models")
     model_config = ConfigDict(populate_by_name=True)
 
     @classmethod

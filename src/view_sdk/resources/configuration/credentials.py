@@ -5,7 +5,7 @@ from ...mixins import (
     ExistsAPIResource,
     RetrievableAPIResource,
     UpdatableAPIResource,
-    EnumerableAPIResource
+    EnumerableAPIResource,
 )
 from ...models.credential import CredentialModel
 
@@ -17,7 +17,7 @@ class Credential(
     AllRetrievableAPIResource,
     UpdatableAPIResource,
     DeletableAPIResource,
-    EnumerableAPIResource
+    EnumerableAPIResource,
 ):
     RESOURCE_NAME: str = "credentials"
     MODEL = CredentialModel

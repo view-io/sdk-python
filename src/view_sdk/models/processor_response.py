@@ -21,6 +21,10 @@ class ProcessorResponse(BaseModel):
         default=True, alias="Success", description="Boolean indicating success"
     )
 
+    async_: bool = Field(
+        default=False, alias="Async", description="Boolean indicating async processing"
+    )
+
     timestamp: datetime = Field(
         default_factory=lambda: datetime.now(timezone.utc),
         alias="Timestamp",

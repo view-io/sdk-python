@@ -5,19 +5,19 @@ from ...mixins import (
     UpdatableAPIResource,
     CreateableAPIResource,
     ExistsAPIResource,
-    DeletableAPIResource
+    DeletableAPIResource,
 )
 from ...models.tenant_metadata import TenantMetadataModel
 
 
 class Tenant(
     RetrievableAPIResource,
-    UpdatableAPIResource,   
+    UpdatableAPIResource,
     EnumerableAPIResource,
     CreateableAPIResource,
     AllRetrievableAPIResource,
     ExistsAPIResource,
-    DeletableAPIResource
+    DeletableAPIResource,
 ):
     RESOURCE_NAME: str = "tenants"
     MODEL = TenantMetadataModel

@@ -17,6 +17,12 @@ class CleanupResponse(BaseModel):
         default=True, alias="Success", description="Boolean indicating success"
     )
 
+    async_: bool = Field(
+        default=True,
+        alias="Async",
+        description="Boolean indicating whether or not the task was executed asynchronously",
+    )
+
     timestamp: TimestampModel = Field(
         default=TimestampModel(),
         alias="Timestamp",

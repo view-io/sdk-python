@@ -8,6 +8,7 @@ from view_sdk.models.udr_document import UdrDocumentModel
 from view_sdk.enums.document_type_enum import DocumentTypeEnum
 from view_sdk.models.timestamp import TimestampModel
 
+
 @pytest.fixture
 def basic_source_document():
     return SourceDocumentModel(
@@ -20,16 +21,16 @@ def basic_source_document():
         ContentType="text/plain",
         ContentLength=100,
         MD5Hash="test_hash",
-        CreatedUtc=datetime.now(timezone.utc)
+        CreatedUtc=datetime.now(timezone.utc),
     )
+
 
 @pytest.fixture
 def document_score():
     return DocumentScoreModel(
-        Score=Decimal("0.95"),
-        TermsScore=Decimal("0.90"),
-        FiltersScore=Decimal("0.85")
+        Score=Decimal("0.95"), TermsScore=Decimal("0.90"), FiltersScore=Decimal("0.85")
     )
+
 
 class TestSourceDocumentModel:
     def test_basic_fields(self, basic_source_document):
@@ -51,12 +52,11 @@ class TestSourceDocumentModel:
             TenantGUID=str(uuid.uuid4()),
             CollectionGUID=str(uuid.uuid4()),
             ObjectGUID=str(uuid.uuid4()),
-            MD5Hash="test_hash"
+            MD5Hash="test_hash",
         )
 
         # Check default values
         assert doc.bucket_guid is None
-        assert doc.data_flow_request_guid is None
         assert doc.graph_repository_guid is None
         assert doc.graph_node_identifier is None
         assert doc.data_repository_guid is None
@@ -83,14 +83,11 @@ class TestSourceDocumentModel:
 
     def test_udr_document(self, basic_source_document):
         timestamp = TimestampModel(
-            StartUtc=datetime.now(timezone.utc),
-            EndUtc=datetime.now(timezone.utc)
+            StartUtc=datetime.now(timezone.utc), EndUtc=datetime.now(timezone.utc)
         )
 
         udr_doc = UdrDocumentModel(
-            Type=DocumentTypeEnum.Unknown,
-            Terms=["term1", "term2"],
-            Timestamp=timestamp
+            Type=DocumentTypeEnum.Unknown, Terms=["term1", "term2"], Timestamp=timestamp
         )
 
         doc = basic_source_document.model_copy()
@@ -131,7 +128,5 @@ class TestSourceDocumentModel:
     def test_data_repository_fields(self, basic_source_document):
         doc = basic_source_document.model_copy()
         doc.data_repository_guid = str(uuid.uuid4())
-        doc.data_flow_request_guid = str(uuid.uuid4())
 
         assert isinstance(doc.data_repository_guid, str)
-        assert isinstance(doc.data_flow_request_guid, str)

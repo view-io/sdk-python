@@ -5,7 +5,7 @@ from ...mixins import (
     ExistsAPIResource,
     RetrievableAPIResource,
     UpdatableAPIResource,
-    EnumerableAPIResource
+    EnumerableAPIResource,
 )
 from ...models.embeddings_rule import EmbeddingsRuleModel
 
@@ -17,7 +17,7 @@ class EmbeddingsRule(
     AllRetrievableAPIResource,
     UpdatableAPIResource,
     DeletableAPIResource,
-    EnumerableAPIResource
+    EnumerableAPIResource,
 ):
     RESOURCE_NAME: str = "embeddingsrules"
     MODEL = EmbeddingsRuleModel

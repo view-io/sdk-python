@@ -5,7 +5,7 @@ from ...mixins import (
     ExistsAPIResource,
     RetrievableAPIResource,
     UpdatableAPIResource,
-    EnumerableAPIResource
+    EnumerableAPIResource,
 )
 from ...models.webhook_target import WebhookTargetModel
 
@@ -17,7 +17,7 @@ class WebhookTarget(
     AllRetrievableAPIResource,
     UpdatableAPIResource,
     DeletableAPIResource,
-    EnumerableAPIResource
+    EnumerableAPIResource,
 ):
     RESOURCE_NAME: str = "webhooktargets"
     MODEL = WebhookTargetModel

@@ -17,6 +17,7 @@ from ..models.vector_repository import VectorRepositoryModel
 
 class CleanupRequest(BaseModel):
     guid: str = Field(default_factory=lambda: str(uuid.uuid4()), alias="GUID")
+    async_: bool = Field(default=True, alias="Async")
     tenant: Optional[TenantMetadataModel] = Field(None, alias="Tenant")
     collection: Optional[CollectionModel] = Field(None, alias="Collection")
     pool: Optional[StoragePool] = Field(None, alias="Pool")

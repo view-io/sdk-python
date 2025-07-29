@@ -64,6 +64,4 @@ class OpenAI(EmbeddingsGeneratorMixin, ConnectivityMixin):
                 headers=headers, **embed_request.model_dump(mode="json", by_alias=True)
             )
         except Exception:
-            return OpenAiEmbeddingsResult(
-                success=False, status_code=500, model=embed_request.model
-            )
+            return OpenAiEmbeddingsResult()

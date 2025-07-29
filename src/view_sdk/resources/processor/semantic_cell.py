@@ -1,7 +1,5 @@
-
 from ...mixins import CreateableAPIResource
 from ...models.semantic_cell_response import SemanticCellResponse
-from ...sdk_logging import log_debug
 
 
 class SemanticCell(CreateableAPIResource):
@@ -28,6 +26,12 @@ class SemanticCell(CreateableAPIResource):
         Raises:
             ValueError: If required parameters are missing
         """
-        cls.MODEL = None
-        cls.REQUEST_MODEL = None
+        request = kwargs.get("request")
+        if request is not None:
+            if not getattr(request, "data_", None):
+                raise ValueError("No data supplied for semantic cell extraction.")
+        else:
+            # Handle direct kwargs (not wrapped in a request object)
+            if not kwargs.get("data"):
+                raise ValueError("No data supplied for semantic cell extraction.")
         return super().create(**kwargs)

@@ -17,7 +17,7 @@ class LexiEmbeddingsResponse(BaseModel):
     success: bool = Field(
         default=True, alias="Success", description="Boolean indicating success"
     )
-
+    async_: bool = Field(default=False, alias="Async")
     timestamp: datetime = Field(
         default_factory=lambda: datetime.now(timezone.utc),
         alias="Timestamp",

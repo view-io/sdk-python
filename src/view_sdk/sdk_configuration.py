@@ -19,7 +19,6 @@ class Service(Enum):
     ASSISTANT = "assistant"
     SEMANTIC_CELLS = "semantic_cells"
     CONTROL_PLANE = "control_plane"
-    ORCHESTRATOR = "orchestrator"
     CONFIG = "config"
     GRAPH_DATABASE = "graph_database"
     DIRECTOR = "director"
@@ -39,10 +38,10 @@ class ServicePorts:
     ASSISTANT: int = 8331
     SEMANTIC_CELLS: int = 8341
     CONTROL_PLANE: int = 8401
-    ORCHESTRATOR: int = 8501
     CONFIG: int = 8601
     GRAPH_DATABASE: int = 8701
     DIRECTOR: int = 8501
+
 
 class SdkConfiguration:
     _instance = None

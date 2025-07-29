@@ -2,7 +2,6 @@ import json
 from typing import Generator, Optional
 
 from ...mixins import CreateableAPIResource
-from ...models.assistant_chat_request import AssistantChatRequest
 from ...models.assistant_rag_request import AssistantRagRequest
 from ...sdk_configuration import Service, get_client
 from ...sdk_logging import log_debug, log_warning
@@ -42,7 +41,7 @@ class Assistant(CreateableAPIResource):
             token = event.get("token") if isinstance(event, dict) else event
             if token:
                 yield token
-                
+
     @classmethod
     def chat_rag_messages(cls, **kwargs) -> Generator[str, None, None]:
         """
@@ -50,13 +49,13 @@ class Assistant(CreateableAPIResource):
 
         Args:
             **kwargs: Keyword arguments that will be validated against AssistantChatRequest model
-  
+
         Returns:
             Generator yielding response tokens
 
         Raises:
             ValueError: If required parameters are missing
-        """  
+        """
         stream = kwargs.get("Stream", False)
         if not stream:
             cls.RESOURCE_NAME = "assistant/rag/chat"
@@ -76,7 +75,7 @@ class Assistant(CreateableAPIResource):
             except Exception as e:
                 log_warning(f"Error processing chat request: {str(e)}")
                 return
-            
+
     @classmethod
     def chat_config(cls, config_id: str, **kwargs) -> Generator[str, None, None]:
         """
@@ -85,13 +84,13 @@ class Assistant(CreateableAPIResource):
         Args:
             config_id: The ID of the chat configuration
             **kwargs: Keyword arguments that will be validated against AssistantChatRequest model
-  
+
         Returns:
             Generator yielding response tokens
 
         Raises:
             ValueError: If required parameters are missing
-        """  
+        """
         stream = kwargs.get("Stream", False)
         if not stream:
             cls.RESOURCE_NAME = "assistant/chat"
@@ -102,7 +101,7 @@ class Assistant(CreateableAPIResource):
                 log_debug("Making chat request")
                 for event in get_client(cls.SERVICE).sse_request(
                     cls.CREATE_METHOD,
-                    "v1.0/assistant/chat/"+config_id,
+                    "v1.0/assistant/chat/" + config_id,
                     json=kwargs,
                 ):
                     token = event.get("token") if isinstance(event, dict) else event
@@ -112,7 +111,7 @@ class Assistant(CreateableAPIResource):
             except Exception as e:
                 log_warning(f"Error processing chat request: {str(e)}")
                 return
-                
+
     @classmethod
     def chat_only(cls, **kwargs) -> Generator[str, None, None]:
         """
@@ -120,13 +119,13 @@ class Assistant(CreateableAPIResource):
 
         Args:
             **kwargs: Keyword arguments that will be validated against AssistantChatRequest model
-  
+
         Returns:
             Generator yielding response tokens
 
         Raises:
             ValueError: If required parameters are missing
-        """  
+        """
         stream = kwargs.get("Stream", False)
         if not stream:
             cls.RESOURCE_NAME = "assistant/chat/completions"

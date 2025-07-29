@@ -1,9 +1,26 @@
-from ...mixins import CreateableAPIResource, ExistsAPIResource, RetrievableAPIResource, AllRetrievableAPIResource, UpdatableAPIResource, DeletableAPIResource
+from pydantic import BaseModel
+from ...mixins import (
+    AllRetrievableAPIResource,
+    CreateableAPIResource,
+    DeletableAPIResource,
+    ExistsAPIResource,
+    RetrievableAPIResource,
+    UpdatableAPIResource,
+)
 
-class Models(CreateableAPIResource, ExistsAPIResource, RetrievableAPIResource, AllRetrievableAPIResource,UpdatableAPIResource,DeletableAPIResource):
+
+class Models(
+    CreateableAPIResource,
+    ExistsAPIResource,
+    RetrievableAPIResource,
+    AllRetrievableAPIResource,
+    UpdatableAPIResource,
+    DeletableAPIResource,
+):
     """
     Models resource for Assistant operations.
     """
+
     RESOURCE_NAME: str = "assistant/models"
     REQUIRES_TENANT = True
     CREATE_METHOD = "POST"
@@ -24,7 +41,7 @@ class Models(CreateableAPIResource, ExistsAPIResource, RetrievableAPIResource, A
         cls.CREATE_METHOD = "POST"
         cls.RESOURCE_NAME = "assistant/models/pull"
         return super().create(**kwargs)
-    
+
     @classmethod
     def delete(cls, **kwargs) -> "BaseModel":
         """

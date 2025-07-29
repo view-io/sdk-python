@@ -2,8 +2,9 @@ import base64
 import binascii
 import uuid
 from datetime import datetime, timezone
-
+from typing import Optional
 from pydantic import Base64Str, BaseModel, ConfigDict, Field, field_validator
+from .user_master import UserMasterModel
 
 
 class EncryptionKeyModel(BaseModel):
@@ -25,6 +26,10 @@ class EncryptionKeyModel(BaseModel):
     created_utc: datetime = Field(
         default_factory=lambda: datetime.now(timezone.utc), alias="CreatedUtc"
     )
+    user: Optional[UserMasterModel] = Field(None, alias="User")
+    key: Optional[bytes] = Field(default=None, exclude=True, alias="Key")
+    iv: Optional[bytes] = Field(default=None, exclude=True, alias="Iv")
+    salt: Optional[bytes] = Field(default=None, exclude=True, alias="Salt")
 
     # Validation to ensure key length matches constraints from C#
     @field_validator("key_base64", "iv_base64", "salt_base64", mode="before")

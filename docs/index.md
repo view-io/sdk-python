@@ -12,7 +12,6 @@ View AI enables organizations to rapidly deploy conversational AI experiences an
 ### Core Dependencies
 - httpx - HTTP client library
 - pydantic[email] - Data validation using Python type annotations
-- litegraph_sdk - View AI's LiteGraph SDK
 
 ### Development Dependencies
 - pytest - Testing framework

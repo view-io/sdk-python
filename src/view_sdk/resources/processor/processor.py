@@ -1,18 +1,6 @@
-from typing import Optional
-
 from ...mixins import CreateableAPIResource
-from ...models.bucket import BucketMetadataModel
-from ...models.collection import CollectionModel
-from ...models.data_repository import DataRepositoryModel
-from ...models.embeddings_rule import EmbeddingsRuleModel
-from ...models.graph_repository import GraphRepositoryModel
-from ...models.metadata_rule import MetadataRuleModel
-from ...models.object_metadata import ObjectMetadataModel
-from ...models.pool import StoragePool
 from ...models.processor_request import ProcessorRequest
 from ...models.processor_response import ProcessorResponse
-from ...models.tenant_metadata import TenantMetadataModel
-from ...models.vector_repository import VectorRepositoryModel
 from ...sdk_logging import log_debug
 
 
@@ -38,7 +26,6 @@ class Processor(CreateableAPIResource):
     REQUEST_MODEL = ProcessorRequest
     MODEL = ProcessorResponse
 
-
     @classmethod
     def processing_pipeline(
         cls,
@@ -60,7 +47,5 @@ class Processor(CreateableAPIResource):
         Note:
             The method logs debug information about the processing request before execution.
         """
-        cls.MODEL = None
-        cls.REQUEST_MODEL = None
         log_debug(f"Making processor request for crawler: {kwargs}")
         return super().create(**kwargs)

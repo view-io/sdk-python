@@ -40,32 +40,6 @@ response = assistant.process_rag(
 )
 ```
 
-## Graph Operations
-
-```python
-# Create a graph
-graph = view_sdk.graphs.Graph.create(
-    name="knowledge_graph"
-)
-
-# Add nodes
-node1 = graph.create_node(
-    name="concept1",
-    data={"type": "concept"}
-)
-
-node2 = graph.create_node(
-    name="concept2",
-    data={"type": "concept"}
-)
-
-# Create edge
-edge = graph.create_edge(
-    name="relates_to",
-    from_node=node1,
-    to_node=node2
-)
-```
 
 ## Vector Operations
 

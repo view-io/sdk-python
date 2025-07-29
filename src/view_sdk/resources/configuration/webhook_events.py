@@ -8,7 +8,10 @@ from ...models.webhook_event import WebhookEventModel
 
 
 class WebhookEvent(
-    ExistsAPIResource, RetrievableAPIResource, AllRetrievableAPIResource, EnumerableAPIResource
+    ExistsAPIResource,
+    RetrievableAPIResource,
+    AllRetrievableAPIResource,
+    EnumerableAPIResource,
 ):
     RESOURCE_NAME: str = "webhookevents"
     MODEL = WebhookEventModel

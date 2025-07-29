@@ -3,6 +3,7 @@ from datetime import datetime, timezone
 from view_sdk.models.metadata_rule import MetadataRuleModel
 from view_sdk.enums.data_catalog_type_enum import DataCatalogTypeEnum
 
+
 def test_metadata_rule_create_valid():
     data = {
         "GUID": "123e4567-e89b-12d3-a456-426614174000",
@@ -17,10 +18,7 @@ def test_metadata_rule_create_valid():
         "ProcessingAccessKey": "default",
         "CleanupEndpoint": "http://localhost:8000/v1.0/tenants/default/processing/cleanup",
         "CleanupAccessKey": "default",
-        "MinChunkContentLength": 2,
-        "MaxChunkContentLength": 512,
-        "MaxTokensPerChunk": 256,
-        "ShiftSize": 512,
+        "ImageTextExtraction": True,
         "TopTerms": 25,
         "CaseInsensitive": True,
         "IncludeFlattened": True,
@@ -31,7 +29,7 @@ def test_metadata_rule_create_valid():
         "GraphRepositoryGUID": "jkl012-e89b-12d3-a456-426614174000",
         "MaxContentLength": 16777216,
         "RetentionMinutes": 60,
-        "CreatedUtc": datetime(2023, 4, 1, 12, 0, 0, tzinfo=timezone.utc)
+        "CreatedUtc": datetime(2023, 4, 1, 12, 0, 0, tzinfo=timezone.utc),
     }
 
     rule = MetadataRuleModel(**data)
@@ -43,14 +41,16 @@ def test_metadata_rule_create_valid():
     assert rule.content_type == "text/plain"
     assert rule.prefix == "test-prefix"
     assert rule.suffix == "test-suffix"
-    assert str(rule.processing_endpoint) == "http://localhost:8000/v1.0/tenants/default/processing"
+    assert (
+        str(rule.processing_endpoint)
+        == "http://localhost:8000/v1.0/tenants/default/processing"
+    )
     assert rule.processing_access_key == "default"
-    assert str(rule.cleanup_endpoint) == "http://localhost:8000/v1.0/tenants/default/processing/cleanup"
+    assert (
+        str(rule.cleanup_endpoint)
+        == "http://localhost:8000/v1.0/tenants/default/processing/cleanup"
+    )
     assert rule.cleanup_access_key == "default"
-    assert rule.min_chunk_content_length == 2
-    assert rule.max_chunk_content_length == 512
-    assert rule.max_tokens_per_chunk == 256
-    assert rule.shift_size == 512
     assert rule.top_terms == 25
     assert rule.case_insensitive is True
     assert rule.include_flattened is True
@@ -63,19 +63,15 @@ def test_metadata_rule_create_valid():
     assert rule.retention_minutes == 60
     assert rule.created_utc == datetime(2023, 4, 1, 12, 0, 0, tzinfo=timezone.utc)
 
+
 def test_metadata_rule_invalid_data():
     with pytest.raises(ValueError):
         MetadataRuleModel(
             guid="invalid-guid",
             processing_endpoint="invalid-url",
             cleanup_endpoint="invalid-url",
-            type_detector_endpoint="invalid-url",
-            semantic_cell_endpoint="invalid-url",
-            udr_endpoint="invalid-url",
             data_catalog_endpoint="invalid-url",
-            max_chunk_content_length=0,
-            shift_size=0,
             top_terms=0,
             max_content_length=0,
-            retention_minutes=0
+            retention_minutes=0,
         )
