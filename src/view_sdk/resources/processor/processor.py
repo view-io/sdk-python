@@ -47,7 +47,5 @@ class Processor(CreateableAPIResource):
         Note:
             The method logs debug information about the processing request before execution.
         """
-        cls.MODEL = None
-        cls.REQUEST_MODEL = None
         log_debug(f"Making processor request for crawler: {kwargs}")
         return super().create(**kwargs)

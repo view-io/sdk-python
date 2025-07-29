@@ -4,65 +4,97 @@ from .enums.api_error_enum import ERROR_DESCRIPTIONS, ApiErrorEnum
 class SdkException(Exception):
     """Base class for all SDK exceptions."""
 
+    pass
+
 
 class AuthenticationError(SdkException):
     """Raised when authentication fails."""
+
+    pass
 
 
 class AuthorizationError(SdkException):
     """Raised when authorization fails."""
 
+    pass
+
 
 class BadRequestError(SdkException):
     """Raised when the request is malformed."""
+
+    pass
 
 
 class ResourceNotFoundError(SdkException):
     """Raised when the requested resource is not found."""
 
+    pass
+
 
 class ServerError(SdkException):
     """Raised when the server encounters an error."""
+
+    pass
 
 
 class TimeoutError(SdkException):
     """Raised when the request times out."""
 
+    pass
+
 
 class ConflictError(SdkException):
     """Raised when a conflict occurs, such as resource already existing."""
+
+    pass
 
 
 class InactiveError(SdkException):
     """Raised when the resource or account is inactive."""
 
+    pass
+
 
 class InvalidRangeError(SdkException):
     """Raised when an invalid range is supplied."""
+
+    pass
 
 
 class InUseError(SdkException):
     """Raised when the resource is in use."""
 
+    pass
+
 
 class NotEmptyError(SdkException):
     """Raised when the resource is not empty."""
+
+    pass
 
 
 class DeserializationError(SdkException):
     """Raised when there is an error in deserialization."""
 
+    pass
+
 
 class NoConnectivityError(SdkException):
     """Raised when there is no connectivity to a required service."""
+
+    pass
 
 
 class OperationFailedError(SdkException):
     """Raised when an operation against a service fails."""
 
+    pass
+
 
 class UnknownTypeError(SdkException):
     """Raised when an unknown type is detected or encountered."""
+
+    pass
 
 
 def get_exception_for_error_code(

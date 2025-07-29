@@ -1,11 +1,11 @@
 from ...mixins import (
-    AllRetrievableAPIResource,
-    CreateableAPIResource,
-    DeletableAPIResource,
     EnumerableAPIResource,
-    ExistsAPIResource,
     RetrievableAPIResource,
+    AllRetrievableAPIResource,
     UpdatableAPIResource,
+    CreateableAPIResource,
+    ExistsAPIResource,
+    DeletableAPIResource,
 )
 from ...models.tenant_metadata import TenantMetadataModel
 

@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class CrawlStateEnum(str, Enum):
     NotStarted = "NotStarted"
     Starting = "Starting"
@@ -9,4 +10,4 @@ class CrawlStateEnum(str, Enum):
     Retrieving = "Retrieving"
     Deleting = "Deleting"
     Success = "Success"
-    Failed = "Failed" 
+    Failed = "Failed"

@@ -1,10 +1,10 @@
 from ...mixins import (
-    AllRetrievableAPIResource,
     CreateableAPIResource,
-    DeletableAPIResource,
     ExistsAPIResource,
     RetrievableAPIResource,
+    AllRetrievableAPIResource,
     UpdatableAPIResource,
+    DeletableAPIResource,
 )
 
 

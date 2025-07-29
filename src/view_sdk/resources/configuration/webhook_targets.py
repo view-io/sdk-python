@@ -2,10 +2,10 @@ from ...mixins import (
     AllRetrievableAPIResource,
     CreateableAPIResource,
     DeletableAPIResource,
-    EnumerableAPIResource,
     ExistsAPIResource,
     RetrievableAPIResource,
     UpdatableAPIResource,
+    EnumerableAPIResource,
 )
 from ...models.webhook_target import WebhookTargetModel
 

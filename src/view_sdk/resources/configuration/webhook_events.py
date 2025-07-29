@@ -1,8 +1,8 @@
 from ...mixins import (
     AllRetrievableAPIResource,
-    EnumerableAPIResource,
     ExistsAPIResource,
     RetrievableAPIResource,
+    EnumerableAPIResource,
 )
 from ...models.webhook_event import WebhookEventModel
 

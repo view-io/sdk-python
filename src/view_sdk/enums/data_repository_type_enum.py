@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class DataRepositoryTypeEnum(str, Enum):
     Other = "Other"
     File = "File"
@@ -8,4 +9,4 @@ class DataRepositoryTypeEnum(str, Enum):
     AmazonS3 = "AmazonS3"
     AzureBlob = "AzureBlob"
     Web = "Web"
-    Printer = "Printer" 
+    Printer = "Printer"
