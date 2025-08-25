@@ -3,8 +3,8 @@ from view_sdk import crawler
 
 sdk = view_sdk.configure(
     access_key="default",
-    base_url="ampere.view.io",
-    secure=True,
+    base_url="YOUR_SERVER_URL_HERE",  # Replace with your actual server URL
+    secure=False,
     tenant_guid="00000000-0000-0000-0000-000000000000",
 )
 
@@ -16,7 +16,7 @@ def stopCrawlOperation():
     print(crawlOperation)
 
 
-stopCrawlOperation()
+#stopCrawlOperation()
 
 
 def startCrawlOperation():
@@ -26,7 +26,7 @@ def startCrawlOperation():
     print(crawlOperation)
 
 
-# startCrawlOperation()
+#startCrawlOperation()
 
 
 def readAllCrawlOperations():
@@ -34,7 +34,7 @@ def readAllCrawlOperations():
     print(crawlOperations)
 
 
-# readAllCrawlOperations()
+#readAllCrawlOperations()
 
 
 def enumerateCrawlOperation():
@@ -44,7 +44,7 @@ def enumerateCrawlOperation():
     print(enumeration)
 
 
-# enumerateCrawlOperation()
+#enumerateCrawlOperation()
 
 
 def readCrawlOperation():
@@ -143,7 +143,7 @@ def createCrawlPlan():
     print(crawlPlan)
 
 
-# createCrawlPlan()
+#createCrawlPlan()
 
 
 def deleteCrawlFilter():
@@ -290,7 +290,7 @@ def readAllDataRepositories():
     print(dataRepositories)
 
 
-# readAllDataRepositories()
+#readAllDataRepositories()
 
 
 def enumerateDataRepositories():
@@ -298,12 +298,12 @@ def enumerateDataRepositories():
     print(dataRepositories)
 
 
-# enumerateDataRepositories()
+#enumerateDataRepositories()
 
 
 def updateDataRepository():
     dataRepository = crawler.DataRepository.update(
-        "00000000-0000-0000-0000-000000000000",
+        "186f92a5-dfb3-41be-be7e-8fbc2ce82911",
         Name="My NFS repository [updated]",
         RepositoryType="NFS",
         NfsVersion="V3",
@@ -316,17 +316,17 @@ def updateDataRepository():
     print(dataRepository)
 
 
-# updateDataRepository()
+#updateDataRepository()
 
 
 def readDataRepository():
     dataRepository = crawler.DataRepository.retrieve(
-        "00000000-0000-0000-0000-000000000000"
+        "186f92a5-dfb3-41be-be7e-8fbc2ce82911"
     )
     print(dataRepository)
 
 
-# readDataRepository()
+#readDataRepository()
 
 
 def createDataRepository():
@@ -343,4 +343,4 @@ def createDataRepository():
     print(dataRepository)
 
 
-# createDataRepository()
+# createDataRepository()  # Commented out to avoid potential issues

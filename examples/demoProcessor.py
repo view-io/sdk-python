@@ -3,7 +3,8 @@ from view_sdk import processor
 
 sdk = view_sdk.configure(
     access_key="default",
-    base_url="view.homedns.org",
+    base_url="YOUR_SERVER_URL_HERE",
+    secure=False,
     tenant_guid="00000000-0000-0000-0000-000000000000",
 )
 
@@ -39,24 +40,18 @@ def udrGeneration():
     print(result)
 
 
-# udrGeneration()
+#udrGeneration()
 
 
 def semanticCelExtraction():
     result = processor.SemanticCell.extraction(
         DocumentType="pdf",
-        Data="JVBERi0xLjcNCiW1tbW1DQoxIDAgb2JqDQo8PC9UeXBlL0NhdGFsb2cvUGFnZXMgMiAwIFIvTGFuZyhlbikgL1N0cnVjdFRyZWVSb290IDE4IDAgUi9NYXJrSW5mbzw8L01hcmtlZCB0cnVlPj4vTWV0YWRhdGEgODAgMCBSL1ZpZXdlclByZWZlcmVuY2VzIDgxIDAgUj4+DQplbmRvYmoNCjIgMCBvYmoNCjw8L1R5cGUvUGFnZXMvQ291bnQgMS9LaWRzWyAzIDAgUl0gPj4NCmVuZG9iag0KMyAwIG9iag0KPDwvVHlwZS9QYWdlL1BhcmVudCAyIDAgUi9SZXNvdXJjZXM8PC9Gb250PDwvRjEgNSAwIFIvRjIgMTIgMCBSL0YzIDE0IDAgUj",
-        MetadataRule={
-            "SemanticCellEndpoint": "http://viewdemo:8000/",
-            "MinChunkContentLength": 1,
-            "MaxChunkContentLength": 512,
-            "ShiftSize": 512,
-        },
+        Data="",
     )
     print(result)
 
 
-# semanticCelExtraction()
+#semanticCelExtraction()
 
 
 def cleanup():
@@ -172,44 +167,8 @@ def cleanup():
 
 def processingPipeline():
     result = processor.Processor.processing_pipeline(
-        Async=True,
-        Tenant={
-            "GUID": "00000000-0000-0000-0000-000000000000",
-            "Name": "Default Tenant",
-            "Region": "us-west-1",
-            "S3BaseDomain": "localhost",
-            "DefaultPoolGUID": "00000000-0000-0000-0000-000000000000",
-            "Active": True,
-        },
-        Collection={
-            "GUID": "00000000-0000-0000-0000-000000000000",
-            "TenantGUID": "00000000-0000-0000-0000-000000000000",
-            "Name": "My first collection",
-            "AllowOverwrites": True,
-            "AdditionalData": "Created by setup",
-        },
-        Bucket={
-            "GUID": "00000000-0000-0000-0000-000000000000",
-            "TenantGUID": "00000000-0000-0000-0000-000000000000",
-            "PoolGUID": "00000000-0000-0000-0000-000000000000",
-            "OwnerGUID": "00000000-0000-0000-0000-000000000000",
-            "Category": "Data",
-            "Name": "example-data-bucket",
-            "RegionString": "us-west-1",
-            "Versioning": True,
-            "MaxMultipartUploadSeconds": 604800,
-        },
-        Pool={
-            "GUID": "00000000-0000-0000-0000-000000000000",
-            "TenantGUID": "00000000-0000-0000-0000-000000000000",
-            "Name": "default",
-            "Provider": "Disk",
-            "WriteMode": "GUID",
-            "UseSsl": False,
-            "DiskDirectory": "./disk/",
-            "Compress": "None",
-            "EnableReadCaching": False,
-        },
+        MetadataRuleGUID="00000000-0000-0000-0000-000000000000",
+        EmbeddingsRuleGUID="00000000-0000-0000-0000-000000000000",
         Object={
             "GUID": "00000000-0000-0000-0000-000000000000",
             "ParentGUID": None,
@@ -223,69 +182,9 @@ def processingPipeline():
             "Version": "1",
             "ContentType": "text/plain",
             "DocumentType": "Text",
-            "ContentLength": 13,
-        },
-        MetadataRule={
-            "GUID": "00000000-0000-0000-0000-000000000000",
-            "TenantGUID": "00000000-0000-0000-0000-000000000000",
-            "BucketGUID": "00000000-0000-0000-0000-000000000000",
-            "OwnerGUID": "00000000-0000-0000-0000-000000000000",
-            "Name": "example-metadata-rule",
-            "ContentType": "*",
-            "MaxContentLength": 16777216,
-            "DataFlowEndpoint": "http://localhost:8501/processor",
-            "TypeDetectorEndpoint": "http://localhost:8501/processor/typedetector",
-            "SemanticCellEndpoint": "http://localhost:8341/",
-            "MaxChunkContentLength": 512,
-            "ShiftSize": 448,
-            "UdrEndpoint": "http://localhost:8321/",
-            "TopTerms": 25,
-            "CaseInsensitive": True,
-            "IncludeFlattened": True,
-            "DataCatalogEndpoint": "http://localhost:8201/",
-            "DataCatalogType": "Lexi",
-            "DataCatalogCollection": "default",
-            "GraphRepositoryGUID": "00000000-0000-0000-0000-000000000000",
-            "TargetBucketGUID": "00000000-0000-0000-0000-000000000000",
-        },
-        EmbeddingsRule={
-            "GUID": "00000000-0000-0000-0000-000000000000",
-            "TenantGUID": "00000000-0000-0000-0000-000000000000",
-            "BucketGUID": "00000000-0000-0000-0000-000000000000",
-            "OwnerGUID": "00000000-0000-0000-0000-000000000000",
-            "Name": "My storage server embeddings rule",
-            "ContentType": "*",
-            "GraphRepositoryGUID": "00000000-0000-0000-0000-000000000000",
-            "VectorRepositoryGUID": "00000000-0000-0000-0000-000000000000",
-            "DataFlowEndpoint": "http://localhost:8501/processor",
-            "EmbeddingsGenerator": "LCProxy",
-            "GeneratorUrl": "http://localhost:8301/",
-            "GeneratorApiKey": "",
-            "VectorStoreUrl": "http://localhost:8311/",
-            "MaxContentLength": 16777216,
-        },
-        VectorRepository={
-            "GUID": "00000000-0000-0000-0000-000000000000",
-            "Name": "My vector repository",
-            "RepositoryType": "Pgvector",
-            "Model": "all-MiniLM-L6-v2",
-            "Dimensionality": 384,
-            "DatabaseHostname": "localhost",
-            "DatabaseName": "vectordb",
-            "DatabaseTable": "minilm",
-            "DatabasePort": 5432,
-            "DatabaseUser": "postgres",
-            "DatabasePassword": "password",
-        },
-        GraphRepository={
-            "GUID": "00000000-0000-0000-0000-000000000000",
-            "TenantGUID": "00000000-0000-0000-0000-000000000000",
-            "Name": "My LiteGraph instance",
-            "RepositoryType": "LiteGraph",
-            "EndpointUrl": "http://localhost:8701/",
-            "ApiKey": "default",
-            "GraphIdentifier": "00000000-0000-0000-0000-000000000000",
-        },
+            "ContentLength": 85,
+            "Data": "VGhpcyBpcyBhIHNhbXBsZSBkb2N1bWVudCB3aXRoIGp1c3QgYSBoYW5kZnVsIG9mIHdvcmRzIHRoYXQgd2lsbCBiZSBwcm9jZXNzZWQgYnkgVmlldw=="
+        }
     )
     print(result)
 
@@ -295,19 +194,21 @@ def processingPipeline():
 
 def typeDetection():
     result = processor.TypeDetector.type_detection(
-        menu={
-            "id": "file",
-            "value": "File",
-            "popup": {
-                "menuitem": [
-                    {"value": "New", "onclick": "CreateNewDoc()"},
-                    {"value": "Open", "onclick": "OpenDoc()"},
-                    {"value": "Close", "onclick": "CloseDoc()"},
-                ]
-            },
+        data={
+            "menu": {
+                "id": "file",
+                "value": "File",
+                "popup": {
+                    "menuitem": [
+                        {"value": "New", "onclick": "CreateNewDoc()"},
+                        {"value": "Open", "onclick": "OpenDoc()"},
+                        {"value": "Close", "onclick": "CloseDoc()"}
+                    ]
+                }
+            }
         }
     )
     print(result)
 
 
-# typeDetection()
+#typeDetection()

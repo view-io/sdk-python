@@ -32,6 +32,11 @@ class SemanticCell(CreateableAPIResource):
                 raise ValueError("No data supplied for semantic cell extraction.")
         else:
             # Handle direct kwargs (not wrapped in a request object)
-            if not kwargs.get("data"):
+            # Check for both 'data' and 'Data' parameters
+            data = kwargs.get("data") or kwargs.get("Data")
+            if not data:
                 raise ValueError("No data supplied for semantic cell extraction.")
+            # Normalize to lowercase 'data' for consistency
+            if "Data" in kwargs:
+                kwargs["data"] = kwargs.pop("Data")
         return super().create(**kwargs)

@@ -5,6 +5,7 @@ from ...mixins import (
     UpdatableAPIResource,
 )
 from ...models.multipart_upload import MultipartUploadPartModel
+from ...sdk_configuration import Service
 
 
 class MultipartUploads(
@@ -17,7 +18,7 @@ class MultipartUploads(
     PARENT_ID_PARAM = "bucket_guid"
     RESOURCE_NAME: str = "uploads"
     MODEL = MultipartUploadPartModel
-
+    SERVICE = Service.STORAGE
     @classmethod
     def create(cls, bucket_guid: str, **kwargs: MultipartUploadPartModel):
         """
