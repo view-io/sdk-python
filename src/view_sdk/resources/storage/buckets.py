@@ -9,9 +9,12 @@ from ...mixins import (
     EnumerableAPIResource,
 )
 from ...models.acl import ACLModel
+from ...models.acl_entry import ACLEntryModel
 from ...models.bucket import BucketMetadataModel
 from ...models.bucket_enumeration_result import BucketEnumerationResultModel
 from ...models.storage_tag import StorageTagModel
+from ...sdk_configuration import Service, get_client
+from ...utils.url_helper import _get_url_v1
 
 
 class Bucket(
@@ -24,6 +27,7 @@ class Bucket(
 ):
     RESOURCE_NAME: str = "buckets"
     MODEL = BucketMetadataModel
+    SERVICE = Service.STORAGE
 
     @classmethod
     def list_buckets(cls):
@@ -73,9 +77,33 @@ class BucketTags(
     RESOURCE_NAME: str = ""
     MODEL = StorageTagModel
     QUERY_PARAMS = {"tags": None}
+    SERVICE = Service.STORAGE
 
     @classmethod
-    def create(cls, resource_guid: str, tags: List[StorageTagModel]) -> StorageTagModel:
+    def retrieve(cls, resource_guid: str, **kwargs) -> List[StorageTagModel]:
+        """
+        Retrieve tags for a specific bucket.
+        Args:
+            resource_guid (str): The unique identifier of the bucket.
+            **kwargs: Additional keyword arguments for the request.
+
+        Returns:
+            List[StorageTagModel]: The tags for the bucket.
+        """
+        # Construct the URL manually to ensure correct path
+        client = get_client(cls.SERVICE)
+        url = _get_url_v1(cls, client.tenant_guid, "buckets", resource_guid, **cls.QUERY_PARAMS)
+        headers = kwargs.pop("headers", {})
+        response = client.request("GET", url, headers=headers)
+        
+        # Handle the response validation
+        if isinstance(response, list):
+            return [StorageTagModel.model_validate(tag) for tag in response]
+        else:
+            return StorageTagModel.model_validate(response)
+
+    @classmethod
+    def create(cls, resource_guid: str, tags: List[StorageTagModel]) -> List[StorageTagModel]:
         """
         Create tags for a specific bucket.
         Args:
@@ -83,10 +111,25 @@ class BucketTags(
             tags (List[StorageTagModel]): A list of StorageTagModel objects to create.
 
         Returns:
-            StorageTagModel: The tags for the bucket.
+            List[StorageTagModel]: The created tags for the bucket.
         """
         kwargs = {"resource_guid": resource_guid, "_data": tags}
-        return super().create(**kwargs)
+        # Temporarily set MODEL to None to prevent parent validation
+        original_model = cls.MODEL
+        cls.MODEL = None
+        
+        try:
+            # Call the parent create method without model validation
+            response = super().create(**kwargs)
+            
+            # Handle the response validation ourselves
+            if isinstance(response, list):
+                return [StorageTagModel.model_validate(tag) for tag in response]
+            else:
+                return StorageTagModel.model_validate(response)
+        finally:
+            # Restore the original model
+            cls.MODEL = original_model
 
 
 class BucketACL(
@@ -99,17 +142,56 @@ class BucketACL(
     RESOURCE_NAME: str = ""
     MODEL = ACLModel
     QUERY_PARAMS = {"acl": None}
+    SERVICE = Service.STORAGE
 
     @classmethod
-    def create(cls, resource_guid: str, acl: ACLModel) -> ACLModel:
+    def retrieve(cls, resource_guid: str, **kwargs) -> List[ACLModel]:
         """
-        Create tags for a specific bucket.
+        Retrieve ACL for a specific bucket.
         Args:
             resource_guid (str): The unique identifier of the bucket.
-            acl (ACLModel): A list of StorageTagModel objects to create.
+            **kwargs: Additional keyword arguments for the request.
 
         Returns:
-            StorageTagModel: The tags for the bucket.
+            List[ACLModel]: The ACL entries for the bucket.
+        """
+        # Construct the URL manually to ensure correct path
+        client = get_client(cls.SERVICE)
+        url = _get_url_v1(cls, client.tenant_guid, "buckets", resource_guid, **cls.QUERY_PARAMS)
+        headers = kwargs.pop("headers", {})
+        response = client.request("GET", url, headers=headers)
+        
+        # Handle the response validation
+        if isinstance(response, list):
+            return [ACLModel.model_validate(entry) for entry in response]
+        else:
+            return ACLModel.model_validate(response)
+
+    @classmethod
+    def create(cls, resource_guid: str, acl: ACLEntryModel) -> List[ACLEntryModel]:
+        """
+        Create ACL for a specific bucket.
+        Args:
+            resource_guid (str): The unique identifier of the bucket.
+            acl (ACLEntryModel): The ACL entry model to create.
+
+        Returns:
+            List[ACLEntryModel]: The created ACL entries for the bucket.
         """
         kwargs = {"resource_guid": resource_guid, "_data": acl}
-        return super().create(**kwargs)
+        # Temporarily set MODEL to None to prevent parent validation
+        original_model = cls.MODEL
+        cls.MODEL = None
+        
+        try:
+            # Call the parent create method without model validation
+            response = super().create(**kwargs)
+            
+            # Handle the response validation ourselves
+            if isinstance(response, list):
+                return [ACLEntryModel.model_validate(entry) for entry in response]
+            else:
+                return ACLEntryModel.model_validate(response)
+        finally:
+            # Restore the original model
+            cls.MODEL = original_model

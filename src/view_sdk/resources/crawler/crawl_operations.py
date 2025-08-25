@@ -20,9 +20,7 @@ class CrawlOperation(
     EnumerableAPIResource,
 ):
     CREATE_METHOD = "POST"
-    PARENT_RESOURCE = "crawloperations"
-    PARENT_ID_PARAM = "operation_guid"
-    RESOURCE_NAME: str = "start"
+    RESOURCE_NAME: str = "crawloperations"
     REQUEST_MODEL = CrawlOperationRequestModel
 
     @classmethod
@@ -36,7 +34,12 @@ class CrawlOperation(
         Returns:
             The created crawl operation response
         """
-        return super().create(operation_guid=operation_guid, **kwargs)
+        # For start operation, we need to construct the URL manually
+        client = get_client(cls.SERVICE)
+        url = _get_url_v1(cls, client.tenant_guid, "crawloperations", operation_guid, "start")
+        data = cls._dump_model_data(kwargs, cls.REQUEST_MODEL)
+        response = client.request(cls.CREATE_METHOD, url, json=data)
+        return response
 
     @classmethod
     def stop(cls, operation_guid: str, **kwargs: CrawlOperationRequestModel):
@@ -49,7 +52,12 @@ class CrawlOperation(
         Returns:
             The created crawl operation response
         """
-        return super().create(operation_guid=operation_guid, **kwargs)
+        # For stop operation, we need to construct the URL manually
+        client = get_client(cls.SERVICE)
+        url = _get_url_v1(cls, client.tenant_guid, "crawloperations", operation_guid, "stop")
+        data = cls._dump_model_data(kwargs, cls.REQUEST_MODEL)
+        response = client.request(cls.CREATE_METHOD, url, json=data)
+        return response
 
     @classmethod
     def enumerateCrawlOperation(cls, operation_guid: str):

@@ -8,7 +8,6 @@ from ...mixins import (
 )
 from ...models.pool import StoragePool
 
-
 class Pool(
     ExistsAPIResource,
     CreateableAPIResource,

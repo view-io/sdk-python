@@ -6,6 +6,7 @@ from pydantic import BaseModel, ConfigDict, Field
 from .api_error_response import ApiErrorResponseModel
 from .embeddings_document import EmbeddingsDocumentModel
 from .source_document import SourceDocumentModel
+from .timestamp import TimestampModel
 from .type_result import TypeResultModel
 from .udr_document import UdrDocumentModel
 
@@ -25,8 +26,8 @@ class ProcessorResponse(BaseModel):
         default=False, alias="Async", description="Boolean indicating async processing"
     )
 
-    timestamp: datetime = Field(
-        default_factory=lambda: datetime.now(timezone.utc),
+    timestamp: TimestampModel = Field(
+        default_factory=TimestampModel,
         alias="Timestamp",
         description="Timestamps",
     )

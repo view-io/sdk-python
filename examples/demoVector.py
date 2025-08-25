@@ -3,7 +3,8 @@ from view_sdk import vector
 
 sdk = view_sdk.configure(
     access_key="default",
-    base_url="view.homedns.org",
+    base_url="YOUR_SERVER_URL_HERE",  # Replace with your actual server URL
+    secure=False,  # Use HTTP (server doesn't support HTTPS)
     tenant_guid="00000000-0000-0000-0000-000000000000",
 )
 
@@ -18,7 +19,7 @@ def existsSemanticChunk():
     print(response)
 
 
-existsSemanticChunk()
+# existsSemanticChunk()
 
 
 def readSemanticChunk():
@@ -61,16 +62,14 @@ def existsSemanticCell():
 def readSemanticCell():
     response = vector.SemanticCells.retrieve(
         "00000000-0000-0000-0000-000000000000",
-        "fb00d35b-cdaf-4208-871b-7dcfcb9b1ede",
+        "6f376cca-083d-4d96-8cb6-46015a010971",
         "00000000-0000-0000-0000-000000000000",
     )
     print(response)
 
 
-# readSemanticCell()
+readSemanticCell()
 
-
-# readSemanticCells()
 
 
 def deleteDocument():
@@ -85,7 +84,7 @@ def deleteDocument():
 
 def existsDocument():
     response = vector.Documents.exists(
-        "00000000-0000-0000-0000-000000000000", "fb00d35b-cdaf-4208-871b-7dcfcb9b1ede"
+        "00000000-0000-0000-0000-000000000000", "6f376cca-083d-4d96-8cb6-46015a010971"
     )
     print(response)
 
@@ -95,7 +94,7 @@ def existsDocument():
 
 def readDocument():
     response = vector.Documents.retrieve(
-        "00000000-0000-0000-0000-000000000000", "fb00d35b-cdaf-4208-871b-7dcfcb9b1ede"
+        "00000000-0000-0000-0000-000000000000", "6f376cca-083d-4d96-8cb6-46015a010971"
     )
     print(response)
 
@@ -142,7 +141,8 @@ def createDocument():
 
 def findEmbeddings():
     response = vector.Search.find_embeddings(
-        Criteria=[{"SHA256Hash": "222"}, {"SHA256Hash": "111"}]
+        Criteria=[{"SHA256Hash": "222"}, {"SHA256Hash": "111"}],
+        VectorRepositoryGUID="00000000-0000-0000-0000-000000000000",
     )
     print(response)
 
@@ -153,6 +153,7 @@ def findEmbeddings():
 def innerProductSearch():
     response = vector.Search.search(
         SearchType="InnerProduct",
+        VectorRepositoryGUID="00000000-0000-0000-0000-000000000000",
         MaxResults=5,
         Embeddings=[
             0.16624743426880373,

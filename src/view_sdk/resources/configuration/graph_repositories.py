@@ -5,6 +5,7 @@ from ...mixins import (
     ExistsAPIResource,
     RetrievableAPIResource,
     UpdatableAPIResource,
+    EnumerableAPIResource,
 )
 from ...models.graph_repository import GraphRepositoryModel
 
@@ -16,6 +17,7 @@ class GraphRepository(
     AllRetrievableAPIResource,
     UpdatableAPIResource,
     DeletableAPIResource,
+    EnumerableAPIResource,
 ):
     RESOURCE_NAME: str = "graphrepositories"
     MODEL = GraphRepositoryModel

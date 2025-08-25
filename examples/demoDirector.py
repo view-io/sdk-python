@@ -3,13 +3,22 @@ from view_sdk import director
 
 sdk = view_sdk.configure(
     access_key="default",
-    base_url="view.homedns.org",
+    base_url="YOUR_SERVER_URL_HERE",
     tenant_guid="00000000-0000-0000-0000-000000000000",
 )
 
 
 def generateEmbeddings():
     result = director.GenerateEmbeddings.create(
+        EmbeddingsRule={
+        "EmbeddingsGenerator": "LCProxy",
+        "EmbeddingsGeneratorUrl": "http://nginx-lcproxy:8000/",
+        "EmbeddingsGeneratorApiKey": "default",
+        "BatchSize": 16,
+        "MaxGeneratorTasks": 16,
+        "MaxRetries": 3,
+        "MaxFailures": 3
+        },
         Model="all-MiniLM-L6-v2",
         ApiKey="",
         Contents=[
@@ -19,14 +28,14 @@ def generateEmbeddings():
     print(result)
 
 
-generateEmbeddings()
+#generateEmbeddings()
 
 
 def listConnections():
     result = director.Connections.retrieve_all(
-        "mXCNtMWDsW0/pr+IwRFUjeDO2cbVr5o4WlPplku8dbpYzqXbeV0c5ofMbX/YiOhMzPSr1DRg/PyE25KpaGzto0+uchyYY2jGJvlj7I/nSFmqlMEsXYy73LsvYjG4tSlimGN60Hj51mmvdaieE8BOVStYfehip+tEXiELfP7tXX6N6EIFAyCQZRWtRoKkXK+DZoY265roa6TwGehPTz4n4vrKb3XwrWzAWOl/pb6G+t3+P/oa52JqKojKT1wB+sLJ8sjzJpalYuQzLEOcK5Nwyw=="
+        "mXCNtMWDsW0/pr+IwRFUjclG5ap7t0RbHfpxzSvAUH+Siq3pFXcO/HLVkwrz/HhG4IuGfqY0K9PhM4lMshXyAPSxNrZjmxGBRctiKYpIf9fZ8SfiJA110z2E9M0ENGWGdSVMm7bYNpWq5Yy/VWBltQtzAYb2RUzZfLnvA8v0aX3leXEGDNCOAjf0CcdBrYQZz6Qiukir3y8N8LHgXXnkYDoCqy9I9c9SkH4OprGp+TXVp7wHz7g9MyD/3NhJRnWTnUmQk0TLrI4gcabuNgYkkTXHkHSwo8qHQzldUlWivO6jbHx6vY+c65EdwjPif3R7"
     )
     print(result)
 
 
-# listConnections()
+listConnections()

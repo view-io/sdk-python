@@ -3,7 +3,7 @@ from view_sdk import assistant
 
 sdk = view_sdk.configure(
     access_key="default",
-    base_url="view.homedns.org",
+    base_url="YOUR_SERVER_URL_HERE",  # Replace with your actual server URL
     tenant_guid="00000000-0000-0000-0000-000000000000",
 )
 
@@ -27,10 +27,23 @@ def chatOnlyMessages():
         GenerationApiKey="API_KEY",
         Stream=False,
     )
-    print(result)
+    
+    # Handle the generator result
+    try:
+        # For non-streaming requests, the result is yielded and then StopIteration is raised
+        actual_result = next(result)
+        print("Chat response:", actual_result)
+    except StopIteration as e:
+        # The actual result is in the StopIteration exception value
+        if hasattr(e, 'value') and e.value is not None:
+            print("Chat response:", e.value)
+        else:
+            print("No response received")
+    except Exception as e:
+        print(f"Error: {e}")
 
 
-chatOnlyMessages()
+#chatOnlyMessages()
 
 
 def chat_config():
@@ -46,10 +59,23 @@ def chat_config():
         ],
         Stream=False,
     )
-    print(result)
+    
+    # Handle the generator result
+    try:
+        # For non-streaming requests, the result is yielded and then StopIteration is raised
+        actual_result = next(result)
+        print("Chat config response:", actual_result)
+    except StopIteration as e:
+        # The actual result is in the StopIteration exception value
+        if hasattr(e, 'value') and e.value is not None:
+            print("Chat config response:", e.value)
+        else:
+            print("No response received")
+    except Exception as e:
+        print(f"Error: {e}")
 
 
-# chat_config()
+#chat_config()
 
 
 def chat_rag_messages():
@@ -83,15 +109,28 @@ def chat_rag_messages():
         PromptPrefix="",
         ContextSort=True,
         SortByMaxSimilarity=True,
-        ContextScope=0,
+        ContextScope=1,
         Rerank=False,
         RerankModel="cross-encoder/ms-marco-MiniLM-L-6-v2",
         RerankTopK=5,
     )
-    print(result)
+    
+    # Handle the generator result
+    try:
+        # For non-streaming requests, the result is yielded and then StopIteration is raised
+        actual_result = next(result)
+        print("Chat RAG response:", actual_result)
+    except StopIteration as e:
+        # The actual result is in the StopIteration exception value
+        if hasattr(e, 'value') and e.value is not None:
+            print("Chat RAG response:", e.value)
+        else:
+            print("No response received")
+    except Exception as e:
+        print(f"Error: {e}")
 
 
-# chat_rag_messages()
+#chat_rag_messages()
 
 
 def chat():
@@ -111,22 +150,33 @@ def chat():
         HuggingFaceApiKey="",
         Temperature=0.1,
         MaxTokens=75,
-        Stream=False,
         OllamaHostname="ollama",
         OllamaPort=11434,
         TopP=0.95,
         PromptPrefix="talk like a pirate",
         ContextSort=True,
         SortByMaxSimilarity=True,
-        ContextScope=0,
+        ContextScope=1,
         Rerank=False,
         RerankModel="cross-encoder/ms-marco-MiniLM-L-6-v2",
         RerankTopK=5,
     )
-    print(result)
+    
+    # Handle the streaming generator result
+    try:
+        # Collect all tokens from the streaming response
+        tokens = []
+        for token in result:
+            tokens.append(token)
+        
+        # Join all tokens to form the complete response
+        complete_response = "".join(tokens)
+        print("RAG LEGACY response:", complete_response)
+    except Exception as e:
+        print(f"Error: {e}")
 
 
-# chat()
+chat()
 
 
 def unLoadModel():
@@ -324,7 +374,7 @@ def createConfig():
         OllamaPort=11434,
         ContextSort=True,
         SortByMaxSimilarity=True,
-        ContextScope=0,
+        ContextScope=1,
         Rerank=True,
         RerankModel="cross-encoder/ms-marco-MiniLM-L-6-v2",
         RerankTopK=3,

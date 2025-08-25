@@ -1,10 +1,12 @@
 import view_sdk
 from view_sdk import storage
+from view_sdk.sdk_configuration import Service
 
 sdk = view_sdk.configure(
     access_key="default",
-    base_url="view.homedns.org",
+    base_url="YOUR_SERVER_URL_HERE",
     tenant_guid="00000000-0000-0000-0000-000000000000",
+    service_ports={Service.STORAGE: 8001},
 )
 
 
@@ -15,7 +17,7 @@ def completeMultipartUpload():
     print(object)
 
 
-completeMultipartUpload()
+# completeMultipartUpload()
 
 
 def deleteMultipartUpload():
@@ -81,12 +83,12 @@ def retrieveMultipartUpload():
 
 def createMultipartUpload():
     object = storage.MultipartUploads.create(
-        bucket_guid="fa099b91-8f4d-4b32-8d2a-1761e4a3740a", Key="foo.txt"
+        bucket_guid="00000000-0000-0000-0000-000000000000", Key="test_sdk.new"
     )
     print(object)
 
 
-# createMultipartUpload()
+createMultipartUpload()
 
 
 def deleteObject():
@@ -157,7 +159,7 @@ def deleteObjectTags():
 
 def readObjectTags():
     object = storage.ObjectTags.read_tags(
-        "fa099b91-8f4d-4b32-8d2a-1761e4a3740a", "test_sdk.new"
+        "00000000-0000-0000-0000-000000000000", "test_sdk.new"
     )
     print(object)
 
@@ -167,7 +169,7 @@ def readObjectTags():
 
 def createObjectTags():
     object = storage.ObjectTags.create_tags(
-        "fa099b91-8f4d-4b32-8d2a-1761e4a3740a",
+        "00000000-0000-0000-0000-000000000000",
         "test_sdk.new",
         [{"Key": "Name", "Value": "testbucket"}],
     )
@@ -180,7 +182,7 @@ def createObjectTags():
 def setObjectExpiration():
     object = storage.Object.set_expiration(
         "00000000-0000-0000-0000-000000000000",
-        "test.new",
+        "test_sdk.new",
         "2025-08-06T16:30:09.495213Z",
     )
     print(object)
@@ -191,7 +193,7 @@ def setObjectExpiration():
 
 def readObjectMetadata():
     object = storage.Object.retrieve_metadata(
-        "00000000-0000-0000-0000-000000000000", "test.new"
+        "00000000-0000-0000-0000-000000000000", "test_sdk.new"
     )
     print(object)
 
@@ -201,7 +203,7 @@ def readObjectMetadata():
 
 def readObjectDataInRange():
     object = storage.Object.retrieve_range(
-        "00000000-0000-0000-0000-000000000000", "test.new", 0, 1
+        "00000000-0000-0000-0000-000000000000", "test_sdk.new", 0, 1
     )
     print(object)
 
@@ -210,16 +212,16 @@ def readObjectDataInRange():
 
 
 def readObjectData():
-    object = storage.Object.retrieve("00000000-0000-0000-0000-000000000000", "test.new")
+    object = storage.Object.retrieve("00000000-0000-0000-0000-000000000000", "test_sdk.new")
     print(object)
 
 
-# readObjectData()
+#readObjectData()
 
 
 def writeObject():
     object = storage.Object.write_chunked(
-        "fa099b91-8f4d-4b32-8d2a-1761e4a3740a", "test_sdk.new", "test"
+        "00000000-0000-0000-0000-000000000000", "test_sdk.new", "test"
     )
     print(object)
 
@@ -240,7 +242,7 @@ def readBucketACL():
     print(bucket)
 
 
-# readBucketACL()
+#readBucketACL()
 
 
 def createBucketACL():
@@ -248,8 +250,8 @@ def createBucketACL():
         "00000000-0000-0000-0000-000000000000",
         {
             "Owner": {
-                "GUID": "default",
-                "TenantGUID": "default",
+                "GUID": "00000000-0000-0000-0000-000000000000",
+                "TenantGUID": "00000000-0000-0000-0000-000000000000",
                 "FirstName": "Default",
                 "LastName": "User",
                 "FullName": "Default User",
@@ -260,8 +262,8 @@ def createBucketACL():
             },
             "Users": [
                 {
-                    "GUID": "default",
-                    "TenantGUID": "default",
+                    "GUID": "00000000-0000-0000-0000-000000000000",
+                    "TenantGUID": "00000000-0000-0000-0000-000000000000",
                     "FirstName": "Default",
                     "LastName": "User",
                     "FullName": "Default User",
@@ -273,11 +275,11 @@ def createBucketACL():
             ],
             "Entries": [
                 {
-                    "GUID": "default",
-                    "TenantGUID": "default",
-                    "BucketGUID": "example-data-bucket",
-                    "OwnerGUID": "default",
-                    "UserGUID": "default",
+                    "GUID": "00000000-0000-0000-0000-000000000000",
+                    "TenantGUID": "00000000-0000-0000-0000-000000000000",
+                    "BucketGUID": "00000000-0000-0000-0000-000000000000",
+                    "OwnerGUID": "00000000-0000-0000-0000-000000000000",
+                    "UserGUID": "00000000-0000-0000-0000-000000000000",
                     "CanonicalUser": "",
                     "EnableRead": True,
                     "EnableReadAcp": True,
@@ -292,7 +294,7 @@ def createBucketACL():
     print(bucket)
 
 
-# createBucketACL()
+#createBucketACL()
 
 
 def deleteBucketTag():
@@ -308,7 +310,7 @@ def readBucketTag():
     print(bucket)
 
 
-# readBucketTag()
+#readBucketTag()
 
 
 def createBucketTags():
@@ -342,7 +344,7 @@ def updateBucket():
     print(bucket)
 
 
-# updateBucket()
+#updateBucket()
 
 
 def readBucketMetadata():
@@ -350,7 +352,7 @@ def readBucketMetadata():
     print(bucket)
 
 
-# readBucketMetadata()
+#readBucketMetadata()
 
 
 def readAllObjects():
@@ -358,7 +360,7 @@ def readAllObjects():
     print(objects)
 
 
-# readAllObjects()
+#readAllObjects()
 
 
 def readAllBuckets():
@@ -382,12 +384,13 @@ def createBucket():
 # createBucket()
 
 
-def existsBucket():
-    bucket = storage.Bucket.exists("00000000-0000-0000-0000-000000000000")
-    print(bucket)
+
+def existsStoragePool():
+    storagePool = storage.Pool.exists("00000000-0000-0000-0000-000000000000")
+    print(storagePool)
 
 
-# existsStoragePool()
+#existsStoragePool()
 
 
 def deleteStoragePool():
@@ -410,7 +413,6 @@ def updateStoragePool():
         EnableReadCaching=False,
     )
     print(storagePool)
-
 
 # updateStoragePool()
 
@@ -442,6 +444,5 @@ def createStoragePool():
         EnableReadCaching=False,
     )
     print(storagePool)
-
 
 # createStoragePool()

@@ -3,7 +3,8 @@ from view_sdk import lexi
 
 sdk = view_sdk.configure(
     access_key="default",
-    base_url="view.homedns.org",
+    base_url="YOUR_SERVER_URL_HERE",  # Replace with your actual server URL
+    secure=False,  # Use HTTP (server doesn't support HTTPS)
     tenant_guid="00000000-0000-0000-0000-000000000000",
 )
 
@@ -17,7 +18,7 @@ def deleteIngestQueue():
 
 
 def existsIngestQueue():
-    exists = lexi.IngestQueue.exists("00000000-0000-0000-0000-000000000000")
+    exists = lexi.IngestQueue.exists("d6fb173a-5b62-4b6d-a8bb-f3024e697520")
     print(exists)
 
 
@@ -25,11 +26,11 @@ def existsIngestQueue():
 
 
 def readIngestQueue():
-    queue = lexi.IngestQueue.retrieve_statistics("00000000-0000-0000-0000-000000000000")
+    queue = lexi.IngestQueue.retrieve_statistics()
     print(queue)
 
 
-# readIngestQueue()
+#readIngestQueue()
 
 
 def readAllIngestQueue():
@@ -37,7 +38,7 @@ def readAllIngestQueue():
     print(queues)
 
 
-# readAllIngestQueue()
+#readAllIngestQueue()
 
 
 def uploadSourceDocument():
@@ -61,22 +62,22 @@ def uploadSourceDocument():
 
 def readSourceDocumentStatistics():
     statistics = lexi.SourceDocument.retrieve_statistics(
-        "00000000-0000-0000-0000-000000000000", "00000000-0000-0000-0000-000000000000"
+        "41669cec-1e80-4206-b123-c76867c6734f", "00000000-0000-0000-0000-000000000000"
     )
     print(statistics)
 
 
-# readSourceDocumentStatistics()
+#readSourceDocumentStatistics()
 
 
 def readTopTerms():
     terms = lexi.SourceDocument.retrieve_top_terms(
-        "00000000-0000-0000-0000-000000000000", "00000000-0000-0000-0000-000000000000"
+        "00000000-0000-0000-0000-000000000000", "41669cec-1e80-4206-b123-c76867c6734f"
     )
     print(terms)
 
 
-# readTopTerms()
+#readTopTerms()
 
 
 def readSourceDocument():
@@ -88,7 +89,7 @@ def readSourceDocument():
     print(document)
 
 
-# readSourceDocument()
+#readSourceDocument()
 
 
 def readAllSourceDocuments():
@@ -96,7 +97,7 @@ def readAllSourceDocuments():
     print(documents)
 
 
-# readAllSourceDocuments()
+readAllSourceDocuments()
 
 
 def deleteCollection():
@@ -178,7 +179,7 @@ def readAllCollections():
 
 
 def readCollection():
-    collection = lexi.Collection.retrieve("79bedb07-6408-4841-987c-3bb4b0e6ffd8")
+    collection = lexi.Collection.retrieve("966a6a81-b8f3-49c5-8401-ade062926c40")
     print(collection)
 
 

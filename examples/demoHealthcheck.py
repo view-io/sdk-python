@@ -3,7 +3,7 @@ from view_sdk import health_check
 
 sdk = view_sdk.configure(
     access_key="default",
-    base_url="view.homedns.org",
+    base_url="YOUR_SERVER_URL_HERE",
     tenant_guid="00000000-0000-0000-0000-000000000000",
 )
 

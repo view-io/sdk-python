@@ -50,7 +50,7 @@ view_sdk.configure(
     tenant_guid="your_tenant_id",  # Optional
     verbose=False  # Enable verbose logging
 )
-
+```
 ## Available Services
 
 The SDK provides access to the following services:

@@ -30,17 +30,17 @@ class ServicePorts:
 
     DEFAULT: int = 8000
     STORAGE: int = 8001
-    CRAWLER: int = 8101
-    LEXI: int = 8201
-    EMBEDDINGS: int = 8301
+    CRAWLER: int = 8000
+    LEXI: int = 8000
+    EMBEDDINGS: int = 8000
     VECTOR: int = 8000
-    PROCESSOR: int = 8501
-    ASSISTANT: int = 8331
-    SEMANTIC_CELLS: int = 8341
-    CONTROL_PLANE: int = 8401
-    CONFIG: int = 8601
-    GRAPH_DATABASE: int = 8701
-    DIRECTOR: int = 8501
+    PROCESSOR: int = 8000
+    ASSISTANT: int = 8000
+    SEMANTIC_CELLS: int = 8000
+    CONTROL_PLANE: int = 8000
+    CONFIG: int = 8000
+    GRAPH_DATABASE: int = 8000
+    DIRECTOR: int = 8000
 
 
 class SdkConfiguration:
