@@ -1,13 +1,13 @@
 import json
 from typing import Generator, Optional
 
-from ...mixins import CreateableAPIResource
+from ...mixins import CreateableAPIResource, UpdatableAPIResource
 from ...models.assistant_rag_request import AssistantRagRequest
 from ...sdk_configuration import Service, get_client
 from ...sdk_logging import log_debug, log_warning
 
 
-class Assistant(CreateableAPIResource):
+class Assistant(CreateableAPIResource, UpdatableAPIResource):
     """Resource for Assistant operations."""
 
     RESOURCE_NAME: str = ""  # Base path is empty since we use specific endpoints
@@ -113,7 +113,7 @@ class Assistant(CreateableAPIResource):
                 return
 
     @classmethod
-    def chat_only(cls, **kwargs) -> Generator[str, None, None]:
+    def chat_only(cls, **kwargs):
         """
         Process a chat request with RAG messages
 
@@ -121,7 +121,7 @@ class Assistant(CreateableAPIResource):
             **kwargs: Keyword arguments that will be validated against AssistantChatRequest model
 
         Returns:
-            Generator yielding response tokens
+            Response data for non-streaming requests, or Generator yielding response tokens for streaming requests
 
         Raises:
             ValueError: If required parameters are missing

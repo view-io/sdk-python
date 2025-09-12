@@ -10,7 +10,7 @@ from ...mixins import (
 from ...models.acl import ACLModel
 from ...models.object_metadata import ObjectMetadataModel
 from ...models.storage_tag import StorageTagModel
-
+from ...sdk_configuration import Service
 
 class Object(
     CreateableAPIResource,
@@ -22,6 +22,7 @@ class Object(
     PARENT_ID_PARAM = "bucket_guid"
     RESOURCE_NAME: str = "objects"
     MODEL = None
+    SERVICE = Service.STORAGE
 
     @classmethod
     def retrieve(cls, bucket_guid: str, resource_guid: str):

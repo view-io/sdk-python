@@ -11,7 +11,7 @@ def valid_crawl_operation_request():
     )
 
 
-@patch("view_sdk.mixins.get_client")
+@patch("view_sdk.resources.crawler.crawl_operations.get_client")
 def test_crawl_operation_start(mock_get_client, valid_crawl_operation_request):
     mock_client = Mock()
     mock_get_client.return_value = mock_client
@@ -29,7 +29,7 @@ def test_crawl_operation_start(mock_get_client, valid_crawl_operation_request):
     assert "/crawloperations/test_guid/start" in call_args[0][1]
 
 
-@patch("view_sdk.mixins.get_client")
+@patch("view_sdk.resources.crawler.crawl_operations.get_client")
 def test_crawl_operation_stop(mock_get_client, valid_crawl_operation_request):
     mock_client = Mock()
     mock_get_client.return_value = mock_client
@@ -44,4 +44,4 @@ def test_crawl_operation_stop(mock_get_client, valid_crawl_operation_request):
 
     call_args = mock_client.request.call_args
     assert call_args[0][0] == "POST"
-    assert "/crawloperations/test_guid/start" in call_args[0][1]
+    assert "/crawloperations/test_guid/stop" in call_args[0][1]

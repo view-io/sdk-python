@@ -12,7 +12,7 @@ sdk_logging.set_log_level(level="DEBUG")
 # Configure the SDK with required parameters
 view_sdk.configure(
     access_key="default",
-    base_url="view.homedns.org",
+    base_url="YOUR_SERVER_URL_HERE",
     tenant_guid="default",
     verbose=False,
 )

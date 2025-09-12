@@ -3,7 +3,7 @@ from view_sdk import configuration
 
 sdk = view_sdk.configure(
     access_key="default",
-    base_url="view.homedns.org",
+    base_url="YOUR_SERVER_URL_HERE",
     tenant_guid="00000000-0000-0000-0000-000000000000",
 )
 
@@ -31,7 +31,7 @@ def readAllObjectLocks():
     print(objectLocks)
 
 
-# readAllObjectLocks()
+#readAllObjectLocks()
 
 
 def enumerateObjectLocks():
@@ -39,7 +39,7 @@ def enumerateObjectLocks():
     print(objectLocks)
 
 
-# enumerateObjectLocks()
+#enumerateObjectLocks()
 
 
 def deleteWebhookRule():
@@ -49,7 +49,7 @@ def deleteWebhookRule():
     print(webhookRule)
 
 
-# deleteWebhookRule()
+#deleteWebhookRule()
 
 
 def existsWebhookRule():
@@ -59,7 +59,7 @@ def existsWebhookRule():
     print(webhookRule)
 
 
-# existsWebhookRule()
+#existsWebhookRule()
 
 
 def updateWebhookRule():
@@ -73,7 +73,7 @@ def updateWebhookRule():
     print(webhookRule)
 
 
-# updateWebhookRule()
+#updateWebhookRule()
 
 
 def readAllWebhookRules():
@@ -300,7 +300,7 @@ def createBlob():
     print(blob)
 
 
-# createBlob()
+createBlob()
 
 
 def deleteEncryptionKey():
@@ -353,13 +353,12 @@ def readAllEncryptionKeys():
     encryptionKeys = configuration.EncryptionKey.retrieve_all()
     print(encryptionKeys)
 
-
-# readAllEncryptionKeys()
+#readAllEncryptionKeys()
 
 
 def readEncryptionKey():
     encryptionKey = configuration.EncryptionKey.retrieve(
-        "ee70aa3b-b00f-4459-95e1-4683a4404b08"
+        "597591cf-009c-4b9f-b0f6-d265f6d34f79"
     )
     print(encryptionKey)
 
@@ -381,7 +380,7 @@ def createEncryptionKey():
     print(encryptionKey)
 
 
-# createEncryptionKey()
+#createEncryptionKey()
 
 
 def existsGraphRepository():
@@ -414,12 +413,12 @@ def updateGraphRepository():
 
 def readGraphRepository():
     graphRepository = configuration.GraphRepository.retrieve(
-        "626c44ef-cdc5-450f-8760-e6b863624cd8"
+        "00000000-0000-0000-0000-000000000000"
     )
     print(graphRepository)
 
 
-# readGraphRepository()
+#readGraphRepository()
 
 
 def createGraphRepository():
@@ -441,6 +440,25 @@ def deleteGraphRepository():
         "2fd4c223-34f9-4150-a5fb-ce1ccbe36762"
     )
     print(graphRepository)
+
+
+# deleteGraphRepository()
+
+
+def readAllGraphRepositories():
+    graphRepositories = configuration.GraphRepository.retrieve_all()
+    print(graphRepositories)
+
+
+# readAllGraphRepositories()
+
+
+def enumerateGraphRepositories():
+    graphRepositories = configuration.GraphRepository.enumerate()
+    print(graphRepositories)
+
+
+enumerateGraphRepositories()
 
 
 # deleteVectorRepository()
@@ -495,12 +513,12 @@ def enumerateVectorRepositories():
 
 def readVectorRepository():
     vectorRepository = configuration.VectorRepository.retrieve(
-        "2fd4c223-34f9-4150-a5fb-ce1ccbe36762"
+        "00000000-0000-0000-0000-000000000000"
     )
     print(vectorRepository)
 
 
-# readVectorRepository()
+#readVectorRepository()
 
 
 def createVectorRepository():
@@ -535,17 +553,17 @@ def deleteEmbeddingsRules():
 
 def existsEmbeddingsRules():
     embeddingsRules = configuration.EmbeddingsRule.exists(
-        "51050c21-1640-43c4-bd1f-0e4748eca602"
+        "00000000-0000-0000-0000-000000000000"
     )
     print(embeddingsRules)
 
 
-# existsEmbeddingsRules()
+#existsEmbeddingsRules()
 
 
 def updateEmbeddingsRules():
     embeddingsRules = configuration.EmbeddingsRule.update(
-        "51050c21-1640-43c4-bd1f-0e4748eca602",
+        "00000000-0000-0000-0000-000000000000",
         BucketGUID="00000000-0000-0000-0000-000000000000",
         Name="Embeddings rule [updated]",
         ContentType="*",
@@ -556,10 +574,10 @@ def updateEmbeddingsRules():
         EmbeddingsGenerator="LCProxy",
         EmbeddingsGeneratorUrl="http://localhost:8000/v1.0/tenants/00000000-0000-0000-0000-000000000000/embeddings",
         EmbeddingsGeneratorApiKey="",
-        BatchSize=512,
-        MaxGeneratorTasks=32,
-        MaxRetries=3,
-        MaxFailures=3,
+        EmbeddingsBatchSize=512,
+        MaxEmbeddingsTasks=32,
+        MaxEmbeddingsRetries=3,
+        MaxEmbeddingsFailures=3,
         VectorStoreUrl="http://localhost:8000/",
         VectorStoreAccessKey="default",
         MaxContentLength=16777216,
@@ -588,12 +606,12 @@ def enumerateEmbeddingsRules():
 
 def readEmbeddingsRules():
     embeddingsRules = configuration.EmbeddingsRule.retrieve(
-        "51050c21-1640-43c4-bd1f-0e4748eca602"
+        "00000000-0000-0000-0000-000000000000"
     )
     print(embeddingsRules)
 
 
-# readEmbeddingsRules()
+#readEmbeddingsRules()
 
 
 def createEmbeddingRules():
@@ -608,10 +626,10 @@ def createEmbeddingRules():
         EmbeddingsGenerator="LCProxy",
         EmbeddingsGeneratorUrl="http://localhost:8000/v1.0/tenants/00000000-0000-0000-0000-000000000000/embeddings",
         EmbeddingsGeneratorApiKey="",
-        BatchSize=512,
-        MaxGeneratorTasks=32,
-        MaxRetries=3,
-        MaxFailures=3,
+        EmbeddingsBatchSize=512,
+        MaxEmbeddingsTasks=32,
+        MaxEmbeddingsRetries=3,
+        MaxEmbeddingsFailures=3,
         VectorStoreUrl="http://localhost:8000/",
         VectorStoreAccessKey="default",
         MaxContentLength=16777216,
@@ -619,7 +637,7 @@ def createEmbeddingRules():
     print(embeddingRules)
 
 
-# createEmbeddingRules()
+createEmbeddingRules()
 
 
 def deleteMetaDataRules():
@@ -634,17 +652,17 @@ def deleteMetaDataRules():
 
 def existsMetaDataRules():
     metaDataRules = configuration.MetadataRule.exists(
-        "7cbdd486-5cf6-415c-b504-436ce2b6eb44"
+        "00000000-0000-0000-0000-000000000000"
     )
     print(metaDataRules)
 
 
-# existsMetaDataRules()
+#existsMetaDataRules()
 
 
 def updateMetaDataRules():
     metaDataRules = configuration.MetadataRule.update(
-        "7cbdd486-5cf6-415c-b504-436ce2b6eb44",
+        "00000000-0000-0000-0000-000000000000",
         BucketGUID="00000000-0000-0000-0000-000000000000",
         Name="example-metadata-rule-ash-updated",
         OwnerGUID="00000000-0000-0000-0000-000000000000",
@@ -654,10 +672,6 @@ def updateMetaDataRules():
         ProcessingAccessKey="default",
         CleanupEndpoint="http://localhost:8000/v1.0/tenants/00000000-0000-0000-0000-000000000000/processing/cleanup",
         CleanupAccessKey="default",
-        MinChunkContentLength=2,
-        MaxChunkContentLength=2048,
-        MaxTokensPerChunk=1920,
-        ShiftSize=256,
         TopTerms=25,
         CaseInsensitive=True,
         IncludeFlattened=True,
@@ -670,7 +684,7 @@ def updateMetaDataRules():
     print(metaDataRules)
 
 
-# updateMetaDataRules()
+#updateMetaDataRules()
 
 
 def readAllMetaDataRules():
@@ -678,7 +692,7 @@ def readAllMetaDataRules():
     print(metaDataRules)
 
 
-# readAllMetaDataRules()
+#readAllMetaDataRules()
 
 
 def enumerateMetaDataRules():
@@ -686,17 +700,17 @@ def enumerateMetaDataRules():
     print(metaDataRules)
 
 
-# enumerateMetaDataRules()
+#enumerateMetaDataRules()
 
 
 def readMetaDataRules():
     metaDataRules = configuration.MetadataRule.retrieve(
-        "7cbdd486-5cf6-415c-b504-436ce2b6eb44"
+        "00000000-0000-0000-0000-000000000000"
     )
     print(metaDataRules)
 
 
-# readMetaDataRules()
+#readMetaDataRules()
 
 
 def createMetaDataRules():
@@ -710,10 +724,6 @@ def createMetaDataRules():
         ProcessingAccessKey="default",
         CleanupEndpoint="http://localhost:8000/v1.0/tenants/00000000-0000-0000-0000-000000000000/processing/cleanup",
         CleanupAccessKey="default",
-        MinChunkContentLength=2,
-        MaxChunkContentLength=2048,
-        MaxTokensPerChunk=1920,
-        ShiftSize=256,
         TopTerms=25,
         CaseInsensitive=True,
         IncludeFlattened=True,
@@ -763,7 +773,7 @@ def readAllCredentials():
 
 def readCredential():
     credential = configuration.Credential.retrieve(
-        "a0589510-c808-417c-aea8-6bf3c35179a4"
+        "56dd6af5-c424-4fa0-9052-6d2ae7d6567c"
     )
     print(credential)
 
@@ -778,7 +788,6 @@ def createCredential():
         Active=True,
     )
     print(credential)
-
 
 # createCredential()
 
@@ -811,7 +820,7 @@ def updateUser():
     print(user)
 
 
-# updateUser()
+#updateUser()
 
 
 def readAllUsers():
@@ -819,7 +828,7 @@ def readAllUsers():
     print(users)
 
 
-# readAllUsers()
+#readAllUsers()
 
 
 def enumerateUsers():
@@ -827,15 +836,15 @@ def enumerateUsers():
     print(users)
 
 
-# enumerateUsers()
+#enumerateUsers()
 
 
 def readUser():
-    user = configuration.User.retrieve("b40e2df1-4a6c-4263-94db-9e9459fffd6c")
+    user = configuration.User.retrieve("00000000-0000-0000-0000-000000000000")
     print(user)
 
 
-# readUser()
+#readUser()
 
 
 def createUser():
@@ -849,7 +858,7 @@ def createUser():
     print(user)
 
 
-# createUser()
+#createUser()
 
 
 def deleteNode():
@@ -875,38 +884,38 @@ def checkNode():
     print(node)
 
 
-# checkNode()
+#checkNode()
 
 
 def retrieveNode():
     node = configuration.Node.retrieve(
-        "784141bc-9717-4d0e-8079-1db6782baec6",
+        "cc40e4b0-1dd3-467d-9d60-fe17846b58be",
         headers={
-            "x-token": "mXCNtMWDsW0/pr+IwRFUjVEm1mJD/fYAdFa//QO/CRjH93Tu8E7oeyn1KqlJe6LF/wsiT5aISGFvQ6RVBJ8mjQMVVoItV5Q7/LWq6A+7hm7dV9qTcQMXxyvga0rmStlyr0ktIG1KM7RWN7fT8lH+oBT4dSM8iLe+S8v/LqzrGYovKqduNNbDaM1h9tgW4HrfojIxLcA3E23VsSBn74MJmokhyYldzHkgPPFJjCfbkgieu7+tB8TLJmOU4gR3Ziy2KOiFO2GEj5z7Z+h5k0PLiz8MtnR62ieZt4G/1+vK6i9sUj9AEg5hNNIb50hbWsur"
+            "x-token": "mXCNtMWDsW0/pr+IwRFUjclG5ap7t0RbHfpxzSvAUH+Siq3pFXcO/HLVkwrz/HhG4IuGfqY0K9PhM4lMshXyAPSxNrZjmxGBRctiKYpIf9fZ8SfiJA110z2E9M0ENGWGdSVMm7bYNpWq5Yy/VWBltQtzAYb2RUzZfLnvA8v0aX3leXEGDNCOAjf0CcdBrYQZz6Qiukir3y8N8LHgXXnkYDoCqy9I9c9SkH4OprGp+TXVp7wHz7g9MyD/3NhJRnWTnUmQk0TLrI4gcabuNgYkkTXHkHSwo8qHQzldUlWivO6jbHx6vY+c65EdwjPif3R7"
         },
     )
     print(node)
 
 
-# retrieveNode()
+#retrieveNode()  
 
 
 def enumerateNodes():
     nodes = configuration.Node.enumerate(
         headers={
-            "x-token": "mXCNtMWDsW0/pr+IwRFUjVEm1mJD/fYAdFa//QO/CRjH93Tu8E7oeyn1KqlJe6LF/wsiT5aISGFvQ6RVBJ8mjQMVVoItV5Q7/LWq6A+7hm7dV9qTcQMXxyvga0rmStlyr0ktIG1KM7RWN7fT8lH+oBT4dSM8iLe+S8v/LqzrGYovKqduNNbDaM1h9tgW4HrfojIxLcA3E23VsSBn74MJmokhyYldzHkgPPFJjCfbkgieu7+tB8TLJmOU4gR3Ziy2KOiFO2GEj5z7Z+h5k0PLiz8MtnR62ieZt4G/1+vK6i9sUj9AEg5hNNIb50hbWsur"
+            "x-token": "mXCNtMWDsW0/pr+IwRFUjclG5ap7t0RbHfpxzSvAUH+Siq3pFXcO/HLVkwrz/HhG4IuGfqY0K9PhM4lMshXyAPSxNrZjmxGBRctiKYpIf9fZ8SfiJA110z2E9M0ENGWGdSVMm7bYNpWq5Yy/VWBltQtzAYb2RUzZfLnvA8v0aX3leXEGDNCOAjf0CcdBrYQZz6Qiukir3y8N8LHgXXnkYDoCqy9I9c9SkH4OprGp+TXVp7wHz7g9MyD/3NhJRnWTnUmQk0TLrI4gcabuNgYkkTXHkHSwo8qHQzldUlWivO6jbHx6vY+c65EdwjPif3R7"
         }
     )
     print(nodes)
 
 
-# enumerateNodes()
+#enumerateNodes()
 
 
 def retrieveAllNodes():
     nodes = configuration.Node.retrieve_all(
         headers={
-            "x-token": "mXCNtMWDsW0/pr+IwRFUjVEm1mJD/fYAdFa//QO/CRjH93Tu8E7oeyn1KqlJe6LF/wsiT5aISGFvQ6RVBJ8mjQMVVoItV5Q7/LWq6A+7hm7dV9qTcQMXxyvga0rmStlyr0ktIG1KM7RWN7fT8lH+oBT4dSM8iLe+S8v/LqzrGYovKqduNNbDaM1h9tgW4HrfojIxLcA3E23VsSBn74MJmokhyYldzHkgPPFJjCfbkgieu7+tB8TLJmOU4gR3Ziy2KOiFO2GEj5z7Z+h5k0PLiz8MtnR62ieZt4G/1+vK6i9sUj9AEg5hNNIb50hbWsur"
+            "x-token": "mXCNtMWDsW0/pr+IwRFUjclG5ap7t0RbHfpxzSvAUH+Siq3pFXcO/HLVkwrz/HhG4IuGfqY0K9PhM4lMshXyAPSxNrZjmxGBRctiKYpIf9fZ8SfiJA110z2E9M0ENGWGdSVMm7bYNpWq5Yy/VWBltQtzAYb2RUzZfLnvA8v0aX3leXEGDNCOAjf0CcdBrYQZz6Qiukir3y8N8LHgXXnkYDoCqy9I9c9SkH4OprGp+TXVp7wHz7g9MyD/3NhJRnWTnUmQk0TLrI4gcabuNgYkkTXHkHSwo8qHQzldUlWivO6jbHx6vY+c65EdwjPif3R7"
         }
     )
     print(nodes)
@@ -930,9 +939,9 @@ def deleteTenant():
 
 def existTenant():
     tenant = configuration.Tenant.exists(
-        "b7d0a699-52a3-4d97-b24e-d15b9bd066f4",
+        "00000000-0000-0000-0000-000000000000",
         headers={
-            "x-token": "mXCNtMWDsW0/pr+IwRFUjVEm1mJD/fYAdFa//QO/CRjH93Tu8E7oeyn1KqlJe6LF/wsiT5aISGFvQ6RVBJ8mjQMVVoItV5Q7/LWq6A+7hm7dV9qTcQMXxyvga0rmStlyr0ktIG1KM7RWN7fT8lH+oBT4dSM8iLe+S8v/LqzrGYovKqduNNbDaM1h9tgW4HrfojIxLcA3E23VsSBn74MJmokhyYldzHkgPPFJjCfbkgieu7+tB8TLJmOU4gR3Ziy2KOiFO2GEj5z7Z+h5k0PLiz8MtnR62ieZt4G/1+vK6i9sUj9AEg5hNNIb50hbWsur"
+            "x-token": "mXCNtMWDsW0/pr+IwRFUjclG5ap7t0RbHfpxzSvAUH+Siq3pFXcO/HLVkwrz/HhG4IuGfqY0K9PhM4lMshXyAPSxNrZjmxGBRctiKYpIf9fZ8SfiJA110z2E9M0ENGWGdSVMm7bYNpWq5Yy/VWBltQtzAYb2RUzZfLnvA8v0aX3leXEGDNCOAjf0CcdBrYQZz6Qiukir3y8N8LHgXXnkYDoCqy9I9c9SkH4OprGp+TXVp7wHz7g9MyD/3NhJRnWTnUmQk0TLrI4gcabuNgYkkTXHkHSwo8qHQzldUlWivO6jbHx6vY+c65EdwjPif3R7"
         },
     )
     print(tenant)
@@ -969,7 +978,7 @@ def updateTenant():
 def readAllTenants():
     tenants = configuration.Tenant.retrieve_all(
         headers={
-            "x-token": "mXCNtMWDsW0/pr+IwRFUjVEm1mJD/fYAdFa//QO/CRjH93Tu8E7oeyn1KqlJe6LF/wsiT5aISGFvQ6RVBJ8mjQMVVoItV5Q7/LWq6A+7hm7dV9qTcQMXxyvga0rmStlyr0ktIG1KM7RWN7fT8lH+oBT4dSM8iLe+S8v/LqzrGYovKqduNNbDaM1h9tgW4HrfojIxLcA3E23VsSBn74MJmokhyYldzHkgPPFJjCfbkgieu7+tB8TLJmOU4gR3Ziy2KOiFO2GEj5z7Z+h5k0PLiz8MtnR62ieZt4G/1+vK6i9sUj9AEg5hNNIb50hbWsur"
+            "x-token": "mXCNtMWDsW0/pr+IwRFUjclG5ap7t0RbHfpxzSvAUH+Siq3pFXcO/HLVkwrz/HhG4IuGfqY0K9PhM4lMshXyAPSxNrZjmxGBRctiKYpIf9fZ8SfiJA110z2E9M0ENGWGdSVMm7bYNpWq5Yy/VWBltQtzAYb2RUzZfLnvA8v0aX3leXEGDNCOAjf0CcdBrYQZz6Qiukir3y8N8LHgXXnkYDoCqy9I9c9SkH4OprGp+TXVp7wHz7g9MyD/3NhJRnWTnUmQk0TLrI4gcabuNgYkkTXHkHSwo8qHQzldUlWivO6jbHx6vY+c65EdwjPif3R7"
         }
     )
     print(tenants)
@@ -980,21 +989,21 @@ def readAllTenants():
 
 def readTenant():
     tenant = configuration.Tenant.retrieve(
-        "b7d0a699-52a3-4d97-b24e-d15b9bd066f4",
+        "00000000-0000-0000-0000-000000000000",
         headers={
-            "x-token": "mXCNtMWDsW0/pr+IwRFUjVEm1mJD/fYAdFa//QO/CRjH93Tu8E7oeyn1KqlJe6LF/wsiT5aISGFvQ6RVBJ8mjQMVVoItV5Q7/LWq6A+7hm7dV9qTcQMXxyvga0rmStlyr0ktIG1KM7RWN7fT8lH+oBT4dSM8iLe+S8v/LqzrGYovKqduNNbDaM1h9tgW4HrfojIxLcA3E23VsSBn74MJmokhyYldzHkgPPFJjCfbkgieu7+tB8TLJmOU4gR3Ziy2KOiFO2GEj5z7Z+h5k0PLiz8MtnR62ieZt4G/1+vK6i9sUj9AEg5hNNIb50hbWsur"
+            "x-token": "mXCNtMWDsW0/pr+IwRFUjclG5ap7t0RbHfpxzSvAUH+Siq3pFXcO/HLVkwrz/HhG4IuGfqY0K9PhM4lMshXyAPSxNrZjmxGBRctiKYpIf9fZ8SfiJA110z2E9M0ENGWGdSVMm7bYNpWq5Yy/VWBltQtzAYb2RUzZfLnvA8v0aX3leXEGDNCOAjf0CcdBrYQZz6Qiukir3y8N8LHgXXnkYDoCqy9I9c9SkH4OprGp+TXVp7wHz7g9MyD/3NhJRnWTnUmQk0TLrI4gcabuNgYkkTXHkHSwo8qHQzldUlWivO6jbHx6vY+c65EdwjPif3R7"
         },
     )
     print(tenant)
 
 
-# readTenant()
+#readTenant()
 
 
 def enumerateTenants():
     tenants = configuration.Tenant.enumerate(
         headers={
-            "x-token": "mXCNtMWDsW0/pr+IwRFUjVEm1mJD/fYAdFa//QO/CRjH93Tu8E7oeyn1KqlJe6LF/wsiT5aISGFvQ6RVBJ8mjQMVVoItV5Q7/LWq6A+7hm7dV9qTcQMXxyvga0rmStlyr0ktIG1KM7RWN7fT8lH+oBT4dSM8iLe+S8v/LqzrGYovKqduNNbDaM1h9tgW4HrfojIxLcA3E23VsSBn74MJmokhyYldzHkgPPFJjCfbkgieu7+tB8TLJmOU4gR3Ziy2KOiFO2GEj5z7Z+h5k0PLiz8MtnR62ieZt4G/1+vK6i9sUj9AEg5hNNIb50hbWsur"
+            "x-token": "mXCNtMWDsW0/pr+IwRFUjclG5ap7t0RbHfpxzSvAUH+Siq3pFXcO/HLVkwrz/HhG4IuGfqY0K9PhM4lMshXyAPSxNrZjmxGBRctiKYpIf9fZ8SfiJA110z2E9M0ENGWGdSVMm7bYNpWq5Yy/VWBltQtzAYb2RUzZfLnvA8v0aX3leXEGDNCOAjf0CcdBrYQZz6Qiukir3y8N8LHgXXnkYDoCqy9I9c9SkH4OprGp+TXVp7wHz7g9MyD/3NhJRnWTnUmQk0TLrI4gcabuNgYkkTXHkHSwo8qHQzldUlWivO6jbHx6vY+c65EdwjPif3R7"
         }
     )
     print(tenants)
@@ -1022,12 +1031,12 @@ def createTenant():
 
 def getTokenDetails():
     token = configuration.Authentication.retrieve_token_details(
-        token="mXCNtMWDsW0/pr+IwRFUjTv7jD3RLeFbTgUy5tVVL0FbCMNAj/6818e8tmfMWyHUILVDexQmyph7rLLiL4/9WxX+7BH0g5ip0gUnouPvNc/VXOuK9i627MP0WpTUb4y87csUTCqttwNP4iBCaZSCI1KV67N6WnhoLafalS+3Vu0dx73/CRQjyUMJ+eXIK23xe7hE6Na8/gkOlcqPER7lWKmkRg2co+qDDTGxgCXMSzMsGiAFEgkS7IM+2VTJmwO0J88wXhDytxn+T2hLUbRaz/icKYcorL1qK/tPi7tsS4wHQKdczuFNzppqVwaoFOBn"
+        token="mXCNtMWDsW0/pr+IwRFUjclG5ap7t0RbHfpxzSvAUH+Siq3pFXcO/HLVkwrz/HhG4IuGfqY0K9PhM4lMshXyAPSxNrZjmxGBRctiKYpIf9fZ8SfiJA110z2E9M0ENGWGdSVMm7bYNpWq5Yy/VWBltQtzAYb2RUzZfLnvA8v0aX3leXEGDNCOAjf0CcdBrYQZz6Qiukir3y8N8LHgXXnkYDoCqy9I9c9SkH4OprGp+TXVp7wHz7g9MyD/3NhJRnWTnUmQk0TLrI4gcabuNgYkkTXHkHSwo8qHQzldUlWivO6jbHx6vY+c65EdwjPif3R7"
     )
     print(token)
 
 
-# getTokenDetails()
+#getTokenDetails()
 
 
 def getAdministratorToken():
@@ -1037,34 +1046,34 @@ def getAdministratorToken():
     print(token)
 
 
-# getAdministratorToken()
+#getAdministratorToken()
 
 
 def getAuthenticationTokenSha256():
     token = configuration.Authentication.generate_authentication_token_sha_256(
         "default@user.com",
-        "e75255193871e245472533552fe45dfda25768d26e9eb92507e75263e90c6a4",
-        "00000000-0000-0000-0000-0000000000000",
+        "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
+        "00000000-0000-0000-0000-000000000000",
     )
     print(token)
 
 
-# getAuthenticationTokenSha256()
+#getAuthenticationTokenSha256()
 
 
 def getTenantsForEmail():
-    tenants = configuration.Authentication.retrieve_tenants_for_email("test@test.com")
+    tenants = configuration.Authentication.retrieve_tenants_for_email("default@user.com")
     print(tenants)
 
 
-# getTenantsForEmail()
+#getTenantsForEmail()
 
 
 def getAuthenticationToken():
     token = configuration.Authentication.generate_authentication_token(
-        "default@user.com", "password", "00000000-0000-0000-0000-0000000000000"
+        "default@user.com", "password", "00000000-0000-0000-0000-000000000000"
     )
     print(token)
 
 
-# getAuthenticationToken()
+#getAuthenticationToken()

@@ -25,7 +25,7 @@ class Authentication:
         headers = {"x-email": email}
         url = _get_url_v1(cls, "token", "tenants")
         response = client.request("GET", url, headers=headers)
-        return [TenantMetadataModel.model_validate(**tenant) for tenant in response]
+        return [TenantMetadataModel.model_validate(tenant) for tenant in response]
 
     @classmethod
     def generate_authentication_token(
