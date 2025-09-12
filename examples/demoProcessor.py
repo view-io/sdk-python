@@ -40,7 +40,7 @@ def udrGeneration():
     print(result)
 
 
-#udrGeneration()
+# udrGeneration()
 
 
 def semanticCelExtraction():
@@ -51,7 +51,7 @@ def semanticCelExtraction():
     print(result)
 
 
-#semanticCelExtraction()
+# semanticCelExtraction()
 
 
 def cleanup():
@@ -148,6 +148,7 @@ def cleanup():
             "DatabasePort": 5432,
             "DatabaseUser": "postgres",
             "DatabasePassword": "password",
+            "Description": "My vector repository",
         },
         GraphRepository={
             "GUID": "00000000-0000-0000-0000-000000000000",
@@ -183,8 +184,8 @@ def processingPipeline():
             "ContentType": "text/plain",
             "DocumentType": "Text",
             "ContentLength": 85,
-            "Data": "VGhpcyBpcyBhIHNhbXBsZSBkb2N1bWVudCB3aXRoIGp1c3QgYSBoYW5kZnVsIG9mIHdvcmRzIHRoYXQgd2lsbCBiZSBwcm9jZXNzZWQgYnkgVmlldw=="
-        }
+            "Data": "VGhpcyBpcyBhIHNhbXBsZSBkb2N1bWVudCB3aXRoIGp1c3QgYSBoYW5kZnVsIG9mIHdvcmRzIHRoYXQgd2lsbCBiZSBwcm9jZXNzZWQgYnkgVmlldw==",
+        },
     )
     print(result)
 
@@ -202,13 +203,13 @@ def typeDetection():
                     "menuitem": [
                         {"value": "New", "onclick": "CreateNewDoc()"},
                         {"value": "Open", "onclick": "OpenDoc()"},
-                        {"value": "Close", "onclick": "CloseDoc()"}
+                        {"value": "Close", "onclick": "CloseDoc()"},
                     ]
-                }
+                },
             }
         }
     )
     print(result)
 
 
-#typeDetection()
+# typeDetection()

@@ -23,6 +23,7 @@ def test_create_complete_vector_repository():
         "database_user": "admin",
         "database_password": "secret",
         "created_utc": "2024-01-01T00:00:00Z",
+        "description": "Test description",
     }
 
     repo = VectorRepositoryModel(**data)
@@ -40,6 +41,7 @@ def test_create_complete_vector_repository():
     assert repo.database_port == data["database_port"]
     assert repo.database_user == data["database_user"]
     assert repo.database_password == data["database_password"]
+    assert repo.description == data["description"]
 
 
 def test_repository_type_validation():

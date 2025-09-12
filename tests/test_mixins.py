@@ -2,6 +2,7 @@ import pytest
 from unittest.mock import patch, Mock
 from pydantic import BaseModel
 from view_sdk.mixins import (
+    BaseAPIResource,
     ExistsAPIResource,
     CreateableAPIResource,
     RetrievableAPIResource,
@@ -11,6 +12,7 @@ from view_sdk.mixins import (
     RetrievableStatisticsMixin,
     EnumerableAPIResource,
     EnumerableAPIResourceWithData,
+    HealthCheckAPIResource,
 )
 from view_sdk.exceptions import ResourceNotFoundError
 
@@ -98,6 +100,36 @@ class TestEnumerableAPIResourceWithData(EnumerableAPIResourceWithData):
     MODEL = MockModel
     REQUIRES_TENANT = True
     PARENT_ID_PARAM = "test_parent_guid"
+
+
+class TestEnumerableAPIResourceWithDataNoModel(EnumerableAPIResourceWithData):
+    RESOURCE_NAME = "test"
+    MODEL = None
+    REQUIRES_TENANT = True
+    PARENT_ID_PARAM = "test_parent_guid"
+
+
+class TestHealthCheckResource(HealthCheckAPIResource):
+    RESOURCE_NAME = "test"
+    REQUIRES_TENANT = True
+
+
+class TestHealthCheckResourceNoTenant(HealthCheckAPIResource):
+    RESOURCE_NAME = "test"
+    REQUIRES_TENANT = False
+
+
+class TestResourceWithParentNoParam(BaseAPIResource):
+    RESOURCE_NAME = "test"
+    PARENT_RESOURCE = "parents"
+    PARENT_ID_PARAM = ""  # Empty string to test the elif condition
+    REQUIRES_TENANT = True
+
+
+class TestResourceWithDumpModelData(BaseAPIResource):
+    RESOURCE_NAME = "test"
+    MODEL = None  # Test when MODEL is None
+    REQUIRES_TENANT = True
 
 
 @pytest.fixture
@@ -521,3 +553,256 @@ def test_enumerate_with_query_missing_parent_guid(mock_get_client):
         ValueError, match="test_parent_guid is required for this resource."
     ):
         TestEnumerableAPIResourceWithData.enumerate_with_query()
+
+
+# Test cases for missing coverage blocks
+
+
+def test_get_resource_path_parent_no_param():
+    """Test _get_resource_path when PARENT_RESOURCE exists but PARENT_ID_PARAM is empty."""
+    path_components, kwargs = TestResourceWithParentNoParam._get_resource_path()
+    assert "parents" in path_components
+    assert "test" in path_components
+
+
+def test_dump_model_data_list_no_model():
+    """Test _dump_model_data with list data when model is None."""
+    data = [{"id": "1", "name": "test1"}, {"id": "2", "name": "test2"}]
+    result = TestResourceWithDumpModelData._dump_model_data(data)
+    assert result == data
+
+
+def test_dump_model_data_dict_no_model():
+    """Test _dump_model_data with dict data when model is None."""
+    data = {"id": "1", "name": "test1"}
+    result = TestResourceWithDumpModelData._dump_model_data(data)
+    assert result == data
+
+
+def test_dump_model_data_list_with_model():
+    """Test _dump_model_data with list data when model is provided."""
+    data = [{"id": "1", "name": "test1"}, {"id": "2", "name": "test2"}]
+    result = TestResourceWithDumpModelData._dump_model_data(data, MockModel)
+    assert len(result) == 2
+    assert all("id" in item for item in result)
+
+
+def test_dump_model_data_dict_with_model():
+    """Test _dump_model_data with dict data when model is provided."""
+    data = {"id": "1", "name": "test1"}
+    result = TestResourceWithDumpModelData._dump_model_data(data, MockModel)
+    assert "id" in result
+    assert "name" in result
+
+
+@patch("view_sdk.mixins.get_client")
+def test_all_retrievable_non_list_response(mock_get_client):
+    """Test AllRetrievableAPIResource when response is not a list and RETURNS_LIST is True."""
+    mock_client = Mock()
+    mock_get_client.return_value = mock_client
+    mock_client.tenant_guid = "tenant123"
+    mock_client.request.return_value = {"not": "a list"}  # Non-list response
+
+    TestAllRetrieveResource.RETURNS_LIST = True
+    results = TestAllRetrieveResource.retrieve_all()
+    assert results == []  # Should return empty list
+    TestAllRetrieveResource.RETURNS_LIST = True  # Reset
+
+
+@patch("view_sdk.mixins.get_client")
+def test_all_retrievable_non_list_response_returns_list_false(mock_get_client):
+    """Test AllRetrievableAPIResource when response is not a list and RETURNS_LIST is False."""
+    mock_client = Mock()
+    mock_get_client.return_value = mock_client
+    mock_client.tenant_guid = "tenant123"
+    mock_client.request.return_value = {"not": "a list"}  # Non-list response
+
+    # Create a temporary class with RETURNS_LIST = False and MODEL = None
+    class TempAllRetrieveResource(AllRetrievableAPIResource):
+        RESOURCE_NAME = "test"
+        MODEL = None  # No model validation
+        REQUIRES_TENANT = True
+        PARENT_RESOURCE = "parents"
+        PARENT_ID_PARAM = "test_parent_guid"
+        RETURNS_LIST = False
+
+    results = TempAllRetrieveResource.retrieve_all()
+    assert results == {"not": "a list"}  # Should return the response as-is
+
+
+@patch("view_sdk.mixins.get_client")
+def test_stats_resource_no_model(mock_get_client):
+    """Test RetrievableStatisticsMixin when STATS_MODEL is None."""
+    mock_client = Mock()
+    mock_get_client.return_value = mock_client
+    mock_client.tenant_guid = "tenant123"
+    mock_client.request.return_value = {"count": 10, "size": 1024}
+
+    result = TestStatsResourceNoModel.retrieve_statistics("test-id")
+    assert result == {"count": 10, "size": 1024}
+
+
+@patch("view_sdk.mixins.get_client")
+def test_delete_resource_exception(mock_get_client):
+    """Test DeletableAPIResource exception handling in delete method."""
+    mock_client = Mock()
+    mock_get_client.return_value = mock_client
+    mock_client.tenant_guid = "tenant123"
+    mock_client.request.side_effect = Exception("Delete failed")
+
+    result = TestDeleteResource.delete("test-id")
+    assert result is False
+
+
+@patch("view_sdk.mixins.get_client")
+def test_health_check_resource_with_tenant(mock_get_client):
+    """Test HealthCheckAPIResource with tenant requirement."""
+    mock_client = Mock()
+    mock_get_client.return_value = mock_client
+    mock_client.tenant_guid = "tenant123"
+    mock_client.request.return_value = None
+
+    result = TestHealthCheckResource.check()
+    assert result is True
+
+
+@patch("view_sdk.mixins.get_client")
+def test_health_check_resource_without_tenant(mock_get_client):
+    """Test HealthCheckAPIResource without tenant requirement."""
+    mock_client = Mock()
+    mock_get_client.return_value = mock_client
+    mock_client.tenant_guid = None
+    mock_client.request.return_value = None
+
+    result = TestHealthCheckResourceNoTenant.check()
+    assert result is True
+
+
+@patch("view_sdk.mixins.get_client")
+def test_health_check_resource_exception(mock_get_client):
+    """Test HealthCheckAPIResource exception handling."""
+    mock_client = Mock()
+    mock_get_client.return_value = mock_client
+    mock_client.tenant_guid = "tenant123"
+    mock_client.request.side_effect = Exception("Health check failed")
+
+    result = TestHealthCheckResource.check()
+    assert result is False
+
+
+@patch("view_sdk.mixins.get_client")
+def test_health_check_resource_no_tenant_required(mock_get_client):
+    """Test HealthCheckAPIResource when tenant is required but not provided."""
+    mock_client = Mock()
+    mock_get_client.return_value = mock_client
+    mock_client.tenant_guid = None
+
+    with pytest.raises(ValueError, match="Tenant GUID is required for this resource."):
+        TestHealthCheckResource.check()
+
+
+@patch("view_sdk.mixins.get_client")
+def test_enumerable_with_data_no_model(mock_get_client):
+    """Test EnumerableAPIResourceWithData when MODEL is None."""
+    mock_client = Mock()
+    mock_get_client.return_value = mock_client
+    mock_client.tenant_guid = "tenant123"
+    mock_client.request.return_value = {"success": True, "max_results": 1000}
+
+    result = TestEnumerableAPIResourceWithDataNoModel.enumerate_with_query(
+        test_parent_guid="parent123"
+    )
+    assert result == {"success": True, "max_results": 1000}
+
+
+def test_validate_parent_guid_empty():
+    """Test _validate_parent_guid with empty string."""
+    with pytest.raises(
+        ValueError, match="test_parent_guid cannot be empty if provided"
+    ):
+        TestAllRetrieveResource._validate_parent_guid("")
+
+
+def test_validate_parent_guid_none():
+    """Test _validate_parent_guid with None (should not raise)."""
+    # Should not raise an exception
+    TestAllRetrieveResource._validate_parent_guid(None)
+
+
+def test_validate_parent_guid_valid():
+    """Test _validate_parent_guid with valid GUID (should not raise)."""
+    # Should not raise an exception
+    TestAllRetrieveResource._validate_parent_guid("valid-guid")
+
+
+# Test query parameters functionality
+class TestResourceWithQueryParams(BaseAPIResource):
+    RESOURCE_NAME = "test"
+    QUERY_PARAMS = {"param1": "value1", "param2": None}
+    REQUIRES_TENANT = True
+
+
+def test_get_resource_path_with_query_params():
+    """Test _get_resource_path with predefined query parameters."""
+    path_components, kwargs = TestResourceWithQueryParams._get_resource_path("guid1")
+    assert "test" in path_components
+    assert "guid1" in path_components
+    assert kwargs["param1"] == "value1"
+    assert kwargs["param2"] is None
+
+
+# Test parent GUID validation in various scenarios
+@patch("view_sdk.mixins.get_client")
+def test_all_retrievable_with_empty_parent_guid(mock_get_client):
+    """Test AllRetrievableAPIResource with empty parent GUID."""
+    mock_client = Mock()
+    mock_get_client.return_value = mock_client
+    mock_client.tenant_guid = "tenant123"
+
+    with pytest.raises(
+        ValueError, match="test_parent_guid cannot be empty if provided"
+    ):
+        TestAllRetrieveResource.retrieve_all(test_parent_guid="")
+
+
+@patch("view_sdk.mixins.get_client")
+def test_delete_with_empty_parent_guid(mock_get_client):
+    """Test DeletableAPIResource with empty parent GUID."""
+    mock_client = Mock()
+    mock_get_client.return_value = mock_client
+    mock_client.tenant_guid = "tenant123"
+
+    with pytest.raises(
+        ValueError, match="test_parent_guid cannot be empty if provided"
+    ):
+        TestDeleteResource.delete("test-id", test_parent_guid="")
+
+
+# Test createable resource with _data parameter
+@patch("view_sdk.mixins.get_client")
+def test_create_with_data_parameter(mock_get_client):
+    """Test CreateableAPIResource with _data parameter."""
+    mock_client = Mock()
+    mock_get_client.return_value = mock_client
+    mock_client.tenant_guid = "tenant123"
+    mock_client.request.return_value = {"id": "test-id", "name": "test-name"}
+
+    result = TestCreateResource.create(_data={"id": "test-id", "name": "test-name"})
+    assert isinstance(result, MockModel)
+    assert result.id == "test-id"
+
+
+# Test updatable resource with data parameter
+@patch("view_sdk.mixins.get_client")
+def test_update_with_data_parameter(mock_get_client):
+    """Test UpdatableAPIResource with data parameter."""
+    mock_client = Mock()
+    mock_get_client.return_value = mock_client
+    mock_client.tenant_guid = "tenant123"
+    mock_client.request.return_value = {"id": "test-id", "name": "updated-name"}
+
+    result = TestUpdateResource.update(
+        "test-id", data={"id": "test-id", "name": "updated-name"}
+    )
+    assert isinstance(result, MockModel)
+    assert result.name == "updated-name"

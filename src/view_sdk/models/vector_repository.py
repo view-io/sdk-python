@@ -26,6 +26,7 @@ class VectorRepositoryModel(BaseModel):
     database_port: int = Field(default=0, ge=0, le=65535, alias="DatabasePort")
     database_user: Optional[str] = Field(None, alias="DatabaseUser")
     database_password: Optional[str] = Field(None, alias="DatabasePassword")
+    description: Optional[str] = Field(None, alias="Description")
     created_utc: datetime = Field(
         default_factory=lambda: datetime.now(timezone.utc), alias="CreatedUtc"
     )

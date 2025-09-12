@@ -45,3 +45,21 @@ def test_crawl_operation_stop(mock_get_client, valid_crawl_operation_request):
     call_args = mock_client.request.call_args
     assert call_args[0][0] == "POST"
     assert "/crawloperations/test_guid/stop" in call_args[0][1]
+
+
+@patch("view_sdk.resources.crawler.crawl_operations.get_client")
+def test_crawl_operation_enumerate(mock_get_client):
+    mock_client = Mock()
+    mock_get_client.return_value = mock_client
+
+    mock_response = {"operation_guid": "test_guid", "status": "enumerated"}
+    mock_client.request.return_value = mock_response
+
+    response = CrawlOperation.enumerateCrawlOperation(operation_guid="test_guid")
+
+    assert response == mock_response
+
+    call_args = mock_client.request.call_args
+    assert call_args[0][0] == "GET"
+    # The URL will be v1.0/tenants//test_guid/enumeration due to empty PARENT_RESOURCE
+    assert "test_guid/enumeration" in call_args[0][1]
