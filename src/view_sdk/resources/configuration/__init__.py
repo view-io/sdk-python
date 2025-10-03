@@ -6,6 +6,8 @@ from .encryption_keys import EncryptionKey
 from .graph_repositories import GraphRepository
 from .healthcheck import HealthCheck
 from .metadata_rules import MetadataRule
+from .model_configurations import ModelConfiguration
+from .model_endpoints import ModelEndpoint
 from .nodes import Node
 from .object_locks import ObjectLock
 from .tenants import Tenant
@@ -23,7 +25,10 @@ __all__ = [
     "EmbeddingsRule",
     "EncryptionKey",
     "GraphRepository",
+    "HealthCheck",
     "MetadataRule",
+    "ModelConfiguration",
+    "ModelEndpoint",
     "Node",
     "ObjectLock",
     "Tenant",
@@ -33,5 +38,4 @@ __all__ = [
     "WebhookEvent",
     "WebhookRule",
     "WebhookTarget",
-    "HealthCheck",
 ]
