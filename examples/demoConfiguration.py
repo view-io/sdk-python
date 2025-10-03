@@ -1,10 +1,12 @@
 import view_sdk
 from view_sdk import configuration
+from view_sdk.sdk_configuration import Service
 
 sdk = view_sdk.configure(
     access_key="default",
-    base_url="YOUR_SERVER_URL_HERE",
+    base_url="192.168.101.63",
     tenant_guid="00000000-0000-0000-0000-000000000000",
+    service_ports={Service.DEFAULT: 8000},
 )
 
 
@@ -31,7 +33,7 @@ def readAllObjectLocks():
     print(objectLocks)
 
 
-# readAllObjectLocks()
+#readAllObjectLocks()
 
 
 def enumerateObjectLocks():
@@ -39,7 +41,7 @@ def enumerateObjectLocks():
     print(objectLocks)
 
 
-# enumerateObjectLocks()
+enumerateObjectLocks()
 
 
 def deleteWebhookRule():
@@ -49,7 +51,7 @@ def deleteWebhookRule():
     print(webhookRule)
 
 
-# deleteWebhookRule()
+#deleteWebhookRule()
 
 
 def existsWebhookRule():
@@ -59,7 +61,7 @@ def existsWebhookRule():
     print(webhookRule)
 
 
-# existsWebhookRule()
+#existsWebhookRule()
 
 
 def updateWebhookRule():
@@ -73,7 +75,7 @@ def updateWebhookRule():
     print(webhookRule)
 
 
-# updateWebhookRule()
+#updateWebhookRule()
 
 
 def readAllWebhookRules():
@@ -247,7 +249,7 @@ def deleteBlob():
 
 def updateBlob():
     blob = configuration.Blob.update(
-        "b1a953d8-2a51-496a-a272-52ebe326fd2d",
+        "f8e5065b-4130-42c3-8a62-14e52d754c6d",
         ContentType="text/plain",
         Name="helloworld_updated.txt",
         Description="A text file containing 'Hello, world!'",
@@ -278,11 +280,8 @@ def enumerateBlobs():
 
 
 def readBlob():
-    blob = configuration.Blob.retrieve("b1a953d8-2a51-496a-a272-52ebe326fd2d", True)
+    blob = configuration.Blob.retrieve("f8e5065b-4130-42c3-8a62-14e52d754c6d", True)
     print(blob)
-
-
-# readBlob()
 
 
 # readBlob()
@@ -300,7 +299,7 @@ def createBlob():
     print(blob)
 
 
-createBlob()
+# createBlob()
 
 
 def deleteEncryptionKey():
@@ -353,8 +352,7 @@ def readAllEncryptionKeys():
     encryptionKeys = configuration.EncryptionKey.retrieve_all()
     print(encryptionKeys)
 
-
-# readAllEncryptionKeys()
+#readAllEncryptionKeys()
 
 
 def readEncryptionKey():
@@ -381,7 +379,7 @@ def createEncryptionKey():
     print(encryptionKey)
 
 
-# createEncryptionKey()
+#createEncryptionKey()
 
 
 def existsGraphRepository():
@@ -419,7 +417,7 @@ def readGraphRepository():
     print(graphRepository)
 
 
-# readGraphRepository()
+#readGraphRepository()
 
 
 def createGraphRepository():
@@ -459,7 +457,7 @@ def enumerateGraphRepositories():
     print(graphRepositories)
 
 
-enumerateGraphRepositories()
+#enumerateGraphRepositories()
 
 
 # deleteVectorRepository()
@@ -520,7 +518,7 @@ def readVectorRepository():
     print(vectorRepository)
 
 
-# readVectorRepository()
+#readVectorRepository()
 
 
 def createVectorRepository():
@@ -546,12 +544,12 @@ def createVectorRepository():
 
 def deleteEmbeddingsRules():
     embeddingsRules = configuration.EmbeddingsRule.delete(
-        "51050c21-1640-43c4-bd1f-0e4748eca602"
+        "edcf1d6d-b5f1-47ce-a6f1-a9e15deab0a6"
     )
     print(embeddingsRules)
 
 
-# deleteEmbeddingsRules()
+#deleteEmbeddingsRules()
 
 
 def existsEmbeddingsRules():
@@ -561,7 +559,7 @@ def existsEmbeddingsRules():
     print(embeddingsRules)
 
 
-# existsEmbeddingsRules()
+#existsEmbeddingsRules()
 
 
 def updateEmbeddingsRules():
@@ -614,7 +612,7 @@ def readEmbeddingsRules():
     print(embeddingsRules)
 
 
-# readEmbeddingsRules()
+#readEmbeddingsRules()
 
 
 def createEmbeddingRules():
@@ -640,7 +638,7 @@ def createEmbeddingRules():
     print(embeddingRules)
 
 
-createEmbeddingRules()
+# createEmbeddingRules()
 
 
 def deleteMetaDataRules():
@@ -660,7 +658,7 @@ def existsMetaDataRules():
     print(metaDataRules)
 
 
-# existsMetaDataRules()
+#existsMetaDataRules()
 
 
 def updateMetaDataRules():
@@ -687,7 +685,7 @@ def updateMetaDataRules():
     print(metaDataRules)
 
 
-# updateMetaDataRules()
+#updateMetaDataRules()
 
 
 def readAllMetaDataRules():
@@ -695,7 +693,7 @@ def readAllMetaDataRules():
     print(metaDataRules)
 
 
-# readAllMetaDataRules()
+#readAllMetaDataRules()
 
 
 def enumerateMetaDataRules():
@@ -703,7 +701,7 @@ def enumerateMetaDataRules():
     print(metaDataRules)
 
 
-# enumerateMetaDataRules()
+#enumerateMetaDataRules()
 
 
 def readMetaDataRules():
@@ -713,7 +711,7 @@ def readMetaDataRules():
     print(metaDataRules)
 
 
-# readMetaDataRules()
+#readMetaDataRules()
 
 
 def createMetaDataRules():
@@ -739,7 +737,7 @@ def createMetaDataRules():
     print(metaDataRules)
 
 
-# createMetaDataRules()
+createMetaDataRules()
 
 
 def deleteCredential():
@@ -776,12 +774,12 @@ def readAllCredentials():
 
 def readCredential():
     credential = configuration.Credential.retrieve(
-        "56dd6af5-c424-4fa0-9052-6d2ae7d6567c"
+        "74038616-482b-4008-a121-e3711dbec081"
     )
     print(credential)
 
 
-# readCredential()
+#readCredential()
 
 
 def createCredential():
@@ -792,8 +790,7 @@ def createCredential():
     )
     print(credential)
 
-
-# createCredential()
+#createCredential()
 
 
 def deleteUser():
@@ -814,7 +811,7 @@ def existsUser():
 
 def updateUser():
     user = configuration.User.update(
-        "b40e2df1-4a6c-4263-94db-9e9459fffd6c",
+        "00000000-0000-0000-0000-000000000000",
         FirstName="New [updated]",
         LastName="User",
         Notes="Default password is password",
@@ -824,7 +821,7 @@ def updateUser():
     print(user)
 
 
-# updateUser()
+#updateUser()
 
 
 def readAllUsers():
@@ -832,7 +829,7 @@ def readAllUsers():
     print(users)
 
 
-# readAllUsers()
+#readAllUsers()
 
 
 def enumerateUsers():
@@ -840,7 +837,7 @@ def enumerateUsers():
     print(users)
 
 
-# enumerateUsers()
+#enumerateUsers()
 
 
 def readUser():
@@ -848,7 +845,7 @@ def readUser():
     print(user)
 
 
-# readUser()
+#readUser()
 
 
 def createUser():
@@ -862,7 +859,7 @@ def createUser():
     print(user)
 
 
-# createUser()
+#createUser()
 
 
 def deleteNode():
@@ -888,12 +885,12 @@ def checkNode():
     print(node)
 
 
-# checkNode()
+#checkNode()
 
 
 def retrieveNode():
     node = configuration.Node.retrieve(
-        "cc40e4b0-1dd3-467d-9d60-fe17846b58be",
+        "b14db147-9483-4a15-9d1f-93ac1a33f270",
         headers={
             "x-token": "mXCNtMWDsW0/pr+IwRFUjclG5ap7t0RbHfpxzSvAUH+Siq3pFXcO/HLVkwrz/HhG4IuGfqY0K9PhM4lMshXyAPSxNrZjmxGBRctiKYpIf9fZ8SfiJA110z2E9M0ENGWGdSVMm7bYNpWq5Yy/VWBltQtzAYb2RUzZfLnvA8v0aX3leXEGDNCOAjf0CcdBrYQZz6Qiukir3y8N8LHgXXnkYDoCqy9I9c9SkH4OprGp+TXVp7wHz7g9MyD/3NhJRnWTnUmQk0TLrI4gcabuNgYkkTXHkHSwo8qHQzldUlWivO6jbHx6vY+c65EdwjPif3R7"
         },
@@ -901,13 +898,13 @@ def retrieveNode():
     print(node)
 
 
-# retrieveNode()
+# retrieveNode()  
 
 
 def enumerateNodes():
     nodes = configuration.Node.enumerate(
         headers={
-            "x-token": "mXCNtMWDsW0/pr+IwRFUjclG5ap7t0RbHfpxzSvAUH+Siq3pFXcO/HLVkwrz/HhG4IuGfqY0K9PhM4lMshXyAPSxNrZjmxGBRctiKYpIf9fZ8SfiJA110z2E9M0ENGWGdSVMm7bYNpWq5Yy/VWBltQtzAYb2RUzZfLnvA8v0aX3leXEGDNCOAjf0CcdBrYQZz6Qiukir3y8N8LHgXXnkYDoCqy9I9c9SkH4OprGp+TXVp7wHz7g9MyD/3NhJRnWTnUmQk0TLrI4gcabuNgYkkTXHkHSwo8qHQzldUlWivO6jbHx6vY+c65EdwjPif3R7"
+            "x-token": "mXCNtMWDsW0/pr+IwRFUjSRmJYnfDWkkMEXusPlSyY7eYcCIGUPVjy+NBzKS0Ml/CDb6Y7UkEw443I+yhcJuxvTvYae1PbDtMHy+uf4/EaVA7Ae8fiChPSm8JZtf4s9sCUvgf+rsgQ0lp1EaDBwvuuuCO19kGg55ow7g3k7g5+fH6KZEY8B/H/N47PN4IRSudGi1cR5GrKyfhqMhXObQrVr/YfohEU5P6L2+tta3kfXHoUrd5nfU1mp0NgYe9OaHAknH0JetlJXMpNBwsXA07TuYp+0DtDfOgvW1KM7vn6ewLRVyMf+E61M3EqOx6WtN"
         }
     )
     print(nodes)
@@ -919,7 +916,7 @@ def enumerateNodes():
 def retrieveAllNodes():
     nodes = configuration.Node.retrieve_all(
         headers={
-            "x-token": "mXCNtMWDsW0/pr+IwRFUjclG5ap7t0RbHfpxzSvAUH+Siq3pFXcO/HLVkwrz/HhG4IuGfqY0K9PhM4lMshXyAPSxNrZjmxGBRctiKYpIf9fZ8SfiJA110z2E9M0ENGWGdSVMm7bYNpWq5Yy/VWBltQtzAYb2RUzZfLnvA8v0aX3leXEGDNCOAjf0CcdBrYQZz6Qiukir3y8N8LHgXXnkYDoCqy9I9c9SkH4OprGp+TXVp7wHz7g9MyD/3NhJRnWTnUmQk0TLrI4gcabuNgYkkTXHkHSwo8qHQzldUlWivO6jbHx6vY+c65EdwjPif3R7"
+            "x-token": "mXCNtMWDsW0/pr+IwRFUjSRmJYnfDWkkMEXusPlSyY7eYcCIGUPVjy+NBzKS0Ml/CDb6Y7UkEw443I+yhcJuxvTvYae1PbDtMHy+uf4/EaVA7Ae8fiChPSm8JZtf4s9sCUvgf+rsgQ0lp1EaDBwvuuuCO19kGg55ow7g3k7g5+fH6KZEY8B/H/N47PN4IRSudGi1cR5GrKyfhqMhXObQrVr/YfohEU5P6L2+tta3kfXHoUrd5nfU1mp0NgYe9OaHAknH0JetlJXMpNBwsXA07TuYp+0DtDfOgvW1KM7vn6ewLRVyMf+E61M3EqOx6WtN"
         }
     )
     print(nodes)
@@ -1001,7 +998,7 @@ def readTenant():
     print(tenant)
 
 
-# readTenant()
+#readTenant()
 
 
 def enumerateTenants():
@@ -1015,11 +1012,11 @@ def enumerateTenants():
 
 # enumerateTenants()
 
-
+# requires admin token
 def createTenant():
     tenant = configuration.Tenant.create(
         headers={
-            "x-token": "mXCNtMWDsW0/pr+IwRFUjVEm1mJD/fYAdFa//QO/CRjH93Tu8E7oeyn1KqlJe6LF/wsiT5aISGFvQ6RVBJ8mjQMVVoItV5Q7/LWq6A+7hm7dV9qTcQMXxyvga0rmStlyr0ktIG1KM7RWN7fT8lH+oBT4dSM8iLe+S8v/LqzrGYovKqduNNbDaM1h9tgW4HrfojIxLcA3E23VsSBn74MJmokhyYldzHkgPPFJjCfbkgieu7+tB8TLJmOU4gR3Ziy2KOiFO2GEj5z7Z+h5k0PLiz8MtnR62ieZt4G/1+vK6i9sUj9AEg5hNNIb50hbWsur"
+            "x-token": "mXCNtMWDsW0/pr+IwRFUjQJqbx34dU90ZHqU9VmLMbiJEDPX/Hbl9wTDyt6Ea1qhcLnioXrKt0VVSLGo0pwJqU/5goqywxU2nlHaUgmS/PlI/5TMSzbQ1elhwXz0D/iuKtkX45S7X5uqQst/KNenTE584UvHpMeF+CeihUyzDMXrMh0SFLHwVUEUzT1EHlZ99QtWeZ/q0NltXrAsJu3kAF0cuNBl76D8f/e7+WpNWBYFrp/0D0FSy+0G3S0HAByCElBMoS27HBIpmyo/ToKOWcj5aOmwlVCAgzgsU2S28+scpv1qvaV7pbrgd77EwFto"
         },
         AccountGUID="00000000-0000-0000-0000-000000000000",
         Name="My tenant",
@@ -1030,7 +1027,7 @@ def createTenant():
     print(tenant)
 
 
-# createTenant()
+#createTenant()
 
 
 def getTokenDetails():
@@ -1040,7 +1037,7 @@ def getTokenDetails():
     print(token)
 
 
-# getTokenDetails()
+#getTokenDetails()
 
 
 def getAdministratorToken():
@@ -1050,7 +1047,7 @@ def getAdministratorToken():
     print(token)
 
 
-# getAdministratorToken()
+#getAdministratorToken()
 
 
 def getAuthenticationTokenSha256():
@@ -1062,17 +1059,15 @@ def getAuthenticationTokenSha256():
     print(token)
 
 
-# getAuthenticationTokenSha256()
+#getAuthenticationTokenSha256()
 
 
 def getTenantsForEmail():
-    tenants = configuration.Authentication.retrieve_tenants_for_email(
-        "default@user.com"
-    )
+    tenants = configuration.Authentication.retrieve_tenants_for_email("default@user.com")
     print(tenants)
 
 
-# getTenantsForEmail()
+#getTenantsForEmail()
 
 
 def getAuthenticationToken():
@@ -1082,4 +1077,4 @@ def getAuthenticationToken():
     print(token)
 
 
-# getAuthenticationToken()
+#getAuthenticationToken()

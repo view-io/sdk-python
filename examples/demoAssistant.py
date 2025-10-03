@@ -1,10 +1,12 @@
 import view_sdk
 from view_sdk import assistant
+from view_sdk.sdk_configuration import Service
 
 sdk = view_sdk.configure(
     access_key="default",
     base_url="YOUR_SERVER_URL_HERE",  # Replace with your actual server URL
     tenant_guid="00000000-0000-0000-0000-000000000000",
+    service_ports={Service.ASSISTANT: 8000},
 )
 
 

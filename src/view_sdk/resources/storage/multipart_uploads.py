@@ -1,5 +1,6 @@
 from ...mixins import (
     AllRetrievableAPIResource,
+    CreateableAPIResource,
     DeletableAPIResource,
     RetrievableAPIResource,
     UpdatableAPIResource,
@@ -9,6 +10,7 @@ from ...sdk_configuration import Service
 
 
 class MultipartUploads(
+    CreateableAPIResource,
     UpdatableAPIResource,
     RetrievableAPIResource,
     AllRetrievableAPIResource,

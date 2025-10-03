@@ -408,7 +408,11 @@ def test_additional_field_properties():
     assert cell.ordered_list == ordered_items
 
     # Test hash fields
-    cell = SemanticCellModel(MD5Hash="abc123", SHA1Hash="def456", SHA256Hash="ghi789")
+    cell = SemanticCellModel(
+        MD5Hash="abc123",
+        SHA1Hash="def456",
+        SHA256Hash="ghi789"
+    )
     assert cell.md5_hash == "abc123"
     assert cell.sha1_hash == "def456"
     assert cell.sha256_hash == "ghi789"
@@ -423,48 +427,48 @@ def test_complex_nested_structure():
         "Embeddings": [0.1, 0.2],
         "Length": 18,
     }
-
+    
     grandchild_data = {
         "GUID": "grandchild-guid",
         "CellType": "Text",
         "Chunks": [grandchild_chunk],
     }
-
+    
     child_chunk = {
         "GUID": "child-chunk",
         "Content": "Child content",
         "Embeddings": [0.3, 0.4, 0.5],
         "Length": 12,
     }
-
+    
     child_data = {
         "GUID": "child-guid",
         "CellType": "Text",
         "Chunks": [child_chunk],
         "Children": [grandchild_data],
     }
-
+    
     parent_chunk = {
         "GUID": "parent-chunk",
         "Content": "Parent content",
         "Embeddings": [0.6],
         "Length": 13,
     }
-
+    
     parent_data = {
         "GUID": "parent-guid",
         "CellType": "Text",
         "Chunks": [parent_chunk],
         "Children": [child_data],
     }
-
+    
     cell = SemanticCellModel(**parent_data)
-
+    
     # Test counts
     assert cell.count_embeddings() == 6  # 1 + 3 + 2
     assert cell.count_semantic_cells() == 3  # parent + child + grandchild
     assert cell.count_bytes() == 45  # 14 + 13 + 18 (actual calculated lengths)
-
+    
     # Test class methods with the complex structure
     cells = [cell]
     assert SemanticCellModel.count_embeddings_list(cells) == 6
