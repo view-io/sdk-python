@@ -148,6 +148,7 @@ def cleanup():
             "DatabasePort": 5432,
             "DatabaseUser": "postgres",
             "DatabasePassword": "password",
+            "Description": "My vector repository",
         },
         GraphRepository={
             "GUID": "00000000-0000-0000-0000-000000000000",

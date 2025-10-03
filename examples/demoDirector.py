@@ -1,10 +1,12 @@
 import view_sdk
 from view_sdk import director
+from view_sdk.sdk_configuration import Service
 
 sdk = view_sdk.configure(
     access_key="default",
-    base_url="YOUR_SERVER_URL_HERE",
+    base_url="192.168.101.63",
     tenant_guid="00000000-0000-0000-0000-000000000000",
+    service_ports={Service.DIRECTOR: 8000},
 )
 
 
@@ -28,7 +30,7 @@ def generateEmbeddings():
     print(result)
 
 
-#generateEmbeddings()
+generateEmbeddings()
 
 
 def listConnections():

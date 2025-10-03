@@ -1,11 +1,13 @@
 import view_sdk
 from view_sdk import crawler
+from view_sdk.sdk_configuration import Service
 
 sdk = view_sdk.configure(
     access_key="default",
-    base_url="YOUR_SERVER_URL_HERE",  # Replace with your actual server URL
+    base_url="192.168.101.63",  # Replace with your actual server URL
     secure=False,
     tenant_guid="00000000-0000-0000-0000-000000000000",
+    service_ports={Service.CRAWLER: 8000},
 )
 
 
@@ -74,16 +76,16 @@ def deleteCrawlPlan():
 
 
 def existsCrawlPlan():
-    crawlPlan = crawler.CrawlPlan.exists("00000000-0000-0000-0000-000000000000")
+    crawlPlan = crawler.CrawlPlan.exists("d417776c-f0bf-438b-8509-eb3b41b878ab")
     print(crawlPlan)
 
 
-# existsCrawlPlan()
+existsCrawlPlan()
 
 
 def updateCrawlPlan():
     crawlPlan = crawler.CrawlPlan.update(
-        "00000000-0000-0000-0000-000000000000",
+        "d417776c-f0bf-438b-8509-eb3b41b878ab",
         DataRepositoryGUID="00000000-0000-0000-0000-000000000000",
         CrawlScheduleGUID="00000000-0000-0000-0000-000000000000",
         CrawlFilterGUID="00000000-0000-0000-0000-000000000000",
@@ -99,7 +101,7 @@ def updateCrawlPlan():
     print(crawlPlan)
 
 
-# updateCrawlPlan()
+updateCrawlPlan()
 
 
 def readAllCrawlPlans():
@@ -107,7 +109,7 @@ def readAllCrawlPlans():
     print(crawlPlans)
 
 
-# readAllCrawlPlans()
+readAllCrawlPlans()
 
 
 def enumerateCrawlPlans():
@@ -115,15 +117,15 @@ def enumerateCrawlPlans():
     print(crawlPlans)
 
 
-# enumerateCrawlPlans()
+enumerateCrawlPlans()
 
 
 def readCrawlPlan():
-    crawlPlan = crawler.CrawlPlan.retrieve("00000000-0000-0000-0000-000000000000")
+    crawlPlan = crawler.CrawlPlan.retrieve("d417776c-f0bf-438b-8509-eb3b41b878ab")
     print(crawlPlan)
 
 
-# readCrawlPlan()
+readCrawlPlan()
 
 
 def createCrawlPlan():
@@ -134,6 +136,10 @@ def createCrawlPlan():
         Name="My crawl plan",
         EnumerationDirectory="./enumerations/",
         EnumerationsToRetain=30,
+        MaxDrainTasks=10,
+        ProcessAdditions=True,
+        ProcessDeletions=True,
+        ProcessUpdates=True,
         MetadataRuleGUID="00000000-0000-0000-0000-000000000000",
         ProcessingEndpoint="http://nginx-processor:8000/v1.0/tenants/00000000-0000-0000-0000-000000000000/processing",
         ProcessingAccessKey="default",
@@ -143,7 +149,7 @@ def createCrawlPlan():
     print(crawlPlan)
 
 
-#createCrawlPlan()
+createCrawlPlan()
 
 
 def deleteCrawlFilter():

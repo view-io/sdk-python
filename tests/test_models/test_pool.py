@@ -4,7 +4,7 @@ from pydantic import ValidationError
 from view_sdk.models.pool import StoragePool
 from view_sdk.enums.compression_type_enum import CompressionTypeEnum
 from view_sdk.enums.object_write_mode_enum import ObjectWriteModeEnum
-
+from view_sdk.enums.storage_type_enum import StorageTypeEnum
 
 def test_create_complete_storage_pool():
     """Test creating a storage pool with all fields populated."""
@@ -13,8 +13,8 @@ def test_create_complete_storage_pool():
         "tenant_guid": "987fcdeb-51d3-a456-426614174000",
         "encryption_key_guid": "abcd1234-e89b-12d3-a456-426614174000",
         "name": "Test Pool",
-        "provider": "S3",
-        "write_mode": "KEY",
+        "provider": StorageTypeEnum.AWS_S3,
+        "write_mode": ObjectWriteModeEnum.KEY,
         "use_ssl": True,
         "access_key": "AKIAXXXXXXXXXXXXXXXX",
         "secret_key": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
@@ -33,7 +33,7 @@ def test_create_complete_storage_pool():
     assert pool.guid == data["guid"]
     assert pool.tenant_guid == data["tenant_guid"]
     assert pool.name == data["name"]
-    assert pool.provider == data["provider"]
+    assert pool.provider == StorageTypeEnum.AWS_S3
     assert pool.write_mode == ObjectWriteModeEnum.KEY
     assert pool.use_ssl is True
     assert pool.access_key == data["access_key"]
@@ -101,13 +101,13 @@ def test_date_time_validation():
 def test_model_export():
     """Test that the model correctly exports data."""
     pool = StoragePool(
-        name="Test Pool", provider="S3", write_mode="KEY", compress="Gzip"
+        name="Test Pool", provider=StorageTypeEnum.AWS_S3, write_mode=ObjectWriteModeEnum.KEY, compress=CompressionTypeEnum.Gzip
     )
 
     data = pool.model_dump(by_alias=True)
     assert data["Name"] == "Test Pool"
-    assert data["Provider"] == "S3"
-    assert data["WriteMode"] == "KEY"
+    assert data["Provider"] == StorageTypeEnum.AWS_S3
+    assert data["WriteMode"] == ObjectWriteModeEnum.KEY
     assert data["Compress"] == "Gzip"
     assert "Id" not in data  # Should be excluded
 
