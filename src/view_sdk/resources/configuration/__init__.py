@@ -8,6 +8,7 @@ from .healthcheck import HealthCheck
 from .metadata_rules import MetadataRule
 from .model_configurations import ModelConfiguration
 from .model_endpoints import ModelEndpoint
+from .model_profiles import ModelProfile
 from .nodes import Node
 from .object_locks import ObjectLock
 from .tenants import Tenant
@@ -29,6 +30,7 @@ __all__ = [
     "MetadataRule",
     "ModelConfiguration",
     "ModelEndpoint",
+    "ModelProfile",
     "Node",
     "ObjectLock",
     "Tenant",

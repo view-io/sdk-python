@@ -19,5 +19,5 @@ class ModelConfiguration(
     DeletableAPIResource,
     EnumerableAPIResource,
 ):
-    RESOURCE_NAME: str = "modelconfigurations"
+    RESOURCE_NAME: str = "modelconfigs"
     MODEL = ModelConfigurationModel
