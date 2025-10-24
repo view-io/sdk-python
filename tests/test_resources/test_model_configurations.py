@@ -234,7 +234,7 @@ def test_update_model_configuration_partial(mock_model_validate, mock_get_client
 
 def test_model_configuration_resource_name():
     """Test that the resource name is correct."""
-    assert ModelConfiguration.RESOURCE_NAME == "modelconfigurations"
+    assert ModelConfiguration.RESOURCE_NAME == "modelconfigs"
 
 
 def test_model_configuration_model_class():
