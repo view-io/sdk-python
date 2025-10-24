@@ -13,13 +13,13 @@ sdk = view_sdk.configure(
 def generateEmbeddings():
     result = director.GenerateEmbeddings.create(
         EmbeddingsRule={
-        "EmbeddingsGenerator": "LCProxy",
-        "EmbeddingsGeneratorUrl": "http://nginx-lcproxy:8000/",
-        "EmbeddingsGeneratorApiKey": "default",
-        "BatchSize": 16,
-        "MaxGeneratorTasks": 16,
-        "MaxRetries": 3,
-        "MaxFailures": 3
+            "EmbeddingsGenerator": "LCProxy",
+            "EmbeddingsGeneratorUrl": "http://nginx-lcproxy:8000/",
+            "EmbeddingsGeneratorApiKey": "default",
+            "BatchSize": 16,
+            "MaxGeneratorTasks": 16,
+            "MaxRetries": 3,
+            "MaxFailures": 3,
         },
         Model="all-MiniLM-L6-v2",
         ApiKey="",

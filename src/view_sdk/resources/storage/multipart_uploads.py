@@ -21,6 +21,7 @@ class MultipartUploads(
     RESOURCE_NAME: str = "uploads"
     MODEL = MultipartUploadPartModel
     SERVICE = Service.STORAGE
+
     @classmethod
     def create(cls, bucket_guid: str, **kwargs: MultipartUploadPartModel):
         """

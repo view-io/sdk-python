@@ -5,6 +5,7 @@ from ...mixins import CreateableAPIResource, UpdatableAPIResource
 from ...models.assistant_rag_request import AssistantRagRequest
 from ...sdk_configuration import Service, get_client
 from ...sdk_logging import log_debug, log_warning
+from ...utils.url_helper import _get_url_v1
 
 
 class Assistant(CreateableAPIResource, UpdatableAPIResource):
@@ -12,7 +13,7 @@ class Assistant(CreateableAPIResource, UpdatableAPIResource):
 
     RESOURCE_NAME: str = ""  # Base path is empty since we use specific endpoints
     SERVICE = Service.ASSISTANT
-    REQUIRES_TENANT = False
+    REQUIRES_TENANT = True
     CREATE_METHOD = "POST"
 
     @classmethod
@@ -35,7 +36,7 @@ class Assistant(CreateableAPIResource, UpdatableAPIResource):
         log_debug("Making RAG request")
         for event in get_client(cls.SERVICE).sse_request(
             cls.CREATE_METHOD,
-            "v1.0/rag/",
+            "v1.0/assistant/rag/",
             json=rag_request.model_dump(mode="json", by_alias=True),
         ):
             token = event.get("token") if isinstance(event, dict) else event
@@ -62,10 +63,15 @@ class Assistant(CreateableAPIResource, UpdatableAPIResource):
             return super().create(**kwargs)
         else:
             try:
+                url = _get_url_v1(
+                    cls, get_client(cls.SERVICE).tenant_guid, "assistant/rag/chat"
+                )
+                headers = kwargs.pop("headers", {})
                 log_debug("Making chat request")
                 for event in get_client(cls.SERVICE).sse_request(
                     cls.CREATE_METHOD,
-                    "v1.0/rag/chat/",
+                    url,
+                    headers=headers,
                     json=kwargs,
                 ):
                     token = event.get("token") if isinstance(event, dict) else event

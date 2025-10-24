@@ -36,7 +36,9 @@ class CrawlOperation(
         """
         # For start operation, we need to construct the URL manually
         client = get_client(cls.SERVICE)
-        url = _get_url_v1(cls, client.tenant_guid, "crawloperations", operation_guid, "start")
+        url = _get_url_v1(
+            cls, client.tenant_guid, "crawloperations", operation_guid, "start"
+        )
         data = cls._dump_model_data(kwargs, cls.REQUEST_MODEL)
         response = client.request(cls.CREATE_METHOD, url, json=data)
         return response
@@ -54,7 +56,9 @@ class CrawlOperation(
         """
         # For stop operation, we need to construct the URL manually
         client = get_client(cls.SERVICE)
-        url = _get_url_v1(cls, client.tenant_guid, "crawloperations", operation_guid, "stop")
+        url = _get_url_v1(
+            cls, client.tenant_guid, "crawloperations", operation_guid, "stop"
+        )
         data = cls._dump_model_data(kwargs, cls.REQUEST_MODEL)
         response = client.request(cls.CREATE_METHOD, url, json=data)
         return response

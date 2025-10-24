@@ -71,7 +71,6 @@ def readSemanticCell():
 readSemanticCell()
 
 
-
 def deleteDocument():
     response = vector.Documents.delete(
         "00000000-0000-0000-0000-000000000000", "fb00d35b-cdaf-4208-871b-7dcfcb9b1ede"

@@ -557,6 +557,7 @@ def test_enumerate_with_query_missing_parent_guid(mock_get_client):
 
 # Test cases for missing coverage blocks
 
+
 def test_get_resource_path_parent_no_param():
     """Test _get_resource_path when PARENT_RESOURCE exists but PARENT_ID_PARAM is empty."""
     path_components, kwargs = TestResourceWithParentNoParam._get_resource_path()
@@ -601,7 +602,7 @@ def test_all_retrievable_non_list_response(mock_get_client):
     mock_get_client.return_value = mock_client
     mock_client.tenant_guid = "tenant123"
     mock_client.request.return_value = {"not": "a list"}  # Non-list response
-    
+
     TestAllRetrieveResource.RETURNS_LIST = True
     results = TestAllRetrieveResource.retrieve_all()
     assert results == []  # Should return empty list
@@ -615,7 +616,7 @@ def test_all_retrievable_non_list_response_returns_list_false(mock_get_client):
     mock_get_client.return_value = mock_client
     mock_client.tenant_guid = "tenant123"
     mock_client.request.return_value = {"not": "a list"}  # Non-list response
-    
+
     # Create a temporary class with RETURNS_LIST = False and MODEL = None
     class TempAllRetrieveResource(AllRetrievableAPIResource):
         RESOURCE_NAME = "test"
@@ -624,7 +625,7 @@ def test_all_retrievable_non_list_response_returns_list_false(mock_get_client):
         PARENT_RESOURCE = "parents"
         PARENT_ID_PARAM = "test_parent_guid"
         RETURNS_LIST = False
-    
+
     results = TempAllRetrieveResource.retrieve_all()
     assert results == {"not": "a list"}  # Should return the response as-is
 
@@ -636,7 +637,7 @@ def test_stats_resource_no_model(mock_get_client):
     mock_get_client.return_value = mock_client
     mock_client.tenant_guid = "tenant123"
     mock_client.request.return_value = {"count": 10, "size": 1024}
-    
+
     result = TestStatsResourceNoModel.retrieve_statistics("test-id")
     assert result == {"count": 10, "size": 1024}
 
@@ -648,7 +649,7 @@ def test_delete_resource_exception(mock_get_client):
     mock_get_client.return_value = mock_client
     mock_client.tenant_guid = "tenant123"
     mock_client.request.side_effect = Exception("Delete failed")
-    
+
     result = TestDeleteResource.delete("test-id")
     assert result is False
 
@@ -660,7 +661,7 @@ def test_health_check_resource_with_tenant(mock_get_client):
     mock_get_client.return_value = mock_client
     mock_client.tenant_guid = "tenant123"
     mock_client.request.return_value = None
-    
+
     result = TestHealthCheckResource.check()
     assert result is True
 
@@ -672,7 +673,7 @@ def test_health_check_resource_without_tenant(mock_get_client):
     mock_get_client.return_value = mock_client
     mock_client.tenant_guid = None
     mock_client.request.return_value = None
-    
+
     result = TestHealthCheckResourceNoTenant.check()
     assert result is True
 
@@ -684,7 +685,7 @@ def test_health_check_resource_exception(mock_get_client):
     mock_get_client.return_value = mock_client
     mock_client.tenant_guid = "tenant123"
     mock_client.request.side_effect = Exception("Health check failed")
-    
+
     result = TestHealthCheckResource.check()
     assert result is False
 
@@ -695,7 +696,7 @@ def test_health_check_resource_no_tenant_required(mock_get_client):
     mock_client = Mock()
     mock_get_client.return_value = mock_client
     mock_client.tenant_guid = None
-    
+
     with pytest.raises(ValueError, match="Tenant GUID is required for this resource."):
         TestHealthCheckResource.check()
 
@@ -707,7 +708,7 @@ def test_enumerable_with_data_no_model(mock_get_client):
     mock_get_client.return_value = mock_client
     mock_client.tenant_guid = "tenant123"
     mock_client.request.return_value = {"success": True, "max_results": 1000}
-    
+
     result = TestEnumerableAPIResourceWithDataNoModel.enumerate_with_query(
         test_parent_guid="parent123"
     )
@@ -716,7 +717,9 @@ def test_enumerable_with_data_no_model(mock_get_client):
 
 def test_validate_parent_guid_empty():
     """Test _validate_parent_guid with empty string."""
-    with pytest.raises(ValueError, match="test_parent_guid cannot be empty if provided"):
+    with pytest.raises(
+        ValueError, match="test_parent_guid cannot be empty if provided"
+    ):
         TestAllRetrieveResource._validate_parent_guid("")
 
 
@@ -755,8 +758,10 @@ def test_all_retrievable_with_empty_parent_guid(mock_get_client):
     mock_client = Mock()
     mock_get_client.return_value = mock_client
     mock_client.tenant_guid = "tenant123"
-    
-    with pytest.raises(ValueError, match="test_parent_guid cannot be empty if provided"):
+
+    with pytest.raises(
+        ValueError, match="test_parent_guid cannot be empty if provided"
+    ):
         TestAllRetrieveResource.retrieve_all(test_parent_guid="")
 
 
@@ -766,8 +771,10 @@ def test_delete_with_empty_parent_guid(mock_get_client):
     mock_client = Mock()
     mock_get_client.return_value = mock_client
     mock_client.tenant_guid = "tenant123"
-    
-    with pytest.raises(ValueError, match="test_parent_guid cannot be empty if provided"):
+
+    with pytest.raises(
+        ValueError, match="test_parent_guid cannot be empty if provided"
+    ):
         TestDeleteResource.delete("test-id", test_parent_guid="")
 
 
@@ -779,7 +786,7 @@ def test_create_with_data_parameter(mock_get_client):
     mock_get_client.return_value = mock_client
     mock_client.tenant_guid = "tenant123"
     mock_client.request.return_value = {"id": "test-id", "name": "test-name"}
-    
+
     result = TestCreateResource.create(_data={"id": "test-id", "name": "test-name"})
     assert isinstance(result, MockModel)
     assert result.id == "test-id"
@@ -793,7 +800,9 @@ def test_update_with_data_parameter(mock_get_client):
     mock_get_client.return_value = mock_client
     mock_client.tenant_guid = "tenant123"
     mock_client.request.return_value = {"id": "test-id", "name": "updated-name"}
-    
-    result = TestUpdateResource.update("test-id", data={"id": "test-id", "name": "updated-name"})
+
+    result = TestUpdateResource.update(
+        "test-id", data={"id": "test-id", "name": "updated-name"}
+    )
     assert isinstance(result, MockModel)
     assert result.name == "updated-name"

@@ -8,6 +8,7 @@ from view_sdk.resources.assistant.assistant import Assistant
 def mock_client():
     with patch("view_sdk.resources.assistant.assistant.get_client") as mock:
         client = Mock()
+        client.tenant_guid = "test-tenant-guid"
         mock.return_value = client
         yield client
 
@@ -40,7 +41,7 @@ class TestAssistant:
         mock_client.sse_request.assert_called_once()
         call_args = mock_client.sse_request.call_args
         assert call_args[0][0] == "POST"
-        assert call_args[0][1] == "v1.0/rag/"
+        assert call_args[0][1] == "v1.0/assistant/rag/"
 
     def test_chat_rag_messages_streaming_success(self, mock_client):
         """Test chat_rag_messages method with streaming enabled."""
@@ -64,7 +65,7 @@ class TestAssistant:
         mock_client.sse_request.assert_called_once()
         call_args = mock_client.sse_request.call_args
         assert call_args[0][0] == "POST"
-        assert call_args[0][1] == "v1.0/rag/chat/"
+        assert call_args[0][1] == "v1.0/tenants/test-tenant-guid/assistant/rag/chat"
 
     def test_chat_rag_messages_non_streaming(self, mock_super):
         """Test chat_rag_messages method with streaming disabled."""

@@ -5,17 +5,19 @@ from ...mixins import (
     ExistsAPIResource,
     RetrievableAPIResource,
     UpdatableAPIResource,
+    EnumerableAPIResource,
 )
-from ...models.pool import StoragePool
+from ...models.model_configuration_model import ModelConfigurationModel
 
 
-class Pool(
+class ModelConfiguration(
     ExistsAPIResource,
     CreateableAPIResource,
     RetrievableAPIResource,
     AllRetrievableAPIResource,
     UpdatableAPIResource,
     DeletableAPIResource,
+    EnumerableAPIResource,
 ):
-    RESOURCE_NAME: str = "pools"
-    MODEL = StoragePool
+    RESOURCE_NAME: str = "modelconfigs"
+    MODEL = ModelConfigurationModel
