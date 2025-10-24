@@ -92,10 +92,12 @@ class BucketTags(
         """
         # Construct the URL manually to ensure correct path
         client = get_client(cls.SERVICE)
-        url = _get_url_v1(cls, client.tenant_guid, "buckets", resource_guid, **cls.QUERY_PARAMS)
+        url = _get_url_v1(
+            cls, client.tenant_guid, "buckets", resource_guid, **cls.QUERY_PARAMS
+        )
         headers = kwargs.pop("headers", {})
         response = client.request("GET", url, headers=headers)
-        
+
         # Handle the response validation
         if isinstance(response, list):
             return [StorageTagModel.model_validate(tag) for tag in response]
@@ -103,7 +105,9 @@ class BucketTags(
             return StorageTagModel.model_validate(response)
 
     @classmethod
-    def create(cls, resource_guid: str, tags: List[StorageTagModel]) -> List[StorageTagModel]:
+    def create(
+        cls, resource_guid: str, tags: List[StorageTagModel]
+    ) -> List[StorageTagModel]:
         """
         Create tags for a specific bucket.
         Args:
@@ -117,11 +121,11 @@ class BucketTags(
         # Temporarily set MODEL to None to prevent parent validation
         original_model = cls.MODEL
         cls.MODEL = None
-        
+
         try:
             # Call the parent create method without model validation
             response = super().create(**kwargs)
-            
+
             # Handle the response validation ourselves
             if isinstance(response, list):
                 return [StorageTagModel.model_validate(tag) for tag in response]
@@ -157,10 +161,12 @@ class BucketACL(
         """
         # Construct the URL manually to ensure correct path
         client = get_client(cls.SERVICE)
-        url = _get_url_v1(cls, client.tenant_guid, "buckets", resource_guid, **cls.QUERY_PARAMS)
+        url = _get_url_v1(
+            cls, client.tenant_guid, "buckets", resource_guid, **cls.QUERY_PARAMS
+        )
         headers = kwargs.pop("headers", {})
         response = client.request("GET", url, headers=headers)
-        
+
         # Handle the response validation
         if isinstance(response, list):
             return [ACLModel.model_validate(entry) for entry in response]
@@ -182,11 +188,11 @@ class BucketACL(
         # Temporarily set MODEL to None to prevent parent validation
         original_model = cls.MODEL
         cls.MODEL = None
-        
+
         try:
             # Call the parent create method without model validation
             response = super().create(**kwargs)
-            
+
             # Handle the response validation ourselves
             if isinstance(response, list):
                 return [ACLEntryModel.model_validate(entry) for entry in response]

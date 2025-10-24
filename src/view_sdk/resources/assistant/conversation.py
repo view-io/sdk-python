@@ -1,4 +1,4 @@
-from typing import Generator, List
+from typing import Generator
 from uuid import UUID
 
 from ...mixins import (
@@ -7,12 +7,10 @@ from ...mixins import (
     AllRetrievableAPIResource,
     DeletableAPIResource,
 )
-from ...models.conversation import ConversationModel
 from ...models.conversation_request import ConversationRequestModel
 from ...models.conversation_with_messages import ConversationWithMessagesModel
 from ...models.list_conversations import ListConversationsModel
 from ...models.message_request import MessageRequestModel
-from ...models.message import MessageModel
 from ...sdk_configuration import Service, get_client
 from ...utils.url_helper import _get_url_v1
 from ...sdk_logging import log_debug, log_warning
@@ -41,6 +39,7 @@ class Conversation(
         REQUEST_MODEL (Type[BaseModel]): The Pydantic model for conversation requests.
         SERVICE (Service): The service type (ASSISTANT).
     """
+
     RESOURCE_NAME: str = "assistant/conversations"
     # MODEL = ConversationModel
     REQUEST_MODEL = ConversationRequestModel
@@ -76,27 +75,28 @@ class Conversation(
         try:
             client = get_client(cls.SERVICE)
             headers = kwargs.pop("headers", {})
-            
+
             if cls.REQUIRES_TENANT and client.tenant_guid is None:
                 raise ValueError("Tenant GUID is required for this resource.")
 
             # Validate the request data
             request_data = cls.REQUEST_MODEL.model_validate(kwargs)
-            
+
             # Build the URL for creating a conversation
             url = _get_url_v1(cls, client.tenant_guid, cls.RESOURCE_NAME)
-            
+
             log_debug("Making streaming conversation create request")
-            for event in client.sse_request(
+            yield from client.sse_request(
                 cls.CREATE_METHOD,
                 url,
                 headers=headers,
                 json=request_data.model_dump(mode="json", by_alias=True),
-            ):
-                yield event
+            )
 
         except Exception as e:
-            log_warning(f"Error processing streaming conversation create request: {str(e)}")
+            log_warning(
+                f"Error processing streaming conversation create request: {str(e)}"
+            )
             raise
 
     @classmethod
@@ -128,12 +128,14 @@ class Conversation(
         cls.RETURNS_LIST = False
         # Use the parent method to get the raw response
         response = super().retrieve_all(**kwargs)
-        
+
         # If the response is already a ListConversationsModel, return it
         return ListConversationsModel.model_validate(response)
 
     @classmethod
-    def add_message(cls, conversation_id: UUID, **kwargs) -> Generator[dict, None, None]:
+    def add_message(
+        cls, conversation_id: UUID, **kwargs
+    ) -> Generator[dict, None, None]:
         """
         Adds a message to an existing conversation with streaming SSE events.
 
@@ -157,34 +159,43 @@ class Conversation(
         try:
             client = get_client(cls.SERVICE)
             headers = kwargs.pop("headers", {})
-            
+
             if cls.REQUIRES_TENANT and client.tenant_guid is None:
                 raise ValueError("Tenant GUID is required for this resource.")
 
             # Validate the message request data
             message_data = MessageRequestModel.model_validate(kwargs)
-            
+
             # Build the URL for adding a message to the conversation
             if cls.REQUIRES_TENANT:
-                url = _get_url_v1(cls, client.tenant_guid, cls.RESOURCE_NAME, str(conversation_id), "messages")
+                url = _get_url_v1(
+                    cls,
+                    client.tenant_guid,
+                    cls.RESOURCE_NAME,
+                    str(conversation_id),
+                    "messages",
+                )
             else:
-                url = _get_url_v1(cls, cls.RESOURCE_NAME, str(conversation_id), "messages")
+                url = _get_url_v1(
+                    cls, cls.RESOURCE_NAME, str(conversation_id), "messages"
+                )
 
             log_debug("Making streaming add message request")
-            for event in client.sse_request(
-                "POST", 
-                url, 
-                json=message_data.model_dump(mode="json", by_alias=True), 
-                headers=headers
-            ):
-                yield event
+            yield from client.sse_request(
+                "POST",
+                url,
+                json=message_data.model_dump(mode="json", by_alias=True),
+                headers=headers,
+            )
 
         except Exception as e:
             log_warning(f"Error processing streaming add message request: {str(e)}")
             raise
 
     @classmethod
-    def get_with_messages(cls, conversation_id: UUID, **kwargs) -> ConversationWithMessagesModel:
+    def get_with_messages(
+        cls, conversation_id: UUID, **kwargs
+    ) -> ConversationWithMessagesModel:
         """
         Retrieves a conversation along with all its messages.
 

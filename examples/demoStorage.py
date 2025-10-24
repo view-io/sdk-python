@@ -88,7 +88,7 @@ def createMultipartUpload():
     print(object)
 
 
-#createMultipartUpload()
+# createMultipartUpload()
 
 
 def deleteObject():
@@ -212,11 +212,13 @@ def readObjectDataInRange():
 
 
 def readObjectData():
-    object = storage.Object.retrieve("00000000-0000-0000-0000-000000000000", "test_sdk.new")
+    object = storage.Object.retrieve(
+        "00000000-0000-0000-0000-000000000000", "test_sdk.new"
+    )
     print(object)
 
 
-#readObjectData()
+# readObjectData()
 
 
 def writeObject():
@@ -242,7 +244,7 @@ def readBucketACL():
     print(bucket)
 
 
-#readBucketACL()
+# readBucketACL()
 
 
 def createBucketACL():
@@ -294,7 +296,7 @@ def createBucketACL():
     print(bucket)
 
 
-#createBucketACL()
+# createBucketACL()
 
 
 def deleteBucketTag():
@@ -310,7 +312,7 @@ def readBucketTag():
     print(bucket)
 
 
-#readBucketTag()
+# readBucketTag()
 
 
 def createBucketTags():
@@ -344,7 +346,7 @@ def updateBucket():
     print(bucket)
 
 
-#updateBucket()
+# updateBucket()
 
 
 def readBucketMetadata():
@@ -352,7 +354,7 @@ def readBucketMetadata():
     print(bucket)
 
 
-#readBucketMetadata()
+# readBucketMetadata()
 
 
 def readAllObjects():
@@ -360,7 +362,7 @@ def readAllObjects():
     print(objects)
 
 
-#readAllObjects()
+# readAllObjects()
 
 
 def readAllBuckets():
@@ -384,13 +386,12 @@ def createBucket():
 # createBucket()
 
 
-
 def existsStoragePool():
     storagePool = storage.Pool.exists("00000000-0000-0000-0000-000000000000")
     print(storagePool)
 
 
-#existsStoragePool()
+# existsStoragePool()
 
 
 def deleteStoragePool():
@@ -413,6 +414,7 @@ def updateStoragePool():
         EnableReadCaching=False,
     )
     print(storagePool)
+
 
 # updateStoragePool()
 
@@ -443,8 +445,9 @@ def createStoragePool():
         AccessKey="AKIAIOSFODNN7EXAMPLE",
         SecretKey="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
         BucketName="my-production-bucket",
-        RegionString="us-west-1"
+        RegionString="us-west-1",
     )
     print(storagePool)
+
 
 createStoragePool()

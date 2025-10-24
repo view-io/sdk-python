@@ -7,6 +7,7 @@ from ...sdk_configuration import Service, get_client
 from ...sdk_logging import log_debug, log_warning
 from ...utils.url_helper import _get_url_v1
 
+
 class Assistant(CreateableAPIResource, UpdatableAPIResource):
     """Resource for Assistant operations."""
 
@@ -62,7 +63,9 @@ class Assistant(CreateableAPIResource, UpdatableAPIResource):
             return super().create(**kwargs)
         else:
             try:
-                url = _get_url_v1(cls, get_client(cls.SERVICE).tenant_guid, "assistant/rag/chat")
+                url = _get_url_v1(
+                    cls, get_client(cls.SERVICE).tenant_guid, "assistant/rag/chat"
+                )
                 headers = kwargs.pop("headers", {})
                 log_debug("Making chat request")
                 for event in get_client(cls.SERVICE).sse_request(

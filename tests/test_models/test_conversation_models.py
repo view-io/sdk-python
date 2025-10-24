@@ -1,7 +1,6 @@
 import pytest
 from datetime import datetime
-from uuid import UUID, uuid4
-from typing import Dict
+from uuid import uuid4
 
 from view_sdk.models.conversation import ConversationModel
 from view_sdk.models.conversation_request import ConversationRequestModel
@@ -22,7 +21,7 @@ class TestConversationModel:
         user_guid = uuid4()
         config_guid = uuid4()
         now = datetime.now()
-        
+
         data = {
             "conversation_id": conversation_id,
             "tenant_guid": tenant_guid,
@@ -34,7 +33,7 @@ class TestConversationModel:
             "last_message_at": now,
             "created_at": now,
             "updated_at": now,
-            "metadata": {"source": "api", "priority": "high"}
+            "metadata": {"source": "api", "priority": "high"},
         }
 
         # Execute
@@ -61,7 +60,7 @@ class TestConversationModel:
         user_guid = uuid4()
         config_guid = uuid4()
         now = datetime.now()
-        
+
         data = {
             "conversation_id": conversation_id,
             "tenant_guid": tenant_guid,
@@ -71,7 +70,7 @@ class TestConversationModel:
             "message_count": 0,
             "last_message_at": now,
             "created_at": now,
-            "updated_at": now
+            "updated_at": now,
         }
 
         # Execute
@@ -90,7 +89,7 @@ class TestConversationModel:
         user_guid = uuid4()
         config_guid = uuid4()
         now = datetime.now()
-        
+
         # Using aliases (same as field names in this case, but testing the alias functionality)
         data = {
             "conversation_id": conversation_id,
@@ -102,7 +101,7 @@ class TestConversationModel:
             "last_message_at": now,
             "created_at": now,
             "updated_at": now,
-            "metadata": {"test": "alias"}
+            "metadata": {"test": "alias"},
         }
 
         # Execute
@@ -120,7 +119,7 @@ class TestConversationModel:
         user_guid = uuid4()
         config_guid = uuid4()
         now = datetime.now()
-        
+
         conversation = ConversationModel(
             conversation_id=conversation_id,
             tenant_guid=tenant_guid,
@@ -131,7 +130,7 @@ class TestConversationModel:
             last_message_at=now,
             created_at=now,
             updated_at=now,
-            metadata={"key": "value"}
+            metadata={"key": "value"},
         )
 
         # Execute
@@ -164,7 +163,7 @@ class TestConversationModel:
                 message_count=1,
                 last_message_at=datetime.now(),
                 created_at=datetime.now(),
-                updated_at=datetime.now()
+                updated_at=datetime.now(),
             )
 
         # Test invalid message_count type
@@ -178,7 +177,7 @@ class TestConversationModel:
                 message_count="invalid",  # Should be int
                 last_message_at=datetime.now(),
                 created_at=datetime.now(),
-                updated_at=datetime.now()
+                updated_at=datetime.now(),
             )
 
 
@@ -190,13 +189,13 @@ class TestConversationRequestModel:
         # Setup
         config_guid = uuid4()
         documents = [{"title": "Doc1", "content": "Content1"}]
-        
+
         data = {
             "config_guid": config_guid,
             "title": "New Conversation",
             "message": "Hello, how can you help me?",
             "metadata": {"source": "web", "user_type": "premium"},
-            "documents": documents
+            "documents": documents,
         }
 
         # Execute
@@ -213,11 +212,11 @@ class TestConversationRequestModel:
         """Test creating a ConversationRequestModel with minimal required fields."""
         # Setup
         config_guid = uuid4()
-        
+
         data = {
             "config_guid": config_guid,
             "title": "Minimal Request",
-            "message": "Simple message"
+            "message": "Simple message",
         }
 
         # Execute
@@ -239,7 +238,7 @@ class TestConversationRequestModel:
             title="Serialization Test",
             message="Test message",
             metadata={"test": "data"},
-            documents=[{"doc": "test"}]
+            documents=[{"doc": "test"}],
         )
 
         # Execute
@@ -257,9 +256,7 @@ class TestConversationRequestModel:
         # Setup
         config_guid = uuid4()
         request = ConversationRequestModel(
-            config_guid=config_guid,
-            title="Alias Test",
-            message="Test message"
+            config_guid=config_guid, title="Alias Test", message="Test message"
         )
 
         # Execute - serialize with aliases
@@ -276,23 +273,21 @@ class TestConversationRequestModel:
         with pytest.raises(Exception):  # Pydantic validation error
             ConversationRequestModel(
                 config_guid=uuid4(),
-                title="Test"
+                title="Test",
                 # Missing required 'message' field
             )
 
         with pytest.raises(Exception):  # Pydantic validation error
             ConversationRequestModel(
                 title="Test",
-                message="Test message"
+                message="Test message",
                 # Missing required 'config_guid' field
             )
 
         # Test invalid UUID
         with pytest.raises(Exception):  # Pydantic validation error
             ConversationRequestModel(
-                config_guid="invalid-uuid",
-                title="Test",
-                message="Test message"
+                config_guid="invalid-uuid", title="Test", message="Test message"
             )
 
 
@@ -303,11 +298,8 @@ class TestMessageRequestModel:
         """Test creating a MessageRequestModel with all fields."""
         # Setup
         documents = [{"title": "Doc1", "content": "Content1"}]
-        
-        data = {
-            "message": "What is machine learning?",
-            "documents": documents
-        }
+
+        data = {"message": "What is machine learning?", "documents": documents}
 
         # Execute
         request = MessageRequestModel(**data)
@@ -319,9 +311,7 @@ class TestMessageRequestModel:
     def test_message_request_model_creation_with_minimal_fields(self):
         """Test creating a MessageRequestModel with minimal required fields."""
         # Setup
-        data = {
-            "message": "Simple question"
-        }
+        data = {"message": "Simple question"}
 
         # Execute
         request = MessageRequestModel(**data)
@@ -334,8 +324,7 @@ class TestMessageRequestModel:
         """Test MessageRequestModel serialization."""
         # Setup
         request = MessageRequestModel(
-            message="Test message",
-            documents=[{"doc": "test"}]
+            message="Test message", documents=[{"doc": "test"}]
         )
 
         # Execute
@@ -367,7 +356,7 @@ class TestConversationWithMessagesModel:
         config_guid = uuid4()
         message_id = uuid4()
         now = datetime.now()
-        
+
         conversation_data = {
             "conversation_id": conversation_id,
             "tenant_guid": tenant_guid,
@@ -378,24 +367,21 @@ class TestConversationWithMessagesModel:
             "last_message_at": now,
             "created_at": now,
             "updated_at": now,
-            "metadata": {}
+            "metadata": {},
         }
-        
+
         message_data = {
             "message_id": message_id,
             "conversation_id": conversation_id,
             "role": "user",
             "content": "Hello!",
-            "created_at": now
+            "created_at": now,
         }
-        
+
         conversation = ConversationModel(**conversation_data)
         message = MessageModel(**message_data)
-        
-        data = {
-            "conversation": conversation,
-            "messages": [message]
-        }
+
+        data = {"conversation": conversation, "messages": [message]}
 
         # Execute
         result = ConversationWithMessagesModel(**data)
@@ -415,7 +401,7 @@ class TestConversationWithMessagesModel:
         user_guid = uuid4()
         config_guid = uuid4()
         now = datetime.now()
-        
+
         conversation_data = {
             "conversation_id": conversation_id,
             "tenant_guid": tenant_guid,
@@ -426,33 +412,30 @@ class TestConversationWithMessagesModel:
             "last_message_at": now,
             "created_at": now,
             "updated_at": now,
-            "metadata": {}
+            "metadata": {},
         }
-        
+
         message1_data = {
             "message_id": uuid4(),
             "conversation_id": conversation_id,
             "role": "user",
             "content": "Hello!",
-            "created_at": now
+            "created_at": now,
         }
-        
+
         message2_data = {
             "message_id": uuid4(),
             "conversation_id": conversation_id,
             "role": "assistant",
             "content": "Hi there! How can I help you?",
-            "created_at": now
+            "created_at": now,
         }
-        
+
         conversation = ConversationModel(**conversation_data)
         message1 = MessageModel(**message1_data)
         message2 = MessageModel(**message2_data)
-        
-        data = {
-            "conversation": conversation,
-            "messages": [message1, message2]
-        }
+
+        data = {"conversation": conversation, "messages": [message1, message2]}
 
         # Execute
         result = ConversationWithMessagesModel(**data)
@@ -471,7 +454,7 @@ class TestConversationWithMessagesModel:
         config_guid = uuid4()
         message_id = uuid4()
         now = datetime.now()
-        
+
         conversation = ConversationModel(
             conversation_id=conversation_id,
             tenant_guid=tenant_guid,
@@ -481,20 +464,19 @@ class TestConversationWithMessagesModel:
             message_count=1,
             last_message_at=now,
             created_at=now,
-            updated_at=now
+            updated_at=now,
         )
-        
+
         message = MessageModel(
             message_id=message_id,
             conversation_id=conversation_id,
             role="user",
             content="Test message",
-            created_at=now
+            created_at=now,
         )
-        
+
         result = ConversationWithMessagesModel(
-            conversation=conversation,
-            messages=[message]
+            conversation=conversation, messages=[message]
         )
 
         # Execute
@@ -519,7 +501,7 @@ class TestListConversationsModel:
         user_guid = uuid4()
         config_guid = uuid4()
         now = datetime.now()
-        
+
         conversation_data = {
             "conversation_id": conversation_id,
             "tenant_guid": tenant_guid,
@@ -530,17 +512,12 @@ class TestListConversationsModel:
             "last_message_at": now,
             "created_at": now,
             "updated_at": now,
-            "metadata": {}
+            "metadata": {},
         }
-        
+
         conversation = ConversationModel(**conversation_data)
-        
-        data = {
-            "conversations": [conversation],
-            "total": 1,
-            "limit": 10,
-            "offset": 0
-        }
+
+        data = {"conversations": [conversation], "total": 1, "limit": 10, "offset": 0}
 
         # Execute
         result = ListConversationsModel(**data)
@@ -555,12 +532,7 @@ class TestListConversationsModel:
     def test_list_conversations_model_empty_list(self):
         """Test ListConversationsModel with empty conversations list."""
         # Setup
-        data = {
-            "conversations": [],
-            "total": 0,
-            "limit": 10,
-            "offset": 0
-        }
+        data = {"conversations": [], "total": 0, "limit": 10, "offset": 0}
 
         # Execute
         result = ListConversationsModel(**data)
@@ -579,21 +551,16 @@ class TestListConversationsModel:
                 "tenant_guid": uuid4(),
                 "user_guid": uuid4(),
                 "config_guid": uuid4(),
-                "title": f"Conversation {i+1}",
+                "title": f"Conversation {i + 1}",
                 "message_count": i + 1,
                 "last_message_at": datetime.now(),
                 "created_at": datetime.now(),
                 "updated_at": datetime.now(),
-                "metadata": {}
+                "metadata": {},
             }
             conversations.append(ConversationModel(**conversation_data))
-        
-        data = {
-            "conversations": conversations,
-            "total": 25,
-            "limit": 5,
-            "offset": 10
-        }
+
+        data = {"conversations": conversations, "total": 25, "limit": 5, "offset": 10}
 
         # Execute
         result = ListConversationsModel(**data)
@@ -616,14 +583,11 @@ class TestListConversationsModel:
             message_count=1,
             last_message_at=datetime.now(),
             created_at=datetime.now(),
-            updated_at=datetime.now()
+            updated_at=datetime.now(),
         )
-        
+
         result = ListConversationsModel(
-            conversations=[conversation],
-            total=1,
-            limit=10,
-            offset=0
+            conversations=[conversation], total=1, limit=10, offset=0
         )
 
         # Execute
@@ -643,7 +607,7 @@ class TestListConversationsModel:
         with pytest.raises(Exception):  # Pydantic validation error
             ListConversationsModel(
                 conversations=[],
-                total=0
+                total=0,
                 # Missing limit and offset
             )
 
@@ -653,7 +617,7 @@ class TestListConversationsModel:
                 conversations=[],
                 total="invalid",  # Should be int
                 limit=10,
-                offset=0
+                offset=0,
             )
 
 
@@ -669,7 +633,7 @@ class TestModelIntegration:
             title="Integration Test Conversation",
             message="Hello, this is a test!",
             metadata={"test": "integration"},
-            documents=[{"title": "Test Doc", "content": "Test content"}]
+            documents=[{"title": "Test Doc", "content": "Test content"}],
         )
 
         # Simulate conversation creation response
@@ -677,7 +641,7 @@ class TestModelIntegration:
         tenant_guid = uuid4()
         user_guid = uuid4()
         now = datetime.now()
-        
+
         conversation = ConversationModel(
             conversation_id=conversation_id,
             tenant_guid=tenant_guid,
@@ -688,7 +652,7 @@ class TestModelIntegration:
             last_message_at=now,
             created_at=now,
             updated_at=now,
-            metadata=request.metadata
+            metadata=request.metadata,
         )
 
         # Create initial message
@@ -697,25 +661,23 @@ class TestModelIntegration:
             conversation_id=conversation_id,
             role="user",
             content=request.message,
-            created_at=now
+            created_at=now,
         )
 
         # Create conversation with messages
         conversation_with_messages = ConversationWithMessagesModel(
-            conversation=conversation,
-            messages=[message]
+            conversation=conversation, messages=[message]
         )
 
         # Create list response
         list_response = ListConversationsModel(
-            conversations=[conversation],
-            total=1,
-            limit=10,
-            offset=0
+            conversations=[conversation], total=1, limit=10, offset=0
         )
 
         # Assert all models work together
-        assert conversation_with_messages.conversation.conversation_id == conversation_id
+        assert (
+            conversation_with_messages.conversation.conversation_id == conversation_id
+        )
         assert len(conversation_with_messages.messages) == 1
         assert conversation_with_messages.messages[0].content == request.message
         assert list_response.conversations[0].conversation_id == conversation_id
@@ -734,4 +696,3 @@ class TestModelIntegration:
         assert message_data["message_id"] == message.message_id
         assert full_data["conversation"]["conversation_id"] == conversation_id
         assert list_data["conversations"][0]["conversation_id"] == conversation_id
-

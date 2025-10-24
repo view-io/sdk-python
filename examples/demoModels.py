@@ -14,6 +14,7 @@ sdk = view_sdk.configure(
 # ModelConfiguration Operations
 # =============================================================================
 
+
 def createModelConfiguration():
     """Create a new model configuration."""
     model_config = configuration.ModelConfiguration.create(
@@ -30,13 +31,15 @@ def createModelConfiguration():
         EnableStreaming=True,
         TimeoutMs=30000,
         AdditionalData="Demo model configuration for testing",
-        Active=True
+        Active=True,
     )
     print("Created ModelConfiguration:")
     print(model_config)
     return model_config
 
-#createModelConfiguration()
+
+# createModelConfiguration()
+
 
 def readModelConfiguration():
     """Retrieve a specific model configuration by GUID."""
@@ -46,7 +49,9 @@ def readModelConfiguration():
     print("Retrieved ModelConfiguration:")
     print(model_config)
 
-#readModelConfiguration()
+
+# readModelConfiguration()
+
 
 def updateModelConfiguration():
     """Update an existing model configuration."""
@@ -55,12 +60,14 @@ def updateModelConfiguration():
         ModelName="llama2:13b",
         Temperature=0.8,
         MaxOutputTokens=4096,
-        AdditionalData="Updated model configuration for testing"
+        AdditionalData="Updated model configuration for testing",
     )
     print("Updated ModelConfiguration:")
     print(model_config)
 
-#updateModelConfiguration()
+
+# updateModelConfiguration()
+
 
 def deleteModelConfiguration():
     """Delete a model configuration."""
@@ -70,7 +77,9 @@ def deleteModelConfiguration():
     print("Deleted ModelConfiguration:")
     print(result)
 
-#deleteModelConfiguration()
+
+# deleteModelConfiguration()
+
 
 def existsModelConfiguration():
     """Check if a model configuration exists."""
@@ -80,7 +89,9 @@ def existsModelConfiguration():
     print("ModelConfiguration exists:")
     print(exists)
 
-#existsModelConfiguration()
+
+# existsModelConfiguration()
+
 
 def enumerateModelConfigurations():
     """Enumerate all model configurations."""
@@ -88,7 +99,9 @@ def enumerateModelConfigurations():
     print("Enumerated ModelConfigurations:")
     print(model_configs)
 
-#enumerateModelConfigurations()
+
+# enumerateModelConfigurations()
+
 
 def retrieveAllModelConfigurations():
     """Retrieve all model configurations."""
@@ -96,11 +109,13 @@ def retrieveAllModelConfigurations():
     print("All ModelConfigurations:")
     print(model_configs)
 
-#retrieveAllModelConfigurations()
+
+# retrieveAllModelConfigurations()
 
 # =============================================================================
 # ModelEndpoint Operations
 # =============================================================================
+
 
 def createModelEndpoint():
     """Create a new model endpoint."""
@@ -111,13 +126,15 @@ def createModelEndpoint():
         ApiType="Ollama",
         TimeoutMs=30000,
         AdditionalData="Local Ollama endpoint for testing",
-        Active=True
+        Active=True,
     )
     print("Created ModelEndpoint:")
     print(model_endpoint)
     return model_endpoint
 
-#createModelEndpoint()
+
+# createModelEndpoint()
+
 
 def readModelEndpoint():
     """Retrieve a specific model endpoint by GUID."""
@@ -127,7 +144,9 @@ def readModelEndpoint():
     print("Retrieved ModelEndpoint:")
     print(model_endpoint)
 
-#readModelEndpoint()
+
+# readModelEndpoint()
+
 
 def updateModelEndpoint():
     """Update an existing model endpoint."""
@@ -136,32 +155,34 @@ def updateModelEndpoint():
         Name="Ollama Local Endpoint [Updated]",
         EndpointUrl="http://localhost:11435/",
         TimeoutMs=60000,
-        AdditionalData="Updated Ollama endpoint for testing"
+        AdditionalData="Updated Ollama endpoint for testing",
     )
     print("Updated ModelEndpoint:")
     print(model_endpoint)
 
-#updateModelEndpoint()
+
+# updateModelEndpoint()
+
 
 def deleteModelEndpoint():
     """Delete a model endpoint."""
-    result = configuration.ModelEndpoint.delete(
-        "00000000-0000-0000-0000-000000000000"
-    )
+    result = configuration.ModelEndpoint.delete("00000000-0000-0000-0000-000000000000")
     print("Deleted ModelEndpoint:")
     print(result)
 
+
 # deleteModelEndpoint()
+
 
 def existsModelEndpoint():
     """Check if a model endpoint exists."""
-    exists = configuration.ModelEndpoint.exists(
-        "00000000-0000-0000-0000-000000000000"
-    )
+    exists = configuration.ModelEndpoint.exists("00000000-0000-0000-0000-000000000000")
     print("ModelEndpoint exists:")
     print(exists)
 
-#existsModelEndpoint()
+
+# existsModelEndpoint()
+
 
 def enumerateModelEndpoints():
     """Enumerate all model endpoints."""
@@ -169,7 +190,9 @@ def enumerateModelEndpoints():
     print("Enumerated ModelEndpoints:")
     print(model_endpoints)
 
-#enumerateModelEndpoints()
+
+# enumerateModelEndpoints()
+
 
 def retrieveAllModelEndpoints():
     """Retrieve all model endpoints."""
@@ -177,11 +200,13 @@ def retrieveAllModelEndpoints():
     print("All ModelEndpoints:")
     print(model_endpoints)
 
-#retrieveAllModelEndpoints()
+
+# retrieveAllModelEndpoints()
 
 # =============================================================================
 # ModelProfile Operations
 # =============================================================================
+
 
 def createModelProfile():
     """Create a new model profile."""
@@ -190,13 +215,15 @@ def createModelProfile():
         ModelEndpointGUID="00000000-0000-0000-0000-000000000000",
         Name="Demo Model Profile",
         AdditionalData="Demo model profile for testing",
-        Active=True
+        Active=True,
     )
     print("Created ModelProfile:")
     print(model_profile)
     return model_profile
 
+
 createModelProfile()
+
 
 def readModelProfile():
     """Retrieve a specific model profile by GUID."""
@@ -206,7 +233,9 @@ def readModelProfile():
     print("Retrieved ModelProfile:")
     print(model_profile)
 
+
 readModelProfile()
+
 
 def updateModelProfile():
     """Update an existing model profile."""
@@ -215,32 +244,34 @@ def updateModelProfile():
         ModelConfigurationGUID="00000000-0000-0000-0000-000000000000",
         ModelEndpointGUID="00000000-0000-0000-0000-000000000000",
         Name="Demo Model Profile [Updated]",
-        AdditionalData="Updated demo model profile for testing"
+        AdditionalData="Updated demo model profile for testing",
     )
     print("Updated ModelProfile:")
     print(model_profile)
 
+
 updateModelProfile()
+
 
 def deleteModelProfile():
     """Delete a model profile."""
-    result = configuration.ModelProfile.delete(
-        "00000000-0000-0000-0000-000000000000"
-    )
+    result = configuration.ModelProfile.delete("00000000-0000-0000-0000-000000000000")
     print("Deleted ModelProfile:")
     print(result)
 
-#deleteModelProfile()
+
+# deleteModelProfile()
+
 
 def existsModelProfile():
     """Check if a model profile exists."""
-    exists = configuration.ModelProfile.exists(
-        "00000000-0000-0000-0000-000000000000"
-    )
+    exists = configuration.ModelProfile.exists("00000000-0000-0000-0000-000000000000")
     print("ModelProfile exists:")
     print(exists)
 
+
 existsModelProfile()
+
 
 def enumerateModelProfiles():
     """Enumerate all model profiles."""
@@ -248,7 +279,9 @@ def enumerateModelProfiles():
     print("Enumerated ModelProfiles:")
     print(model_profiles)
 
+
 enumerateModelProfiles()
+
 
 def retrieveAllModelProfiles():
     """Retrieve all model profiles."""
@@ -256,26 +289,34 @@ def retrieveAllModelProfiles():
     print("All ModelProfiles:")
     print(model_profiles)
 
+
 retrieveAllModelProfiles()
 
 # =============================================================================
 # Workflow Example: Create Complete Model Setup
 # =============================================================================
 
+
 def createCompleteModelSetup():
     """Create a complete model setup with configuration, endpoint, and profile."""
     print("Creating complete model setup...")
-    
+
     # Step 1: Create Model Configuration
     print("\n1. Creating Model Configuration...")
     model_config = createModelConfiguration()
-    config_guid = model_config.guid if hasattr(model_config, 'guid') else model_config.get('GUID')
-    
+    config_guid = (
+        model_config.guid if hasattr(model_config, "guid") else model_config.get("GUID")
+    )
+
     # Step 2: Create Model Endpoint
     print("\n2. Creating Model Endpoint...")
     model_endpoint = createModelEndpoint()
-    endpoint_guid = model_endpoint.guid if hasattr(model_endpoint, 'guid') else model_endpoint.get('GUID')
-    
+    endpoint_guid = (
+        model_endpoint.guid
+        if hasattr(model_endpoint, "guid")
+        else model_endpoint.get("GUID")
+    )
+
     # Step 3: Create Model Profile linking configuration and endpoint
     print("\n3. Creating Model Profile...")
     model_profile = configuration.ModelProfile.create(
@@ -283,16 +324,17 @@ def createCompleteModelSetup():
         ModelEndpointGUID=endpoint_guid,
         Name="Complete Demo Profile",
         AdditionalData="Complete model setup for testing",
-        Active=True
+        Active=True,
     )
     print("Created ModelProfile:")
     print(model_profile)
-    
+
     print("\nComplete model setup created successfully!")
     return {
-        'model_config': model_config,
-        'model_endpoint': model_endpoint,
-        'model_profile': model_profile
+        "model_config": model_config,
+        "model_endpoint": model_endpoint,
+        "model_profile": model_profile,
     }
+
 
 # createCompleteModelSetup()

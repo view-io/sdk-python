@@ -7,7 +7,9 @@ from ..enums.model_api_type_enum import ModelApiTypeEnum
 
 class ModelEndpointModel(BaseModel):
     guid: str = Field(default_factory=lambda: str(uuid.uuid4()), alias="GUID")
-    tenant_guid: str = Field(default_factory=lambda: str(uuid.uuid4()), alias="TenantGUID")
+    tenant_guid: str = Field(
+        default_factory=lambda: str(uuid.uuid4()), alias="TenantGUID"
+    )
     name: str = Field(default="My model endpoint", alias="Name")
     endpoint_url: str = Field(default="http://localhost:11434/", alias="EndpointUrl")
     bearer_token: Optional[str] = Field(default=None, alias="BearerToken")

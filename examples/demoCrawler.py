@@ -18,7 +18,7 @@ def stopCrawlOperation():
     print(crawlOperation)
 
 
-#stopCrawlOperation()
+# stopCrawlOperation()
 
 
 def startCrawlOperation():
@@ -28,7 +28,7 @@ def startCrawlOperation():
     print(crawlOperation)
 
 
-#startCrawlOperation()
+# startCrawlOperation()
 
 
 def readAllCrawlOperations():
@@ -36,7 +36,7 @@ def readAllCrawlOperations():
     print(crawlOperations)
 
 
-#readAllCrawlOperations()
+# readAllCrawlOperations()
 
 
 def enumerateCrawlOperation():
@@ -46,7 +46,7 @@ def enumerateCrawlOperation():
     print(enumeration)
 
 
-#enumerateCrawlOperation()
+# enumerateCrawlOperation()
 
 
 def readCrawlOperation():
@@ -296,7 +296,7 @@ def readAllDataRepositories():
     print(dataRepositories)
 
 
-#readAllDataRepositories()
+# readAllDataRepositories()
 
 
 def enumerateDataRepositories():
@@ -304,7 +304,7 @@ def enumerateDataRepositories():
     print(dataRepositories)
 
 
-#enumerateDataRepositories()
+# enumerateDataRepositories()
 
 
 def updateDataRepository():
@@ -322,7 +322,7 @@ def updateDataRepository():
     print(dataRepository)
 
 
-#updateDataRepository()
+# updateDataRepository()
 
 
 def readDataRepository():
@@ -332,7 +332,7 @@ def readDataRepository():
     print(dataRepository)
 
 
-#readDataRepository()
+# readDataRepository()
 
 
 def createDataRepository():

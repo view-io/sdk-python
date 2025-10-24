@@ -15,7 +15,9 @@ class MessageModel(BaseModel):
     created_at: datetime = Field(..., alias="created_at")
     is_superseded: bool = Field(default=False, alias="is_superseded")
     superseded_at: Optional[datetime] = Field(default=None, alias="superseded_at")
-    superseded_by_message_id: Optional[UUID] = Field(default=None, alias="superseded_by_message_id")
+    superseded_by_message_id: Optional[UUID] = Field(
+        default=None, alias="superseded_by_message_id"
+    )
     edited_at: Optional[datetime] = Field(default=None, alias="edited_at")
     original_content: Optional[str] = Field(default=None, alias="original_content")
 

@@ -33,7 +33,7 @@ def readAllObjectLocks():
     print(objectLocks)
 
 
-#readAllObjectLocks()
+# readAllObjectLocks()
 
 
 def enumerateObjectLocks():
@@ -51,7 +51,7 @@ def deleteWebhookRule():
     print(webhookRule)
 
 
-#deleteWebhookRule()
+# deleteWebhookRule()
 
 
 def existsWebhookRule():
@@ -61,7 +61,7 @@ def existsWebhookRule():
     print(webhookRule)
 
 
-#existsWebhookRule()
+# existsWebhookRule()
 
 
 def updateWebhookRule():
@@ -75,7 +75,7 @@ def updateWebhookRule():
     print(webhookRule)
 
 
-#updateWebhookRule()
+# updateWebhookRule()
 
 
 def readAllWebhookRules():
@@ -352,7 +352,8 @@ def readAllEncryptionKeys():
     encryptionKeys = configuration.EncryptionKey.retrieve_all()
     print(encryptionKeys)
 
-#readAllEncryptionKeys()
+
+# readAllEncryptionKeys()
 
 
 def readEncryptionKey():
@@ -379,7 +380,7 @@ def createEncryptionKey():
     print(encryptionKey)
 
 
-#createEncryptionKey()
+# createEncryptionKey()
 
 
 def existsGraphRepository():
@@ -417,7 +418,7 @@ def readGraphRepository():
     print(graphRepository)
 
 
-#readGraphRepository()
+# readGraphRepository()
 
 
 def createGraphRepository():
@@ -457,7 +458,7 @@ def enumerateGraphRepositories():
     print(graphRepositories)
 
 
-#enumerateGraphRepositories()
+# enumerateGraphRepositories()
 
 
 # deleteVectorRepository()
@@ -518,7 +519,7 @@ def readVectorRepository():
     print(vectorRepository)
 
 
-#readVectorRepository()
+# readVectorRepository()
 
 
 def createVectorRepository():
@@ -549,7 +550,7 @@ def deleteEmbeddingsRules():
     print(embeddingsRules)
 
 
-#deleteEmbeddingsRules()
+# deleteEmbeddingsRules()
 
 
 def existsEmbeddingsRules():
@@ -559,7 +560,7 @@ def existsEmbeddingsRules():
     print(embeddingsRules)
 
 
-#existsEmbeddingsRules()
+# existsEmbeddingsRules()
 
 
 def updateEmbeddingsRules():
@@ -612,7 +613,7 @@ def readEmbeddingsRules():
     print(embeddingsRules)
 
 
-#readEmbeddingsRules()
+# readEmbeddingsRules()
 
 
 def createEmbeddingRules():
@@ -658,7 +659,7 @@ def existsMetaDataRules():
     print(metaDataRules)
 
 
-#existsMetaDataRules()
+# existsMetaDataRules()
 
 
 def updateMetaDataRules():
@@ -685,7 +686,7 @@ def updateMetaDataRules():
     print(metaDataRules)
 
 
-#updateMetaDataRules()
+# updateMetaDataRules()
 
 
 def readAllMetaDataRules():
@@ -693,7 +694,7 @@ def readAllMetaDataRules():
     print(metaDataRules)
 
 
-#readAllMetaDataRules()
+# readAllMetaDataRules()
 
 
 def enumerateMetaDataRules():
@@ -701,7 +702,7 @@ def enumerateMetaDataRules():
     print(metaDataRules)
 
 
-#enumerateMetaDataRules()
+# enumerateMetaDataRules()
 
 
 def readMetaDataRules():
@@ -711,7 +712,7 @@ def readMetaDataRules():
     print(metaDataRules)
 
 
-#readMetaDataRules()
+# readMetaDataRules()
 
 
 def createMetaDataRules():
@@ -779,7 +780,7 @@ def readCredential():
     print(credential)
 
 
-#readCredential()
+# readCredential()
 
 
 def createCredential():
@@ -790,7 +791,8 @@ def createCredential():
     )
     print(credential)
 
-#createCredential()
+
+# createCredential()
 
 
 def deleteUser():
@@ -821,7 +823,7 @@ def updateUser():
     print(user)
 
 
-#updateUser()
+# updateUser()
 
 
 def readAllUsers():
@@ -829,7 +831,7 @@ def readAllUsers():
     print(users)
 
 
-#readAllUsers()
+# readAllUsers()
 
 
 def enumerateUsers():
@@ -837,7 +839,7 @@ def enumerateUsers():
     print(users)
 
 
-#enumerateUsers()
+# enumerateUsers()
 
 
 def readUser():
@@ -845,7 +847,7 @@ def readUser():
     print(user)
 
 
-#readUser()
+# readUser()
 
 
 def createUser():
@@ -859,7 +861,7 @@ def createUser():
     print(user)
 
 
-#createUser()
+# createUser()
 
 
 def deleteNode():
@@ -885,7 +887,7 @@ def checkNode():
     print(node)
 
 
-#checkNode()
+# checkNode()
 
 
 def retrieveNode():
@@ -898,7 +900,7 @@ def retrieveNode():
     print(node)
 
 
-# retrieveNode()  
+# retrieveNode()
 
 
 def enumerateNodes():
@@ -998,7 +1000,7 @@ def readTenant():
     print(tenant)
 
 
-#readTenant()
+# readTenant()
 
 
 def enumerateTenants():
@@ -1011,6 +1013,7 @@ def enumerateTenants():
 
 
 # enumerateTenants()
+
 
 # requires admin token
 def createTenant():
@@ -1027,7 +1030,7 @@ def createTenant():
     print(tenant)
 
 
-#createTenant()
+# createTenant()
 
 
 def getTokenDetails():
@@ -1037,7 +1040,7 @@ def getTokenDetails():
     print(token)
 
 
-#getTokenDetails()
+# getTokenDetails()
 
 
 def getAdministratorToken():
@@ -1047,7 +1050,7 @@ def getAdministratorToken():
     print(token)
 
 
-#getAdministratorToken()
+# getAdministratorToken()
 
 
 def getAuthenticationTokenSha256():
@@ -1059,15 +1062,17 @@ def getAuthenticationTokenSha256():
     print(token)
 
 
-#getAuthenticationTokenSha256()
+# getAuthenticationTokenSha256()
 
 
 def getTenantsForEmail():
-    tenants = configuration.Authentication.retrieve_tenants_for_email("default@user.com")
+    tenants = configuration.Authentication.retrieve_tenants_for_email(
+        "default@user.com"
+    )
     print(tenants)
 
 
-#getTenantsForEmail()
+# getTenantsForEmail()
 
 
 def getAuthenticationToken():
@@ -1077,4 +1082,4 @@ def getAuthenticationToken():
     print(token)
 
 
-#getAuthenticationToken()
+# getAuthenticationToken()

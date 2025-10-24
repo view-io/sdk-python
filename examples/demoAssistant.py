@@ -1,13 +1,12 @@
 import view_sdk
 from view_sdk import assistant
-from view_sdk.sdk_configuration import Service
 from uuid import UUID
 
 sdk = view_sdk.configure(
     access_key="default",
     base_url="192.168.101.63",  # Replace with your actual server URL
     tenant_guid="00000000-0000-0000-0000-000000000000",
-    verbose=True
+    verbose=True,
 )
 
 
@@ -18,9 +17,9 @@ def chatOnlyMessages():
             {"role": "user", "content": "Are you happy?"},
             {
                 "role": "assistant",
-                "content": "While I can understand your curiosity, I don't experience emotions or feelings because I'm a machine designed to process information and assist with tasks. However, I'm here to help you to the best of my ability! If you have any questions or need assistance, feel free to ask!"
+                "content": "While I can understand your curiosity, I don't experience emotions or feelings because I'm a machine designed to process information and assist with tasks. However, I'm here to help you to the best of my ability! If you have any questions or need assistance, feel free to ask!",
             },
-            {"role": "user", "content": "Are you sure?"}
+            {"role": "user", "content": "Are you sure?"},
         ],
         GenerationModel="smollm:135m",
         Temperature=0.1,
@@ -31,7 +30,7 @@ def chatOnlyMessages():
         OllamaHostname="ollama",
         OllamaPort=11434,
     )
-    
+
     # Handle the generator result
     try:
         # For non-streaming requests, the result is yielded and then StopIteration is raised
@@ -39,7 +38,7 @@ def chatOnlyMessages():
         print("Chat response:", actual_result)
     except StopIteration as e:
         # The actual result is in the StopIteration exception value
-        if hasattr(e, 'value') and e.value is not None:
+        if hasattr(e, "value") and e.value is not None:
             print("Chat response:", e.value)
         else:
             print("No response received")
@@ -63,7 +62,7 @@ def chat_config():
         ],
         Stream=False,
     )
-    
+
     # Handle the generator result
     try:
         # For non-streaming requests, the result is yielded and then StopIteration is raised
@@ -71,7 +70,7 @@ def chat_config():
         print("Chat config response:", actual_result)
     except StopIteration as e:
         # The actual result is in the StopIteration exception value
-        if hasattr(e, 'value') and e.value is not None:
+        if hasattr(e, "value") and e.value is not None:
             print("Chat config response:", e.value)
         else:
             print("No response received")
@@ -79,7 +78,7 @@ def chat_config():
         print(f"Error: {e}")
 
 
-#chat_config()
+# chat_config()
 
 
 def chat_rag_messages():
@@ -87,7 +86,7 @@ def chat_rag_messages():
         Messages=[
             {
                 "role": "user",
-                "content": "What does the documentation say about embeddings?"
+                "content": "What does the documentation say about embeddings?",
             }
         ],
         Documents=None,
@@ -109,9 +108,9 @@ def chat_rag_messages():
         Rerank=False,
         RerankModel="cross-encoder/ms-marco-MiniLM-L-6-v2",
         RerankTopK=3,
-        UseCitations=False
+        UseCitations=False,
     )
-    
+
     # Handle the generator result
     try:
         # For non-streaming requests, the result is yielded and then StopIteration is raised
@@ -119,7 +118,7 @@ def chat_rag_messages():
         print("Chat RAG response:", actual_result)
     except StopIteration as e:
         # The actual result is in the StopIteration exception value
-        if hasattr(e, 'value') and e.value is not None:
+        if hasattr(e, "value") and e.value is not None:
             print("Chat RAG response:", e.value)
         else:
             print("No response received")
@@ -158,14 +157,14 @@ def chat():
         RerankModel="cross-encoder/ms-marco-MiniLM-L-6-v2",
         RerankTopK=5,
     )
-    
+
     # Handle the streaming generator result
     try:
         # Collect all tokens from the streaming response
         tokens = []
         for token in result:
             tokens.append(token)
-        
+
         # Join all tokens to form the complete response
         complete_response = "".join(tokens)
         print("RAG LEGACY response:", complete_response)
@@ -391,59 +390,69 @@ def createConversationStreaming():
     Note: Conversation creation is stream-only and always returns SSE events.
     """
     print("=== Creating Conversation with Streaming ===")
-    
+
     try:
         # Create conversation (always streams)
         events = assistant.Conversation.create(
-            config_guid=UUID("40712f89-1b66-49f8-96de-2436a09fd6ae"),  # Replace with actual config GUID
+            config_guid=UUID(
+                "40712f89-1b66-49f8-96de-2436a09fd6ae"
+            ),  # Replace with actual config GUID
             title="Streaming Demo Conversation",
             message="What are the key benefits of using RAG?",
             metadata={
                 "source": "demo_script_streaming",
                 "category": "testing",
-                "priority": "normal"
+                "priority": "normal",
             },
-            documents=None
+            documents=None,
         )
-        
+
         conversation_id = None
         message_id = None
-        
+
         # Process streaming events
         for event in events:
             print(f"Received event: {event}")
-            
+
             # Extract important information from events
             if isinstance(event, dict):
                 # Handle conversation creation event
-                if "conversation_id" in event and "tenant_guid" in event and "title" in event:
+                if (
+                    "conversation_id" in event
+                    and "tenant_guid" in event
+                    and "title" in event
+                ):
                     conversation_id = event.get("conversation_id")
                     title = event.get("title")
-                    print(f"✓ Conversation created with ID: {conversation_id}, Title: {title}")
-                
+                    print(
+                        f"✓ Conversation created with ID: {conversation_id}, Title: {title}"
+                    )
+
                 # Handle message creation event
                 elif "message_id" in event and "role" in event:
                     message_id = event.get("message_id")
                     role = event.get("role")
                     print(f"✓ Message created with ID: {message_id}, Role: {role}")
-                
+
                 # Handle pipeline start event
                 elif "config_guid" in event and "message_id" in event:
                     print("✓ Processing pipeline started")
-                
+
                 # Handle embedding events
                 elif "query" in event and "model" in event and "provider" in event:
                     model = event.get("model")
                     provider = event.get("provider")
                     query = event.get("query")
-                    print(f"✓ Embedding started with {provider}/{model} for query: '{query}'")
-                
+                    print(
+                        f"✓ Embedding started with {provider}/{model} for query: '{query}'"
+                    )
+
                 # Handle error events
                 elif "error" in event:
                     error = event.get("error")
                     error_type = event.get("error_type", "Unknown")
                     print(f"⚠️ Error occurred ({error_type}): {error}")
-                
+
                 # Handle other events
                 else:
                     # Check for specific fields to identify event types
@@ -453,37 +462,40 @@ def createConversationStreaming():
                     elif "source_count" in event:
                         source_count = event.get("source_count", 0)
                         retrieval_time = event.get("retrieval_time_ms", 0)
-                        print(f"✓ Search completed: {source_count} sources in {retrieval_time:.2f}ms")
+                        print(
+                            f"✓ Search completed: {source_count} sources in {retrieval_time:.2f}ms"
+                        )
                     elif "token_count" in event:
                         token_count = event.get("token_count", 0)
                         generation_time = event.get("generation_time_ms", 0)
                         tokens_per_second = event.get("tokens_per_second", 0)
-                        print(f"✓ Generation completed: {token_count} tokens in {generation_time:.2f}ms ({tokens_per_second:.2f} tokens/sec)")
+                        print(
+                            f"✓ Generation completed: {token_count} tokens in {generation_time:.2f}ms ({tokens_per_second:.2f} tokens/sec)"
+                        )
                     elif "total_time_ms" in event:
                         total_time = event.get("total_time_ms", 0)
                         print(f"✓ Pipeline completed in {total_time:.2f}ms")
-        
-        print(f"\n=== Streaming Conversation Creation Complete ===")
+
+        print("\n=== Streaming Conversation Creation Complete ===")
         print(f"Conversation ID: {conversation_id}")
         print(f"Message ID: {message_id}")
-        
+
         return conversation_id
-        
+
     except Exception as e:
         print(f"Error in streaming conversation creation: {e}")
         return None
 
+
 # Test streaming mode
 # createConversationStreaming()
+
 
 def listConversations():
     """
     Demonstrates retrieving all conversations with pagination.
     """
-    result = assistant.Conversation.retrieve_all(
-        limit=10,
-        offset=0
-    )
+    result = assistant.Conversation.retrieve_all(limit=10, offset=0)
     print("List of conversations:", result)
     print(f"Total conversations: {result.total}")
     print(f"Showing {len(result.conversations)} conversations")
@@ -499,7 +511,7 @@ def retrieveConversation():
     """
     # Replace with an actual conversation ID from your system
     conversation_id = UUID("cc2ec91c-20da-4886-8845-559cef23eb6d")
-    
+
     try:
         result = assistant.Conversation.retrieve(conversation_id)
         print("Retrieved conversation:", result)
@@ -519,56 +531,58 @@ def addMessageToConversation():
     """
     # Replace with an actual conversation ID from your system
     conversation_id = UUID("2e68f926-aa5e-43df-b0f3-ba978f419af6")
-    
+
     try:
         print(f"=== Adding Message to Conversation {conversation_id} ===")
         events = assistant.Conversation.add_message(
             conversation_id=conversation_id,
             message="Can you explain the difference between supervised and unsupervised learning?",
-            documents=None  # Optional: can include documents for context
+            documents=None,  # Optional: can include documents for context
         )
-        
+
         message_id = None
-        
+
         # Process streaming events
         for event in events:
             print(f"Received event: {event}")
-            
+
             if isinstance(event, dict):
                 # Handle message creation event
                 if "message_id" in event and "role" in event:
                     message_id = event.get("message_id")
                     role = event.get("role")
                     print(f"✓ Message created with ID: {message_id}, Role: {role}")
-                
+
                 # Handle pipeline events
                 elif "query" in event and "model" in event:
                     model = event.get("model")
                     provider = event.get("provider")
                     query = event.get("query")
                     print(f"✓ Processing with {provider}/{model}: '{query}'")
-                
+
                 # Handle error events
                 elif "error" in event:
                     error = event.get("error")
                     error_type = event.get("error_type", "Unknown")
                     print(f"⚠️ Error occurred ({error_type}): {error}")
-                
+
                 # Handle completion events
                 elif "token_count" in event:
                     token_count = event.get("token_count", 0)
                     generation_time = event.get("generation_time_ms", 0)
                     tokens_per_second = event.get("tokens_per_second", 0)
-                    print(f"✓ Generation completed: {token_count} tokens in {generation_time:.2f}ms ({tokens_per_second:.2f} tokens/sec)")
-                
+                    print(
+                        f"✓ Generation completed: {token_count} tokens in {generation_time:.2f}ms ({tokens_per_second:.2f} tokens/sec)"
+                    )
+
                 elif "total_time_ms" in event:
                     total_time = event.get("total_time_ms", 0)
                     print(f"✓ Pipeline completed in {total_time:.2f}ms")
-        
-        print(f"\n=== Message Addition Complete ===")
+
+        print("\n=== Message Addition Complete ===")
         print(f"Message ID: {message_id}")
         return message_id
-        
+
     except Exception as e:
         print(f"Error adding message: {e}")
         return None
@@ -583,17 +597,17 @@ def getConversationWithMessages():
     """
     # Replace with an actual conversation ID from your system
     conversation_id = UUID("2e68f926-aa5e-43df-b0f3-ba978f419af6")
-    
+
     try:
         result = assistant.Conversation.get_with_messages(conversation_id)
         print("Conversation with messages:", result)
         print(f"Conversation title: {result.conversation.title}")
         print(f"Number of messages: {len(result.messages)}")
-        
+
         # Print each message
         for i, message in enumerate(result.messages):
-            print(f"Message {i+1} ({message.role}): {message.content[:100]}...")
-        
+            print(f"Message {i + 1} ({message.role}): {message.content[:100]}...")
+
         return result
     except Exception as e:
         print(f"Error retrieving conversation with messages: {e}")
@@ -609,7 +623,7 @@ def deleteConversation():
     """
     # Replace with an actual conversation ID from your system
     conversation_id = UUID("2e68f926-aa5e-43df-b0f3-ba978f419af6")
-    
+
     try:
         result = assistant.Conversation.delete(conversation_id)
         print("Deleted conversation:", result)
@@ -632,7 +646,7 @@ def conversationWorkflow():
     5. Optionally delete it
     """
     print("=== Starting Conversation Workflow Demo ===")
-    
+
     # Step 1: Create a conversation
     print("\n1. Creating a new conversation...")
     # Note: createConversation was removed since create is now stream-only
@@ -641,17 +655,17 @@ def conversationWorkflow():
     if not conversation_id:
         print("Failed to create conversation. Stopping workflow.")
         return
-    
+
     print(f"Created conversation with ID: {conversation_id}")
-    
+
     # Step 2: Add a few messages
     print("\n2. Adding messages to the conversation...")
-    
+
     # Add first message (streaming)
     print("Adding first message...")
     message1_events = assistant.Conversation.add_message(
         conversation_id=conversation_id,
-        message="What are the main types of machine learning algorithms?"
+        message="What are the main types of machine learning algorithms?",
     )
     message1_id = None
     for event in message1_events:
@@ -659,12 +673,12 @@ def conversationWorkflow():
             message1_id = event.get("message_id")
             print(f"✓ Added message 1: {message1_id}")
             break
-    
+
     # Add second message (streaming)
     print("Adding second message...")
     message2_events = assistant.Conversation.add_message(
         conversation_id=conversation_id,
-        message="Can you provide examples of each type?"
+        message="Can you provide examples of each type?",
     )
     message2_id = None
     for event in message2_events:
@@ -672,21 +686,23 @@ def conversationWorkflow():
             message2_id = event.get("message_id")
             print(f"✓ Added message 2: {message2_id}")
             break
-    
+
     # Step 3: Retrieve conversation with all messages
     print("\n3. Retrieving conversation with all messages...")
     full_conversation = assistant.Conversation.get_with_messages(conversation_id)
-    print(f"Retrieved conversation '{full_conversation.conversation.title}' with {len(full_conversation.messages)} messages")
-    
+    print(
+        f"Retrieved conversation '{full_conversation.conversation.title}' with {len(full_conversation.messages)} messages"
+    )
+
     # Step 4: List all conversations
     print("\n4. Listing all conversations...")
-    all_conversations = listConversations()
-    
+    _ = listConversations()
+
     # Step 5: Optionally delete (commented out for safety)
     print(f"\n5. Conversation workflow completed. Conversation ID: {conversation_id}")
     print("Note: To delete this conversation, uncomment the delete line below")
     # assistant.Conversation.delete(conversation_id)
-    
+
     return conversation_id
 
 

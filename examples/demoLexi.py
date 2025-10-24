@@ -30,7 +30,7 @@ def readIngestQueue():
     print(queue)
 
 
-#readIngestQueue()
+# readIngestQueue()
 
 
 def readAllIngestQueue():
@@ -38,7 +38,7 @@ def readAllIngestQueue():
     print(queues)
 
 
-#readAllIngestQueue()
+# readAllIngestQueue()
 
 
 def uploadSourceDocument():
@@ -67,7 +67,7 @@ def readSourceDocumentStatistics():
     print(statistics)
 
 
-#readSourceDocumentStatistics()
+# readSourceDocumentStatistics()
 
 
 def readTopTerms():
@@ -77,7 +77,7 @@ def readTopTerms():
     print(terms)
 
 
-#readTopTerms()
+# readTopTerms()
 
 
 def readSourceDocument():
@@ -89,7 +89,7 @@ def readSourceDocument():
     print(document)
 
 
-#readSourceDocument()
+# readSourceDocument()
 
 
 def readAllSourceDocuments():

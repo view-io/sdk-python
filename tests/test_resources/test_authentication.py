@@ -8,7 +8,9 @@ def test_retrieve_tenants_for_email(mock_model_validate, mock_get_client):
     mock_client = MagicMock()
     mock_get_client.return_value = mock_client
     mock_client.request.return_value = [{"foo": "bar"}]
-    mock_model_validate.side_effect = lambda *args, **kwargs: args[0] if args else kwargs
+    mock_model_validate.side_effect = (
+        lambda *args, **kwargs: args[0] if args else kwargs
+    )
     result = Authentication.retrieve_tenants_for_email("test@example.com")
     assert result == [{"foo": "bar"}]
     mock_client.request.assert_called()

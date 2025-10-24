@@ -12,6 +12,7 @@ from ...models.object_metadata import ObjectMetadataModel
 from ...models.storage_tag import StorageTagModel
 from ...sdk_configuration import Service
 
+
 class Object(
     CreateableAPIResource,
     RetrievableAPIResource,

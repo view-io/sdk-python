@@ -6,7 +6,9 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 class ModelConfigurationModel(BaseModel):
     guid: str = Field(default_factory=lambda: str(uuid.uuid4()), alias="GUID")
-    tenant_guid: str = Field(default_factory=lambda: str(uuid.uuid4()), alias="TenantGUID")
+    tenant_guid: str = Field(
+        default_factory=lambda: str(uuid.uuid4()), alias="TenantGUID"
+    )
     model_name: str = Field(default="owner/modelname", alias="ModelName")
 
     embeddings: bool = Field(default=True, alias="Embeddings")

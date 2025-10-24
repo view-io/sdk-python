@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class StorageTypeEnum(str, Enum):
     """
     Storage type.

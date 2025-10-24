@@ -46,7 +46,9 @@ class IngestQueue(
 
         path_components, url_params = cls._get_resource_path(**kwargs)
         if cls.REQUIRES_TENANT:
-            url = _get_url_v1(cls, client.tenant_guid, *path_components, stats=None, **url_params)
+            url = _get_url_v1(
+                cls, client.tenant_guid, *path_components, stats=None, **url_params
+            )
         else:
             url = _get_url_v1(cls, *path_components, stats=None, **url_params)
 

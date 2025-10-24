@@ -6,6 +6,7 @@ from view_sdk.enums.compression_type_enum import CompressionTypeEnum
 from view_sdk.enums.object_write_mode_enum import ObjectWriteModeEnum
 from view_sdk.enums.storage_type_enum import StorageTypeEnum
 
+
 def test_create_complete_storage_pool():
     """Test creating a storage pool with all fields populated."""
     data = {
@@ -101,7 +102,10 @@ def test_date_time_validation():
 def test_model_export():
     """Test that the model correctly exports data."""
     pool = StoragePool(
-        name="Test Pool", provider=StorageTypeEnum.AWS_S3, write_mode=ObjectWriteModeEnum.KEY, compress=CompressionTypeEnum.Gzip
+        name="Test Pool",
+        provider=StorageTypeEnum.AWS_S3,
+        write_mode=ObjectWriteModeEnum.KEY,
+        compress=CompressionTypeEnum.Gzip,
     )
 
     data = pool.model_dump(by_alias=True)
